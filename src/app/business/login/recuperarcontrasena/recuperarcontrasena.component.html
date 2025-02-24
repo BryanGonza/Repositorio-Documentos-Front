@@ -1,0 +1,37 @@
+<!-- Contenedor principal -->
+<div class="my-5">
+    <div class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-yellow-500 border-blue-500 rounded-md">
+      
+      <!-- Botón Volver -->
+      <button (click)="volver()" class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md">
+        Volver
+      </button>
+  
+      <div class="my-3">
+        <!-- Título -->
+        <h1 class="text-center text-2xl sm:text-3xl font-bold text-gray-900">Recuperar Contraseña</h1>
+        
+        <!-- Formulario -->
+        <form [formGroup]="fromRCC" (ngSubmit)="recuperaXcorreo()">
+          
+          <!-- Campo para Correo Electrónico -->
+          <div class="my-4">
+            <label for="correo" class="text-sm sm:text-md font-bold text-gray-700">Correo Electrónico</label>
+            <input type="email" id="correo" formControlName="correo" class="block w-full border border-blue-500 outline-blue-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese su correo electrónico">
+          </div>
+  
+          <!-- Mostrar error si el campo está vacío -->
+          <div *ngIf="fromRCC.get('correo')?.invalid && fromRCC.get('correo')?.touched" class="text-red-600 text-sm">
+            El correo electrónico es obligatorio.
+          </div>
+  
+          <!-- Botón Enviar -->
+          <button  type="submit" [disabled]="fromRCC.invalid" class="px-4 py-1 bg-emerald-500 hover:bg-emerald-600 rounded-md text-black text-sm sm:text-lg shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed">
+            Recuperar Contraseña
+          </button>
+  
+        </form>
+      </div>
+    </div>
+  </div>
+  

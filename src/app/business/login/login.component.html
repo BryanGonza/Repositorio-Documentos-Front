@@ -1,0 +1,75 @@
+<div class="bg-blue-500 flex justify-center items-center h-screen relative">
+  <!-- Left: Image -->
+  <div class="w-1/2 h-screen hidden lg:block">
+    <img src="https://honduras.argos.co/wp-content/uploads/2023/07/ALMA-MATTER-UNIVERSIDAD-1536x1151.jpg" alt="Placeholder Image" class="object-cover w-full h-full">
+  </div>
+
+  <!-- Right: Login Form -->
+  <div class="lg:p-16 md:p-20 sm:p-10 p-8 w-full lg:w-1/2 relative bg-blue-500 rounded-lg shadow-lg flex flex-col items-center">
+    <!-- Logo UNAH -->
+    <div class="flex justify-center mb-2">
+      <img src="https://biologia.unah.edu.hn/dmsdocument/1433-unah-logo-texto" alt="Logo UNAH" class="w-32 h-32 object-contain">
+    </div>
+
+    <h1 class="text-3xl font-semibold mb-4 text-black text-center">Inicio de Sesión</h1>
+
+    <form [formGroup]="formLogin" (ngSubmit)="IniciarSesion()" class="w-full max-w-sm">
+      <!-- Email Input -->
+      <div class="mb-4">
+        <label for="email" class="block text-black">Correo Electrónico</label>
+        <input type="email" id="email" formControlName="CORREO_ELECTRONICO"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-yellow-500"
+          placeholder="Ingresa tu correo" autocomplete="off">
+        <div *ngIf="formLogin.get('CORREO_ELECTRONICO')?.invalid && formLogin.get('CORREO_ELECTRONICO')?.touched"
+          class="text-red-500 text-sm">Correo inválido</div>
+      </div>
+      <div class="mb-4 flex items-center">
+        <input type="checkbox" id="rememberMe" formControlName="rememberMe"
+          class="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded">
+        <label for="rememberMe" class="ml-2 block text-black">Recuérdame</label>
+      </div>
+
+      <div class="mb-4 relative">
+        <label for="password" class="block text-black">Contraseña</label>
+      
+        <!-- Contenedor flex para el input y el botón -->
+        <div class="flex items-center relative">
+          <input [type]="showPassword ? 'text' : 'password'" 
+                 id="password" 
+                 formControlName="CONTRASEÑA"
+                 class="w-full border border-gray-300 rounded-md py-2 px-3 pr-10 focus:outline-none focus:border-yellow-500"
+                 placeholder="Ingresa tu contraseña" 
+                 autocomplete="off">
+      
+          <!-- Botón de ojo bien alineado -->
+          <button type="button" 
+                  (mousedown)="showPassword = true" 
+                  (mouseup)="showPassword = false" 
+                  (mouseleave)="showPassword = false"
+                  class="absolute right-3 flex items-center justify-center text-gray-600">
+            👁️
+          </button>
+        </div>
+      
+        <!-- Mensaje de error -->
+        <div *ngIf="formLogin.get('CONTRASEÑA')?.invalid && formLogin.get('CONTRASEÑA')?.touched"
+             class="text-red-500 text-sm mt-1">
+          La contraseña es requerida
+        </div>
+      </div>
+
+      <!-- Login Button -->
+      <button type="submit"
+        class="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-md py-2 px-4 w-full"
+        [disabled]="formLogin.invalid">
+        Iniciar Sesión
+      </button>
+    </form>
+
+    <!-- Forgot Password Link -->
+    <div class="mt-4 text-black text-center">
+      <a (click)="recuperarContrasena()" class="hover:underline">¿Olvidaste tu contraseña?</a>
+    </div>
+
+  </div>
+</div>
