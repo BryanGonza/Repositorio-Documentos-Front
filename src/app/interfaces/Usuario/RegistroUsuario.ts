@@ -3,5 +3,7 @@ export interface registroUsuario {
     USUARIO: string,
     NOMBRE_USUARIO: string,
     CONTRASEÑA: string,
-    CORREO_ELECTRONICO: string
+    CORREO_ELECTRONICO: string,
+    ID_ROL: number,
+    ID_DEPARTAMENTO: number,
 }

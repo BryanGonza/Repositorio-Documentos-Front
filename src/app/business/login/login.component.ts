@@ -69,12 +69,12 @@ export default class LoginComponent implements OnInit {
 
     this.usuarioService.login(objeto).subscribe({
       next: (data) => {
-        if (data.success === 'Inicio de secion exitoso') {
+        if (data.success === true) {
           if (data.token) {
             localStorage.setItem('token', data.token);
           }
 
-          // ✅ Guardar/eliminar el correo según "Recuérdame"
+          //  Guardar/eliminar el correo según "Recuérdame"
           try {
             if (typeof window !== 'undefined' && localStorage) {
               if (this.formLogin.value.rememberMe) {

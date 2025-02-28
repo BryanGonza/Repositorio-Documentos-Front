@@ -3,8 +3,9 @@ export interface Usuarios {
     NUM_IDENTIDAD: number,
     USUARIO: string,
     NOMBRE_USUARIO: string,
-    CONTRASEÑA: string,
-    CORREO_ELECTRONICO: string
+    FECHA_CREACION: string,
+    CORREO_ELECTRONICO: string,
+
   }
 
   export interface emaliUser {

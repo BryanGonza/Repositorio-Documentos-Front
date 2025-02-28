@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-
+ //rutas de usuarios
 export const routes: Routes = [
-  //rutas de usuarios
   {
     path: 'login',
     loadComponent: () => import('./business/login/login.component'),
   },
+
 
   {
     path: 'registrar',
@@ -60,3 +60,5 @@ export const routes: Routes = [
     redirectTo: 'login',
   },
 ];
+//rutas de roles
+export const Roles: Routes = [];

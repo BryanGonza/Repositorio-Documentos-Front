@@ -27,20 +27,30 @@ export default class RegistrarComponent {
     NombreUs: ['', Validators.required],
     Contrasena: ['', [Validators.required]],
     confirmarContrasena: ['', [Validators.required]],
-    correo: [{ value: '', disabled: true }, [Validators.required, Validators.email]]
+    correo: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
+    ID_ROL: ['', Validators.required],
+    ID_DEPARTAMENTO: ['', Validators.required]
   });
 
-  // Método para alternar visibilidad de la contraseña principal
+  // Opciones de roles y departamentos
+  public roles = [
+    { id: 1, nombre: '1.Admin' },
+    { id: 2, nombre: '2.Usuario' }
+  ];
+
+  public departamentos = [
+    { id: 1, nombre: '1.Mercadotecnia' },
+    { id: 2, nombre: '2.Informática' }
+  ];
+
   togglePasswordVisibility(isVisible: boolean) {
     this.showPassword = isVisible;
   }
 
-  // Método para alternar visibilidad de la contraseña de confirmación
   toggleConfirmPasswordVisibility(isVisible: boolean) {
     this.showConfirmPassword = isVisible;
   }
 
-  // Verifica si las contraseñas coinciden
   get contrasenasCoinciden(): boolean {
     const contrasena = this.fromRegistro.get('Contrasena')?.value;
     const confirmarContrasena = this.fromRegistro.get('confirmarContrasena')?.value;
@@ -72,10 +82,14 @@ export default class RegistrarComponent {
       NOMBRE_USUARIO: this.fromRegistro.value.NombreUs.toUpperCase(),
       CONTRASEÑA: this.fromRegistro.value.Contrasena.toUpperCase(),
       CORREO_ELECTRONICO: this.fromRegistro.value.correo.toUpperCase(),
+      ID_ROL: this.fromRegistro.value.ID_ROL,
+      ID_DEPARTAMENTO: this.fromRegistro.value.ID_DEPARTAMENTO
     };
 
     this.usuarioService.registro(objeto).subscribe({
       next: (data) => {
+        console.log("Datos a enviar:", objeto);
+
         if (data.msg.includes("creado correctamente")) {
           Swal.fire({
             icon: 'success',
