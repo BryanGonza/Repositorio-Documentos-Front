@@ -27,6 +27,12 @@ export class UsuariosService {
       objeto
     );
   }
+  CambiarPrimerContrasena(obejto: lOg): Observable<accesoRespose> {
+    return this.http.post<accesoRespose>(
+      `${this.baseAPi}ms_usuarios/cambioContrasena`,
+      obejto
+    );
+  }
 
   perfil(objeto: emaliUser): Observable<Usuarios> {
     return this.http.post<Usuarios>(
@@ -91,4 +97,5 @@ export class UsuariosService {
       objeto
     );
   }
+
 }

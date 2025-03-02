@@ -4,6 +4,7 @@ export interface Usuarios {
     USUARIO: string,
     NOMBRE_USUARIO: string,
     FECHA_CREACION: string,
+    ESTADO_USUARIO: string,
     CORREO_ELECTRONICO: string,
 
   }
