@@ -5,18 +5,7 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () => import('./business/login/login.component'),
   },
-
-
-  {
-    path: 'registrar',
-    loadComponent: () =>
-      import('./business/usuarios/registrar/registrar.component'),
-  },
-  {
-    path: 'actualizar',
-    loadComponent: () =>
-      import('./business/usuarios/actualizar/actualizar.component'),
-  },
+  
   {
     path: 'recuperarContra',
     loadComponent: () =>
@@ -40,6 +29,16 @@ export const routes: Routes = [
     loadComponent: () => import('./shared/components/layout/layout.component'),
     children: [
       {
+        path: 'registrar',
+        loadComponent: () =>
+          import('./business/usuarios/registrar/registrar.component'),
+      },
+      {
+        path: 'actualizar',
+        loadComponent: () =>
+          import('./business/usuarios/actualizar/actualizar.component'),
+      },
+      {
         path: 'dhashboard',
         loadComponent: () =>
           import('./business/dhashboard/dhashboard.component'),
@@ -53,12 +52,29 @@ export const routes: Routes = [
         path: 'usuarios',
         loadComponent: () => import('./business/usuarios/usuarios.component'),
       },
+         //rutas de parametros
+   {
+    path: 'parametros',
+    loadComponent: () => import('./business/parametros/parametros.component'),
+  },
+  {
+    path: 'actualizarParametros',
+    loadComponent: () =>
+      import('./business/parametros/actualizar/actualizar.component'),
+  },
     ],
   },
+
+
+
+
+  
+// Redirige a login si no encuentra la ruta, dejar de ultima porfi :D
   {
     path: '**',
     redirectTo: 'login',
   },
+
+
+ 
 ];
-//rutas de roles
-export const Roles: Routes = [];

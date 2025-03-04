@@ -1,0 +1,48 @@
+<!-- Contenedor principal -->
+<div class="my-5">
+  <div
+    class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-blue-500 border-yellow-500 rounded-md">
+
+    <!-- Botón Volver -->
+    <button (click)="volver()"
+      class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md">
+      Volver
+    </button>
+
+    <div class="my-3">
+      <!-- Título -->
+      <h1 class="text-center text-2xl sm:text-3xl font-bold text-white">Actualizar Parametro</h1>
+      <form (ngSubmit)="actualizarParametro()">
+
+        <!-- Campo para nombre del parametro -->
+        <div class="my-2">
+          <label for="usuario" class="text-sm sm:text-md font-bold text-yellow-300">Nombre del parametro</label>
+          <input type="text" id="usuario" [(ngModel)]="NombreParame" name="usuario"
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
+        </div>
+
+        <!-- Campo para Nombre Completo -->
+        <div class="my-2">
+          <label for="nombre" class="text-sm sm:text-md font-bold text-yellow-300">Valor</label>
+          <input type="text" id="nombre" [(ngModel)]="ValorParametro" name="nombre"
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
+            placeholder="Ingrese el nuevo nombre completo">
+        </div>
+
+        <!-- Campo para Número de Intentos -->
+        <div class="my-2">
+          <label for="intentos" class="text-sm sm:text-md font-bold text-yellow-300">Número de Intentos</label>
+          <input type="number" id="intentos" [(ngModel)]="CantIntentos" name="intentos"
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
+        </div>
+
+        <!-- Botón Actualizar -->
+        <button type="submit"
+          class="px-4 py-1 bg-yellow-500 hover:bg-yellow-600 rounded-md text-black text-sm sm:text-lg shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed">
+          Actualizar
+        </button>
+      </form>
+
+    </div>
+  </div>
+</div>

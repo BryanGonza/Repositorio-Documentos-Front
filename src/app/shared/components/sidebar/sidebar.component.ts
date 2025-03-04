@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
- private route = inject(Router);
+  constructor(private route: Router) {}
  mostrarSubmenu: boolean = false; 
   cerrarSesion() {
     Swal.fire({
@@ -39,4 +39,5 @@ export class SidebarComponent {
       }
     });
   }
+
 }

@@ -1,0 +1,88 @@
+<!-- Buscador -->
+<div class="mb-4">
+    <button 
+      class="bg-blue-500 hover:bg-yellow-500 text-white font-bold py-1 px-20 border border-blue-500 rounded block mx-auto mb-4">
+      Agregar parametro
+    </button>
+    <div class="relative w-80 mx-auto">
+      <input type="text" [(ngModel)]="searchQuery" (input)="filterUsers()" placeholder="Buscar Usuario por Nombre"
+        class="w-full p-2 pl-10 border border-yellow-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" />
+      </svg>
+    </div>
+  </div>
+  
+  <!-- Tabla de Usuarios -->
+  <table class="min-w-full border-collapse block md:table">
+    <thead class="block md:table-header-group">
+      <tr class="border border-yellow-500 md:border-none block md:table-row">
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+          ID
+        </th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+          Nombre de Parametro
+        </th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+          Valor Parametro
+        </th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+          Cantidad Intentos Invalidos
+        </th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+          Fecha de creación
+        </th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+          Fecha de modificación
+        </th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+          Acciones
+        </th>
+    
+      </tr>
+    </thead>
+  
+    <tbody class="block md:table-row-group">
+      <tr *ngFor="let usuario of paginatedUsers; let i = index"
+        [ngClass]="{ 'bg-yellow-100': i % 2 === 0, 'bg-white': i % 2 !== 0 }" class="border border-yellow-500 md:border-none block md:table-row">
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.ID_PARAMETRO }}</td>
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.PARAMETRO }}</td>
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.VALOR }}</td>
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.ADMIN_INTENTOS_INVALIDOS }}</td>
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.FECHA_CREACION }}</td> 
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.FECHA_MODIFICACION }}</td>
+
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
+            (click)="editarParametros(usuario)">
+            Editar
+          </button>
+        </td>
+      </tr>
+      
+      <!-- Mensaje si no hay parametros -->
+      <tr *ngIf="filteredUsers.length === 0">
+        <td colspan="7" class="p-4 text-center text-gray-600">No se encontraron parametros.</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <!-- Paginación -->
+  <div class="flex justify-center items-center mt-4">
+    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1"
+      class="px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50 mx-1">
+      Anterior
+    </button>
+  
+    <span class="px-3 py-1 border rounded bg-blue-500 text-white mx-1">
+      Página {{ currentPage }}  de  {{ totalPages }}
+    </span>
+  
+    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages"
+      class="px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50 mx-1">
+      Siguiente
+    </button>
+  </div>
+  
