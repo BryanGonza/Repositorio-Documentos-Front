@@ -16,6 +16,8 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./business/login/rest-contrasena/rest-contrasena.component'),
   },
+
+
   // Redirige el path vacío al Login
   {
     path: '',
@@ -62,7 +64,44 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./business/parametros/actualizar/actualizar.component'),
   },
+
+  //Rutas de Roles
+
+    {
+      path: 'roles',
+      loadComponent: () =>
+        import('./business/roles/roles.component'),
+    },
+    {
+      path: 'registrar-rol',
+      loadComponent: () =>
+        import('./business/roles/registrar-rol/registrar-rol.component').then(m => m.RegistrarRolComponent)
+    },
+    {
+      path: 'actualizar-rol',
+      loadComponent: () =>
+        import('./business/roles/actualizar-rol/actualizar-rol.component'),
+      
+    },
+
+    // Rutas de Parametros
+    {
+      path: 'permisos',
+      loadComponent: () =>
+        import('./business/permisos/permisos.component'),
+    },
+    {
+    path: 'registrar-permiso',
+    loadComponent: () =>
+      import('./business/permisos/registrar-permiso/registrar-permiso.component').then(m => m.RegistrarPermisoComponent)
+    },
+    {
+    path: 'actualizar-permiso',
+    loadComponent: () =>
+      import('./business/permisos/actualizar-permiso/actualizar-permiso.component')
+    },
     ],
+    
   },
 
 
