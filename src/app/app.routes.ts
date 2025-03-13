@@ -65,25 +65,6 @@ export const routes: Routes = [
       import('./business/parametros/actualizar/actualizar.component'),
   },
 
-  //Rutas de Roles
-
-    {
-      path: 'roles',
-      loadComponent: () =>
-        import('./business/roles/roles.component'),
-    },
-    {
-      path: 'registrar-rol',
-      loadComponent: () =>
-        import('./business/roles/registrar-rol/registrar-rol.component').then(m => m.RegistrarRolComponent)
-    },
-    {
-      path: 'actualizar-rol',
-      loadComponent: () =>
-        import('./business/roles/actualizar-rol/actualizar-rol.component'),
-      
-    },
-
     // Rutas de Parametros
     {
       path: 'permisos',
@@ -100,6 +81,43 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./business/permisos/actualizar-permiso/actualizar-permiso.component')
     },
+
+     // Rutas de Objetos
+     {
+      path: 'objetos',
+      loadComponent:() =>
+        import('./business/objetos/objetos.component'),
+    },
+    {
+      path:'registrar-objeto',
+      loadComponent: () =>
+        import('./business/objetos/registrar-objeto/registrar-objeto.component') .then(m => m.RegistrarObjetoComponent)
+    },
+    {
+     path: 'actualizar-objeto',
+     loadComponent: () =>
+      import('./business/objetos/actualizar-objeto/actualizar-objeto.component') ,
+    },
+
+     //Rutas de Roles
+
+     {
+      path: 'roles',
+      loadComponent: () =>
+        import('./business/roles/roles.component'),
+    },
+    {
+      path: 'registrar-rol',
+      loadComponent: () =>
+        import('./business/roles/registrar-rol/registrar-rol.component').then(m => m.RegistrarRolComponent)
+    },
+    {
+      path: 'actualizar-rol',
+      loadComponent: () =>
+        import('./business/roles/actualizar-rol/actualizar-rol.component'),
+      
+    },
+
     ],
     
   },
