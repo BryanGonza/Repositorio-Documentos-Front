@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 export class SidebarComponent {
   constructor(private route: Router) {}
  mostrarSubmenu: boolean = false; 
+ mostrarSubmDoc: boolean = false;
   cerrarSesion() {
     Swal.fire({
       title: '¿Estás seguro?',

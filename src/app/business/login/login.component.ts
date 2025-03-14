@@ -30,7 +30,7 @@ export default class LoginComponent implements OnInit {
   public formLogin: FormGroup = this.formBuilder.group({
     CORREO_ELECTRONICO: ['', [Validators.required, Validators.email]],
     CONTRASEÑA: ['', Validators.required],
-    rememberMe: [false], // ✅ Checkbox "Recuérdame"
+    rememberMe: [false], //  Checkbox "Recuérdame"
   });
   ngOnInit() {
     try {

@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { appsettings } from '../setting/appsetting';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ResponseParametros } from '../interfaces/Parametros/resposeParametros';
+import { parametros, registro, ResponseParametros } from '../interfaces/Parametros/resposeParametros';
 import { ResponseRegistro } from '../interfaces/Usuario/RegistroRespose';
 
 @Injectable({
@@ -37,4 +37,11 @@ export class ParametrosService {
           }
         );
       }
+      //registar parametro
+        registroPara(objeto: registro ): Observable<ResponseRegistro> {
+          return this.http.post<ResponseRegistro>(
+            `${this.baseAPi}parametros/CrearParametro`,
+            objeto
+          );
+        }
 }

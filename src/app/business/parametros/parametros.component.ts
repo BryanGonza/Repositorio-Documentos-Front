@@ -11,10 +11,10 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './parametros.component.html',
-  styleUrl: './parametros.component.css'
+  styleUrl: './parametros.component.css',
 })
 export default class ParametrosComponent {
- private parametroService = inject(ParametrosService);
+  private parametroService = inject(ParametrosService);
   private route = inject(Router);
   public filteredUsers: parametros[] = [];
   public paginatedUsers: parametros[] = [];
@@ -25,30 +25,31 @@ export default class ParametrosComponent {
   public currentPage: number = 1;
   public itemsPerPage: number = 5;
   public totalPages: number = 1;
-   constructor() {
-      this.parametroService.parametroGet().subscribe({
-        next: (data) => {
-          if (data.ListParametros.length > 0) {
-            this.ListUs = data.ListParametros;
-            this.filteredUsers = data.ListParametros;
-            this.updatePagination();
-          }
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al cargar usuarios',
-            text: error.message || 'No se pudieron obtener los usuarios.',
-            confirmButtonColor: '#d33',
-          });
-        },
-      });
-    }
+  constructor() {
+    this.parametroService.parametroGet().subscribe({
+      next: (data) => {
+        if (data.ListParametros.length > 0) {
+          this.ListUs = data.ListParametros;
+          this.filteredUsers = data.ListParametros;
+          this.updatePagination();
+        }
+      },
+      error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al cargar usuarios',
+          text: error.message || 'No se pudieron obtener los usuarios.',
+          confirmButtonColor: '#d33',
+        });
+      },
+    });
+  }
   filterUsers() {
     const query = this.searchQuery.toLowerCase();
-    this.filteredUsers = this.ListUs.filter(user =>
-      user.PARAMETRO.toLowerCase().includes(query) ||
-      user.VALOR.toLowerCase().includes(query)
+    this.filteredUsers = this.ListUs.filter(
+      (user) =>
+        user.PARAMETRO.toLowerCase().includes(query) ||
+        user.VALOR.toLowerCase().includes(query)
     );
     this.currentPage = 1;
     this.updatePagination();
@@ -61,7 +62,10 @@ export default class ParametrosComponent {
 
   updatePaginatedUsers() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.paginatedUsers = this.filteredUsers.slice(startIndex, startIndex + this.itemsPerPage);
+    this.paginatedUsers = this.filteredUsers.slice(
+      startIndex,
+      startIndex + this.itemsPerPage
+    );
   }
 
   changePage(page: number) {
@@ -71,9 +75,17 @@ export default class ParametrosComponent {
     }
   }
   editarParametros(parame: parametros) {
-    console.log("Datos enviados a queryParams:", parame);
-    this.route.navigate(['/actualizarParametros'], { queryParams: {id:parame.ID_PARAMETRO, parametro: parame.PARAMETRO, valor: parame.VALOR,
-    numerosIntentos: parame.ADMIN_INTENTOS_INVALIDOS
-     } });
+    console.log('Datos enviados a queryParams:', parame);
+    this.route.navigate(['/actualizarParametros'], {
+      queryParams: {
+        id: parame.ID_PARAMETRO,
+        parametro: parame.PARAMETRO,
+        valor: parame.VALOR,
+        numerosIntentos: parame.ADMIN_INTENTOS_INVALIDOS,
+      },
+    });
+  }
+  registar() {
+    this.route.navigate(['/registarParametro']);
   }
 }

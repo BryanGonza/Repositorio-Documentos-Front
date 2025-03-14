@@ -1,15 +1,17 @@
 import { Routes } from '@angular/router';
- //rutas de usuarios
+//rutas de usuarios
 export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('./business/login/login.component'),
   },
-  
+
   {
     path: 'recuperarContra',
     loadComponent: () =>
-      import('./business/login/recuperarcontrasena/recuperarcontrasena.component'),
+      import(
+        './business/login/recuperarcontrasena/recuperarcontrasena.component'
+      ),
   },
   {
     path: 'ResetContrasena',
@@ -54,84 +56,38 @@ export const routes: Routes = [
         path: 'usuarios',
         loadComponent: () => import('./business/usuarios/usuarios.component'),
       },
-         //rutas de parametros
-   {
-    path: 'parametros',
-    loadComponent: () => import('./business/parametros/parametros.component'),
-  },
-  {
-    path: 'actualizarParametros',
-    loadComponent: () =>
-      import('./business/parametros/actualizar/actualizar.component'),
-  },
 
-    // Rutas de Parametros
-    {
-      path: 'permisos',
-      loadComponent: () =>
-        import('./business/permisos/permisos.component'),
-    },
-    {
-    path: 'registrar-permiso',
-    loadComponent: () =>
-      import('./business/permisos/registrar-permiso/registrar-permiso.component').then(m => m.RegistrarPermisoComponent)
-    },
-    {
-    path: 'actualizar-permiso',
-    loadComponent: () =>
-      import('./business/permisos/actualizar-permiso/actualizar-permiso.component')
-    },
 
-     // Rutas de Objetos
-     {
-      path: 'objetos',
-      loadComponent:() =>
-        import('./business/objetos/objetos.component'),
-    },
-    {
-      path:'registrar-objeto',
-      loadComponent: () =>
-        import('./business/objetos/registrar-objeto/registrar-objeto.component') .then(m => m.RegistrarObjetoComponent)
-    },
-    {
-     path: 'actualizar-objeto',
-     loadComponent: () =>
-      import('./business/objetos/actualizar-objeto/actualizar-objeto.component') ,
-    },
+      //rutas de parametros
+      {
+        path: 'parametros',
+        loadComponent: () =>
+          import('./business/parametros/parametros.component'),
+      },
+      {
+        path: 'actualizarParametros',
+        loadComponent: () =>
+          import('./business/parametros/actualizar/actualizar.component'),
+      },
+      {
+        path: 'registarParametro',
+        loadComponent: () =>
+          import('./business/parametros/registrar/registrar.component')
+      },
 
-     //Rutas de Roles
-
-     {
-      path: 'roles',
-      loadComponent: () =>
-        import('./business/roles/roles.component'),
-    },
-    {
-      path: 'registrar-rol',
-      loadComponent: () =>
-        import('./business/roles/registrar-rol/registrar-rol.component').then(m => m.RegistrarRolComponent)
-    },
-    {
-      path: 'actualizar-rol',
-      loadComponent: () =>
-        import('./business/roles/actualizar-rol/actualizar-rol.component'),
-      
-    },
-
+      //Rutas Docuemtos
+      {
+        path: 'Documentos',
+        loadComponent: () =>
+          import('./business/documentos/documentos.component')
+      }
     ],
     
   },
 
-
-
-
-  
-// Redirige a login si no encuentra la ruta, dejar de ultima porfi :D
+  // Redirige a login si no encuentra la ruta, dejar de ultima porfi :D
   {
     path: '**',
     redirectTo: 'login',
   },
-
-
- 
 ];

@@ -57,7 +57,30 @@
           </li>
         </ul>
       </li>
+      <li>
+        <button class="middle font-sans font-bold text-xs py-3 rounded-lg text-black hover:bg-white/10 active:bg-white/30 flex w-full items-center gap-4 px-4 capitalize" type="button" (click)="mostrarSubmDoc = !mostrarSubmDoc">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+            <path d="M1.5 5.625c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v12.75c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 011.5 18.375V5.625z"></path>
+          </svg>
+          <p class="block font-medium">Documentos</p>
+          <span class="ml-auto">▼</span>
+        </button>
+        <ul *ngIf="mostrarSubmDoc" class="ml-6 mt-2 space-y-2">
+          <li>
+            <a routerLink="/Documentos">
+              <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">Todos los Documentos</button>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/parametros">
+              <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">Subir Documentos</button>
+            </a>
+          </li>
+        </ul>
+      </li>
     </ul>
+    
+    
     <ul class="mb-4 flex flex-col gap-1">
       <li class="mx-3.5 mt-4 mb-2">
         <p class="block text-sm text-white font-black uppercase opacity-75">auth pages</p>
