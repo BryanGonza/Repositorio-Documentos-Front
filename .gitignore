@@ -40,3 +40,18 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+src/app/business/roles/actualizar-rol/actualizar-rol.component.ts
+src/app/business/roles/registrar-rol/registrar-rol.component.ts
+Repositorio-Documentos-Front/
+src/app/business/roles/actualizar-rol/actualizar-rol.component.css
+src/app/business/roles/actualizar-rol/actualizar-rol.component.html
+src/app/business/roles/roles.component.ts
+src/app/business/roles/roles.component.html
+src/app/business/roles/roles.component.css
+src/app/business/roles/registrar-rol/registrar-rol.component.css
+src/app/interfaces/Roles/RegistroResponseRol.ts
+src/app/business/roles/registrar-rol/registrar-rol.component.html
+src/app/interfaces/Roles/RegistroRol.ts
+src/app/services/roles.service.ts
+src/app/interfaces/Roles/Roles.ts
+src/app/interfaces/Roles/ResponsegetRoles.ts
