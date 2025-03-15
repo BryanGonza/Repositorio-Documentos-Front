@@ -1,0 +1,47 @@
+<div class="my-5">
+    <!-- Contenedor principal con fondo azul -->
+    <div class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-blue-500 border-yellow-500 rounded-md">
+      
+      <!-- Botón Volver -->
+      <button (click)="volver()" class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md">
+        Volver
+      </button>
+      
+      <div class="my-3">
+        <!-- Título del formulario -->
+        <h1 class="text-center text-2xl sm:text-3xl font-bold text-gray-900">Registrar Objeto</h1>
+        <form [formGroup]="formRegistro" (ngSubmit)="registrarObjeto()">
+  
+          <!-- Campo para Nombre del Objeto -->
+          <div class="my-2">
+            <label for="nombreObjeto" class="text-sm sm:text-md font-bold text-gray-700">Nombre del Objeto</label>
+            <input type="text" id="nombreObjeto" formControlName="nombreObjeto" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el nombre del objeto">
+          </div>
+  
+          <!-- Campo para Tipo de Objeto -->
+          <div class="my-2">
+            <label for="tipoObjeto" class="text-sm sm:text-md font-bold text-gray-700">Tipo de Objeto</label>
+            <input type="text" id="tipoObjeto" formControlName="tipoObjeto" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el tipo de objeto">
+          </div>
+  
+          <!-- Campo para Descripción -->
+          <div class="my-2">
+            <label for="descripcion" class="text-sm sm:text-md font-bold text-gray-700">Descripción</label>
+            <input type="text" id="descripcion" formControlName="descripcion" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese la descripción del objeto">
+          </div>
+  
+          <!-- Campo para Creado Por -->
+          <div class="my-2">
+            <label for="creadoPor" class="text-sm sm:text-md font-bold text-gray-700">Creado Por</label>
+            <input type="text" id="creadoPor" formControlName="creadoPor" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el nombre de la persona que creó el objeto">
+          </div>
+  
+          <!-- Botón Guardar -->
+          <button type="submit" [disabled]="formRegistro.invalid" class="px-4 py-1 bg-emerald-500 hover:bg-emerald-600 rounded-md text-black text-sm sm:text-lg shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed">
+            Guardar
+          </button>
+  
+        </form>
+      </div>
+    </div>
+  </div>

@@ -67,7 +67,7 @@ export const routes: Routes = [
       import('./business/parametros/actualizar/actualizar.component'),
   },
 
-    // Rutas de Parametros
+    // Rutas de Permisos
     {
       path: 'permisos',
       loadComponent: () =>
