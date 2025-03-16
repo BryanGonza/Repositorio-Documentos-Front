@@ -1,0 +1,111 @@
+<!-- Contenedor principal -->
+<div class="mb-4 p-6 bg-white rounded-lg shadow-md">
+    <!-- Título -->
+    <h2 class="text-2xl font-bold text-blue-600 mb-4">Subir Documentos</h2>
+  
+    <!-- Formulario -->
+    <form (ngSubmit)="subirArchivo()">
+      <!-- Campo Nombre -->
+      <div class="mb-4">
+        <label for="nombre" class="block text-gray-700 font-bold mb-2">Nombre</label>
+        <input
+          type="text"
+          id="nombre"
+          name="nombre"
+          class="w-full p-2 border border-yellow-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Ingrese el nombre"
+        />
+      </div>
+  
+      <!-- Campo Descripción -->
+      <div class="mb-4">
+        <label for="descripcion" class="block text-gray-700 font-bold mb-2">Descripción</label>
+        <textarea
+          id="descripcion"
+          name="descripcion"
+          class="w-full p-2 border border-yellow-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          rows="4"
+          placeholder="Ingrese la descripción"
+        ></textarea>
+      </div>
+  
+      <!-- Botón para mostrar/ocultar el área de carga -->
+      <button
+        type="button"
+        (click)="toggleUploadArea()"
+        class="bg-blue-500 hover:bg-yellow-500 text-white font-bold py-1 px-20 border border-blue-500 rounded block mx-auto mb-4"
+      >
+        Seleccionar Documento
+      </button>
+  
+      <!-- Área de carga de archivos (oculta inicialmente) -->
+      <div
+        *ngIf="showUploadArea"
+        class="flex w-full h-64 items-center justify-center bg-gray-100 rounded-lg shadow-md"
+      >
+        <label
+          class="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue"
+        >
+          <svg
+            class="w-8 h-8 hover:fill-current"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"
+            />
+          </svg>
+          <span class="mt-2 text-base leading-normal hover:text-blue-600">Seleccionar Archivo</span>
+          <input type="file" class="hidden" (change)="onFileSelected($event)" />
+        </label>
+      </div>
+  
+      <!-- Texto que muestra el nombre del archivo seleccionado -->
+      <div *ngIf="showUploadArea">
+        <span class="block text-sm text-gray-500 mt-2">{{ nombreArchivo }}</span>
+        <p class="text-sm text-gray-500 mt-1">Tamaño máximo para archivos nuevos: 100MB</p>
+      </div>
+  
+      <!-- Privacidad (Público/Privado) -->
+      <div class="mb-4">
+        <label class="block text-gray-700 font-bold mb-2">Privacidad</label>
+        <div class="flex items-center space-x-4">
+          <label class="flex items-center">
+            <input
+              type="radio"
+              name="privacidad"
+              value="publico"
+              class="form-radio h-5 w-5 text-blue-600 border-yellow-500 focus:ring-blue-500"
+            />
+            <span class="ml-2 text-gray-700">Público</span>
+          </label>
+          <label class="flex items-center">
+            <input
+              type="radio"
+              name="privacidad"
+              value="privado"
+              class="form-radio h-5 w-5 text-blue-600 border-yellow-500 focus:ring-blue-500"
+            />
+            <span class="ml-2 text-gray-700">Privado</span>
+          </label>
+        </div>
+      </div>
+  
+      <!-- Botones de Acción -->
+      <div class="flex justify-end space-x-4">
+        <button
+          type="button"
+          class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-gray-500 rounded"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="bg-blue-500 hover:bg-yellow-500 text-white font-bold py-2 px-4 border border-blue-500 rounded"
+        >
+          Subir Documento
+        </button>
+      </div>
+    </form>
+  </div>

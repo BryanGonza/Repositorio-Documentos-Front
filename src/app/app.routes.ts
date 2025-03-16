@@ -120,6 +120,13 @@ export const routes: Routes = [
       
     },
 
+    //Rutas para subir un documento
+    {
+      path: 'subir_documentos',
+      loadComponent: () =>
+        import('./business/subir-documentos/subir-documentos.component').then(m => m.SubirDocumentosComponent)
+    },
+
     ],
     
   },
