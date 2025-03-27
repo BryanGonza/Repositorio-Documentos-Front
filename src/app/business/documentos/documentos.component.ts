@@ -7,11 +7,12 @@ import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { DocumentosService } from '../../services/documentos.service';
 import { documento } from '../../interfaces/Documentos/Documetos';
+import { FormatDatePipe } from '../../format-date.pipe';
 
 @Component({
   selector: 'app-documentos',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FormatDatePipe],
   templateUrl: './documentos.component.html',
   styleUrl: './documentos.component.css',
 })

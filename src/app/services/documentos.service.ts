@@ -36,13 +36,17 @@ export class DocumentosService {
       `${this.baseAPi}Documentos/EliminarDocumento/${idDocumento}`
     );
   }
-
+  // , nombre: string, descripcion: string, privacidad: number
   // Método para subir un archivo
-  subirDocumento(archivo: File, idUsuario: string): Observable<any> {
+  subirDocumento(archivo: File, idUsuario: number, nombre: string, descripcion: string, es_public: number): Observable<any> {
     // Crear un FormData para enviar el archivo y el ID de usuario
     const formData = new FormData();
     formData.append('archivo', archivo); // La clave 'archivo' debe coincidir con lo que espera el backend
-    formData.append('ID_USUARIO', idUsuario); // Convertir el ID de usuario a string
+    formData.append('ID_USUARIO', String(idUsuario)); // Convertir el ID de usuario a string
+    formData.append('ES_PUBLICO', String(es_public)); //Comviertir tambien en string 
+    formData.append('DESCRIPCION', descripcion);
+    formData.append('NOMBRE', nombre); 
+
 
    return this.http.post<msg>(
          `${this.baseAPi}Documentos/subirDc`,

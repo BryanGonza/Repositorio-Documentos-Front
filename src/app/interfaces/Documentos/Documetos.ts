@@ -8,6 +8,8 @@ export interface documento {
     URl_DOW: string;
     DRIVE_ID: string;
     CORREO: string;
+    DESCRIPCION: string;
+    ES_PUBLICO: number;
 };   
 export interface correo{
     correo: string;
