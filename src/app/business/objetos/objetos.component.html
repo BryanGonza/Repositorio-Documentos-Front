@@ -46,16 +46,28 @@
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ objeto.FECHA_MODIFICACION }}</td>
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ objeto.MODIFICADO_POR }}</td>
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
-        <!-- Botón Editar -->
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
-          (click)="editarObjeto(objeto)">
-          Editar
-        </button>
-        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
-          (click)="eliminar(objeto.ID_OBJETO)">
-          Eliminar
-        </button>
+        <div class="flex gap-2 items-center">
+          <!-- Botón Editar -->
+          <button (click)="editarObjeto(objeto)"
+                  class="bg-blue-500 hover:bg-blue-600 text-white p-2 border border-blue-500 rounded transition duration-300"
+                  aria-label="Editar Permiso" title="Editar Permiso">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828zM4 14v2h2l7.293-7.293-2-2L4 14z" />
+            </svg>
+          </button>
+      
+          <!-- Botón Eliminar -->
+          <button (click)="eliminar(objeto.ID_OBJETO)"
+                  class="bg-red-500 hover:bg-red-600 text-white p-2 border border-red-500 rounded transition duration-300"
+                  aria-label="Eliminar Permiso" title="Eliminar Permiso">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        </div>
       </td>
+      
     </tr>
 
     <!-- Mensaje si no hay objetos -->

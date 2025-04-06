@@ -12,6 +12,9 @@ import { CommonModule } from '@angular/common';
 import { SharedService } from '../../shared.service';
 import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
+import { jwtDecode } from 'jwt-decode';
+
+
 
 @Component({
   selector: 'app-login',
@@ -26,6 +29,7 @@ export default class LoginComponent implements OnInit {
   private sharedService = inject(SharedService);
   private route = inject(Router);
   showPassword: boolean = false; 
+  
 
   public formLogin: FormGroup = this.formBuilder.group({
     CORREO_ELECTRONICO: ['', [Validators.required, Validators.email]],
@@ -59,29 +63,45 @@ export default class LoginComponent implements OnInit {
       });
       return;
     }
-
-    const correoIngresado = this.formLogin.value.CORREO_ELECTRONICO;
-
+  
     const objeto: lOg = {
-      CORREO_ELECTRONICO: correoIngresado,
+      CORREO_ELECTRONICO: this.formLogin.value.CORREO_ELECTRONICO,
       CONTRASEÑA: this.formLogin.value.CONTRASEÑA,
     };
-
-
+  
     this.usuarioService.login(objeto).subscribe({
-      
       next: (data) => {
-       
         if (data.success === true) {
           if (data.token) {
             localStorage.setItem('token', data.token);
-          }
+  
+            try {
+              interface TokenPayload {
+                CORREO_ELECTRONICO: string;
+                rol: string;
+                exp: number;
+              }
+              // Decodificar el token
+              const decoded = jwtDecode(data.token) as TokenPayload;
 
-          //  Guardar/eliminar el correo según "Recuerdame"
+
+  
+              // Guardar el correo y el rol en SharedService
+              this.sharedService.setCorreo(decoded.CORREO_ELECTRONICO);
+              this.sharedService.setRol(decoded.rol);
+              console.log('Correo:', decoded.CORREO_ELECTRONICO);
+              console.log('Rol:', decoded.rol);
+         
+            } catch (decodeError) {
+              console.error('Error al decodificar el token:', decodeError);
+            }
+          }
+  
+          // Guardar o eliminar el correo según "Recuérdame"
           try {
             if (typeof window !== 'undefined' && localStorage) {
               if (this.formLogin.value.rememberMe) {
-                localStorage.setItem('rememberedEmail', correoIngresado);
+                localStorage.setItem('rememberedEmail', this.formLogin.value.CORREO_ELECTRONICO);
               } else {
                 localStorage.removeItem('rememberedEmail');
               }
@@ -89,10 +109,7 @@ export default class LoginComponent implements OnInit {
           } catch (error) {
             console.error('Error al guardar/eliminar en localStorage:', error);
           }
-
-          // Almacenar correo electrónico en SharedService
-          this.sharedService.setCorreo(correoIngresado);
-
+  
           Swal.fire({
             icon: 'success',
             title: '¡Bienvenido!',
@@ -100,7 +117,9 @@ export default class LoginComponent implements OnInit {
             timer: 2000,
             showConfirmButton: false,
           }).then(() => {
+            localStorage.setItem('reloadAfterLogin', 'true');
             this.route.navigate(['/dhashboard']);
+            
           });
         } else {
           Swal.fire({
@@ -111,19 +130,15 @@ export default class LoginComponent implements OnInit {
           });
         }
       },
-      
-        
-
+  
       error: (error) => {
         console.error('Error en inicio de sesión:', error);
-        
-        // Revisar si el error indica que debe cambiar la contraseña
+  
         if (error.error?.msg === 'Debe cambiar su contraseña antes de iniciar sesión') {
           this.solicitarCambioContrasena(this.formLogin.value.CORREO_ELECTRONICO);
           return;
         }
-      
-        // Mostrar mensaje de error genérico solo si no es el caso anterior
+  
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -131,7 +146,6 @@ export default class LoginComponent implements OnInit {
           confirmButtonColor: '#d33',
         });
       },
-      
     });
   }
   

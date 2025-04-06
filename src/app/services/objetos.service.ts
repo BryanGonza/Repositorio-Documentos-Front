@@ -1,8 +1,8 @@
 import { inject,Injectable } from '@angular/core'; 
-import { HttpClient } from '@angular/common/http'; 
+import { HttpClient, HttpHeaders } from '@angular/common/http'; 
 import { appsettings } from '../setting/appsetting'; 
 import { Observable } from 'rxjs'; 
-import { Objetos } from '../interfaces/Objetos/Objetos';
+import { ObjetoPermiso, Objetos } from '../interfaces/Objetos/Objetos';
 import { ResponseObjetos } from '../interfaces/Objetos/Objetos';
 import { RegistroObjetos } from '../interfaces/Objetos/RegistroObjetos';
 
@@ -47,4 +47,5 @@ registrarObjeto(objeto:RegistroObjetos): Observable<ResponseObjetos> {
     MODIFICADO_POR
   });
 }
+
 }

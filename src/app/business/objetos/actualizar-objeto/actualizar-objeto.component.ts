@@ -4,6 +4,7 @@ import { ObjetosService } from '../../../services/objetos.service'; // Asegúrat
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SharedService } from '../../../shared.service';
 
 @Component({
   selector: 'app-actualizar-objeto',
@@ -24,7 +25,7 @@ export default class ActualizarObjetoComponent {
   CreadoPor: string = '';
   ModificadoPor: string = '';
 
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor(private activatedRoute: ActivatedRoute, private serviccompa: SharedService) {}
 
   ngOnInit(): void {
     // Usar ActivatedRoute para acceder a los queryParams
@@ -49,7 +50,7 @@ export default class ActualizarObjetoComponent {
       FECHA_CREACION: this.FechaCreacion, // Mantener la fecha de creación original
       CREADO_POR: this.CreadoPor, // Mantener el creado por original
       FECHA_MODIFICACION: new Date(), // Fecha de modificación automática
-      MODIFICADO_POR: this.ModificadoPor,
+      MODIFICADO_POR: this.serviccompa.getCorreo(),
     };
 
     // Enviar la actualización

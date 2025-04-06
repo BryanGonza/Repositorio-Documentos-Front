@@ -1,18 +1,21 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { privateDecrypt } from 'crypto';
 import Swal from 'sweetalert2';
+import { SharedService } from '../../../shared.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [RouterLink],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrls: ['./header.component.css']
 })
-
 export class HeaderComponent {
+  @Output() toggleSidebar = new EventEmitter<void>();
+
+  private sharedService = inject(SharedService);
   private route = inject(Router);
+
   cerrarSesion() {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -25,7 +28,8 @@ export class HeaderComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        // El usuario confirmó el cierre de sesión
+        this.sharedService.clearRol();
+        this.sharedService.clearCorreo();
         localStorage.removeItem('token');
         Swal.fire({
           icon: 'success',

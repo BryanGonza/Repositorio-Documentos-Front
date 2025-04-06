@@ -88,4 +88,44 @@ export default class ParametrosComponent {
   registar() {
     this.route.navigate(['/registarParametro']);
   }
+  eliminarParametro(ID_PARAMETRO: number) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¡No podrás revertir esto!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.parametroService.eliminarParametro(ID_PARAMETRO).subscribe({
+          next: (res) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Eliminado',
+              text: res.msg || 'El parámetro ha sido eliminado exitosamente.',
+              confirmButtonColor: '#3085d6',
+            });
+  
+            // Actualiza la lista después de eliminar
+            this.ListUs = this.ListUs.filter(parametro => parametro.ID_PARAMETRO !== ID_PARAMETRO);
+            this.filteredUsers = this.filteredUsers.filter(parametro => parametro.ID_PARAMETRO !== ID_PARAMETRO);
+            this.updatePagination();
+          },
+          error: (err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al eliminar',
+              text: err.error?.msg || 'Ocurrió un error al eliminar el parámetro.',
+              confirmButtonColor: '#d33',
+            });
+          }
+        });
+      }
+    });
+  }
+  
+  
 }

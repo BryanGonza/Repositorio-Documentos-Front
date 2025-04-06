@@ -44,4 +44,9 @@ export class ParametrosService {
             objeto
           );
         }
+         eliminarParametro(ID_PARAMETRO: number): Observable<ResponseRegistro> {
+           return this.http.request<ResponseRegistro>('delete', `${this.baseAPi}parametros/deleteParametro`, {
+             body: { ID_PARAMETRO },
+           });
+         }
 }

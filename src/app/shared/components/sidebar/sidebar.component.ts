@@ -1,37 +1,107 @@
-import { NgIf } from '@angular/common';
+// sidebar.component.ts
+import { NgIf, NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { Router, NavigationEnd, RouterLink, RouterModule } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { SharedService } from '../../../shared.service';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink, RouterModule, NgIf],
+  imports: [RouterLink, RouterModule, NgIf, NgClass],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css'
+  styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
-  constructor(private route: Router) {}
- mostrarSubmenu: boolean = false; 
- mostrarSubmDoc: boolean = false;
+  private route = inject(Router);
+  public rolActual = '';
+  public mostrarSubmenu: boolean = false;
+  public mostrarSubmDoc: boolean = false;
+  public activeItem: 'inicio' | 'documentos' | 'seguridad' | '' = '';
+
+  constructor(private sharedService: SharedService) {}
+
+  ngOnInit() {
+    this.sharedService.rol$.subscribe((rol) => {
+      this.rolActual = rol;
+    });
+
+    // usamos un type predicate en el filtro para que TS entienda que el event es NavigationEnd
+    this.route.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        this.definirItemActivo(event.urlAfterRedirects);
+      });
+  }
+
+  private definirItemActivo(url: string) {
+    // cerramos submenus por defecto
+    this.mostrarSubmenu = false;
+    this.mostrarSubmDoc = false;
+
+    if (url === '/dhashboard') {
+      this.activeItem = 'inicio';
+    } else if (url.includes('/Documentos') || url.includes('/subir_documentos')) {
+      this.activeItem = 'documentos';
+      this.mostrarSubmDoc = true;
+    } else if (
+      url.includes('/usuarios') ||
+      url.includes('/parametros') ||
+      url.includes('/roles') ||
+      url.includes('/objetos') ||
+      url.includes('/permisos')
+    ) {
+      this.activeItem = 'seguridad';
+      this.mostrarSubmenu = true;
+    } else {
+      this.activeItem = '';
+    }
+  }
+
+  // Metodo para toggle del submenu Documentos
+  toggleSubmDoc() {
+    if (this.activeItem === 'documentos') {
+      this.activeItem = '';
+      this.mostrarSubmDoc = false;
+    } else {
+      this.activeItem = 'documentos';
+      this.mostrarSubmDoc = true;
+      this.mostrarSubmenu = false;
+    }
+  }
+
+  // Metodo para toggle del submenu Seguridad
+  toggleSubmenu() {
+    if (this.activeItem === 'seguridad') {
+      this.activeItem = '';
+      this.mostrarSubmenu = false;
+    } else {
+      this.activeItem = 'seguridad';
+      this.mostrarSubmenu = true;
+      this.mostrarSubmDoc = false;
+    }
+  }
+
   cerrarSesion() {
     Swal.fire({
-      title: '¿Estás seguro?',
-      text: '¿Deseas cerrar sesión?',
+      title: '¿Estas seguro?',
+      text: '¿Deseas cerrar sesion?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, cerrar sesión',
+      confirmButtonText: 'Si, cerrar sesion',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        // El usuario confirmó el cierre de sesión
+        this.sharedService.clearRol();
+        this.sharedService.clearCorreo();
         localStorage.removeItem('token');
         Swal.fire({
           icon: 'success',
-          title: 'Sesión cerrada',
-          text: 'Has cerrado sesión correctamente.',
+          title: 'Sesion cerrada',
+          text: 'Has cerrado sesion correctamente.',
           timer: 1500,
           showConfirmButton: false
         }).then(() => {
@@ -40,5 +110,4 @@ export class SidebarComponent {
       }
     });
   }
-
 }

@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { DocumentosService } from '../../services/documentos.service';
 import { documento } from '../../interfaces/Documentos/Documetos';
 import { FormatDatePipe } from '../../format-date.pipe';
+import { SharedService } from '../../shared.service';
 
 @Component({
   selector: 'app-documentos',
@@ -28,9 +29,11 @@ export default class DocumentosComponent {
   public currentPage: number = 1;
   public itemsPerPage: number = 5;
   public totalPages: number = 1;
-
+  rolActual: string = '';
+    private sharedService = inject(SharedService);
   constructor() {
     this.cargarDocumentos();
+    this.rolActual = this.sharedService.getRol();
   }
 
   cargarDocumentos() {
@@ -110,7 +113,48 @@ export default class DocumentosComponent {
 
   // URL de descarga directa (formato PDF)
   
+ eliminarDocumento(idDocumento: number) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¡No podrás revertir esto!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.docService.eliminarDcoumento(idDocumento).subscribe({
+          next: (res) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Eliminado',
+              text: res.msg || 'El usuario ha sido eliminado exitosamente.',
+              confirmButtonColor: '#3085d6',
+            });
 
+            this.ListUs = this.ListUs.filter(
+              (user) => user.ID_DOCUMENTO !== idDocumento
+            );
+            this.filteredUsers = this.filteredUsers.filter(
+              (user) => user.ID_DOCUMENTO !== idDocumento
+            );
+            this.updatePagination();
+          },
+          error: (err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al eliminar',
+              text:
+                err.error?.msg || 'Ocurrió un error al eliminar el documento.',
+              confirmButtonColor: '#d33',
+            });
+          },
+        });
+      }
+    });
+  }
   descargarArchivo(url: string, nombre:string): void {
     // Crear un enlace temporal
     const link = document.createElement('a');

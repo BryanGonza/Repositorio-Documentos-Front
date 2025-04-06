@@ -153,22 +153,25 @@ export default class PermisosComponent {
     });
   }
 
-  editarPermiso(param: any) {
-    console.log("Datos enviados a queryParams:", param);
-    this.route.navigate(['actualizar-permiso'], { queryParams: { 
-      id: param.ID_PERMISO, 
-      idRol: param.ID_ROL, 
-      idObjeto: param.ID_OBJETO,
-      permisoInsercion: param.PERMISO_INSERCION, 
-      permisoEliminacion: param.PERMISO_ELIMINACION, 
-      permisoActualizacion: param.PERMISO_ACTUALIZACION, 
-      permisoConsultar: param.PERMISO_CONSULTAR,
-      creadoPor: param.CREADO_POR, 
-      modificadoPor: param.MODIFICADO_POR, 
-      fechaCreacion: param.FECHA_CREACION, 
-      fechaModificacion: param.FECHA_MODIFICACION
-    } });
+  editarPermiso(permiso: any) {
+    this.route.navigate(['/actualizar-permiso'], {
+      queryParams: {
+        id: permiso.ID_PERMISO,
+        idRol: permiso.ID_ROL,
+        permisoInsercion: permiso.PERMISO_INSERCION,
+        permisoEliminacion: permiso.PERMISO_ELIMINACION,
+        permisoActualizacion: permiso.PERMISO_ACTUALIZACION,
+        permisoConsultar: permiso.PERMISO_CONSULTAR,
+        creadoPor: permiso.CREADO_POR,
+        modificadoPor: permiso.MODIFICADO_POR,
+        fechaCreacion: permiso.FECHA_CREACION,
+        fechaModificacion: permiso.FECHA_MODIFICACION,
+        // Si idObjeto se requiere en la lógica, inclúyelo
+        idObjeto: permiso.ID_OBJETO
+      }
+    });
   }
+  
 
   registro() {
     this.route.navigate(['registrar-permiso']);

@@ -18,36 +18,47 @@
             <input type="number" id="idRol" formControlName="idRol" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el ID del rol">
           </div>
   
-          <!-- Campo para ID Objeto -->
-          <div class="my-2">
-            <label for="idObjeto" class="text-sm sm:text-md font-bold text-gray-700">ID Objeto</label>
-            <input type="number" id="idObjeto" formControlName="idObjeto" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el ID del objeto">
-          </div>
-  
-          <!-- Campo para Permiso Inserción -->
-          <div class="my-2">
-            <label for="permisoInsercion" class="text-sm sm:text-md font-bold text-gray-700">Permiso Inserción</label>
-            <input type="text" id="permisoInsercion" formControlName="permisoInsercion" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el permiso de inserción">
-          </div>
-  
-          <!-- Campo para Permiso Eliminación -->
-          <div class="my-2">
-            <label for="permisoEliminacion" class="text-sm sm:text-md font-bold text-gray-700">Permiso Eliminación</label>
-            <input type="text" id="permisoEliminacion" formControlName="permisoEliminacion" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el permiso de eliminación">
-          </div>
-  
-          <!-- Campo para Permiso Actualización -->
-          <div class="my-2">
-            <label for="permisoActualizacion" class="text-sm sm:text-md font-bold text-gray-700">Permiso Actualización</label>
-            <input type="text" id="permisoActualizacion" formControlName="permisoActualizacion" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el permiso de actualización">
-          </div>
-  
-          <!-- Campo para Permiso Consultar -->
-          <div class="my-2">
-            <label for="permisoConsultar" class="text-sm sm:text-md font-bold text-gray-700">Permiso Consultar</label>
-            <input type="text" id="permisoConsultar" formControlName="permisoConsultar" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el permiso de consulta">
-          </div>
-  
+     
+<!-- Campo para Permiso Inserción -->
+<div class="my-2">
+  <label for="permisoInsercion" class="text-sm sm:text-md font-bold text-gray-700">Permiso Inserción</label>
+  <select id="permisoInsercion" formControlName="permisoInsercion" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
+    <option value="">Seleccione...</option>
+    <option value="si">Si</option>
+    <option value="no">No</option>
+  </select>
+</div>
+
+<!-- Campo para Permiso Eliminación -->
+<div class="my-2">
+  <label for="permisoEliminacion" class="text-sm sm:text-md font-bold text-gray-700">Permiso Eliminación</label>
+  <select id="permisoEliminacion" formControlName="permisoEliminacion" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
+    <option value="">Seleccione...</option>
+    <option value="si">Si</option>
+    <option value="no">No</option>
+  </select>
+</div>
+
+<!-- Campo para Permiso Actualización -->
+<div class="my-2">
+  <label for="permisoActualizacion" class="text-sm sm:text-md font-bold text-gray-700">Permiso Actualización</label>
+  <select id="permisoActualizacion" formControlName="permisoActualizacion" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
+    <option value="">Seleccione...</option>
+    <option value="si">Si</option>
+    <option value="no">No</option>
+  </select>
+</div>
+
+<!-- Campo para Permiso Consultar -->
+<div class="my-2">
+  <label for="permisoConsultar" class="text-sm sm:text-md font-bold text-gray-700">Permiso Consultar</label>
+  <select id="permisoConsultar" formControlName="permisoConsultar" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
+    <option value="">Seleccione...</option>
+    <option value="si">Si</option>
+    <option value="no">No</option>
+  </select>
+</div>
+
           <!-- Campo para Creado Por -->
           <div class="my-2">
             <label for="creadoPor" class="text-sm sm:text-md font-bold text-gray-700">Creado Por</label>

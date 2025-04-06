@@ -5,6 +5,7 @@ import { ObjetosService } from '../../../services/objetos.service';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import { RegistroObjetos } from '../../../interfaces/Objetos/RegistroObjetos';
+import { SharedService } from '../../../shared.service';
 
 @Component({
   selector: 'app-registrar-objeto',
@@ -17,6 +18,8 @@ export class RegistrarObjetoComponent {
   private objetosService = inject(ObjetosService);
   private route = inject(Router);
   public fromBuild = inject(FormBuilder);
+  correo: string = '';
+  constructor(private sharedService: SharedService) {}
 
   public formRegistro: FormGroup = this.fromBuild.group({
     nombreObjeto: ['', Validators.required],
@@ -41,7 +44,8 @@ export class RegistrarObjetoComponent {
       OBJETO: this.formRegistro.value.nombreObjeto,
       TIPO_OBJETO: this.formRegistro.value.tipoObjeto,
       DESCRIPCION: this.formRegistro.value.descripcion,
-      CREADO_POR: this.formRegistro.value.creadoPor,
+      CREADO_POR: this.sharedService.getCorreo(),
+      
     };
 
     this.objetosService.registrarObjeto(objeto).subscribe({

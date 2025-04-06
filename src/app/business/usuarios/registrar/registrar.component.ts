@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './registrar.component.html',
-  styleUrl: './registrar.component.css'
+  styleUrls: ['./registrar.component.css']
 })
 export default class RegistrarComponent {
   public showPassword: boolean = false;
@@ -25,7 +25,7 @@ export default class RegistrarComponent {
     numeroIdentidad: ['', Validators.required],
     Usuario: ['', Validators.required],
     NombreUs: ['', Validators.required],
-    Contrasena: ['', [Validators.required]],
+    Contrasena: ['', [Validators.required, Validators.minLength(6)]],
     confirmarContrasena: ['', [Validators.required]],
     correo: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
     ID_ROL: ['', Validators.required],
@@ -34,21 +34,24 @@ export default class RegistrarComponent {
 
   // Opciones de roles y departamentos
   public roles = [
-    { id: 1, nombre: '1.Admin' },
-    { id: 2, nombre: '2.Usuario' }
+    { id: 1, nombre: '1.Administrador' },
+    { id: 2, nombre: '2.Usuario' },
+    { id: 3, nombre: '3.Usuario básico' }
   ];
 
   public departamentos = [
-    { id: 1, nombre: '1.Mercadotecnia' },
+    { id: 3, nombre: '1.Mercadotecnia' },
     { id: 2, nombre: '2.Informática' }
   ];
 
-  togglePasswordVisibility(isVisible: boolean) {
-    this.showPassword = isVisible;
+  // Alterna la visibilidad de la contraseña
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
-  toggleConfirmPasswordVisibility(isVisible: boolean) {
-    this.showConfirmPassword = isVisible;
+  // Alterna la visibilidad de la confirmación de la contraseña
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   get contrasenasCoinciden(): boolean {

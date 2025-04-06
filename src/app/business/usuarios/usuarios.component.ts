@@ -5,6 +5,8 @@ import { UsuariosService } from '../../services/usuarios.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { SharedService } from '../../shared.service';
+
 
 @Component({
   selector: 'app-usuarios',
@@ -27,8 +29,10 @@ export default class UsuariosComponent {
   public itemsPerPage: number = 5;
   public totalPages: number = 1;
 
-  constructor() {
+  constructor(private sharedService: SharedService) {
+  
     this.usuarioService.usuariosget().subscribe({
+      
       next: (data) => {
         if (data.ListUsuarios.length > 0) {
           this.ListUs = data.ListUsuarios;
@@ -44,6 +48,14 @@ export default class UsuariosComponent {
           confirmButtonColor: '#d33',
         });
       },
+    });
+    
+  }
+  rolActual = '';
+ 
+  ngOnInit() {
+    this.sharedService.rol$.subscribe((rol) => {
+      this.rolActual = rol;
     });
   }
 
@@ -120,4 +132,6 @@ export default class UsuariosComponent {
       }
     });
   }
+
+
 }

@@ -1,20 +1,18 @@
-<!-- component -->
-<div class="min-h-screen bg-gray-50/50">
-    <app-sidebar/>
+<div class="relative min-h-screen bg-gray-50">
+  <!-- Sidebar -->
+  <app-sidebar *ngIf="sidebarVisible" class="hidden xl:block fixed top-0 left-0 h-full w-80">
+  </app-sidebar>
 
-    <div class="p-4 xl:ml-80">
-      <nav class="block w-full max-w-full bg-transparent text-white shadow-none rounded-xl transition-all px-0 py-1">
-  
-        <app-header/>
+  <!-- Header fijo -->
+  <nav class="fixed top-0 left-0 right-0 h-16 bg-white shadow-md z-50 px-4"
+       [ngClass]="{'xl:left-80': sidebarVisible}">
+    <!-- Asegúrate de que <app-header> ocupe todo el ancho -->
+    <app-header class="w-full" (toggleSidebar)="toggleSidebar()"></app-header>
+  </nav>
 
-      </nav>
-      <div class="mt-12">
-        <router-outlet/>
-  
-      </div>
-      <div class="text-blue-gray-600">
-        <app-footer/>
-  
-      </div>
-    </div>
+  <!-- Contenido principal -->
+  <div class="pt-24 p-4" [ngClass]="{'xl:ml-80': sidebarVisible}">
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
   </div>
+</div>

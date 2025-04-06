@@ -9,6 +9,8 @@ import { SharedService } from '../../shared.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { Usuarios } from '../../interfaces/Usuario/Usuarios';
 import { FormatDatePipe } from '../../format-date.pipe';
+import { ObjetoPermiso } from '../../interfaces/Objetos/Objetos';
+import { PermisosService } from '../../services/permisos.service';
 
 @Component({
   selector: 'app-dhashboard',
@@ -32,8 +34,59 @@ export default class DhashboardComponent {
   public usuario: Usuarios | null = null;
   private sharedService = inject(SharedService);
   private usuarioService = inject(UsuariosService);
-  constructor() {}
+
+  //permisos 
+
+objetos: ObjetoPermiso[] = [];
+token: string = typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
+constructor(private permisosService: SharedService) {}
   ngOnInit() {
+  this.getObjetosConPermisos(); 
+    if (typeof window !== 'undefined') {
+      const shouldReload = localStorage.getItem('reloadAfterLogin');
+      if (shouldReload === 'true') {
+        localStorage.setItem('reloadAfterLogin', 'false');
+        window.location.reload();
+      }
+    } else {
+   
+      const correo = this.sharedService.getCorreo();
+      if (correo) {
+        this.usuarioService.perfil({ email: correo }).subscribe({
+          next: (data) => {
+            this.usuario = data;
+            if (this.usuario?.ID_USUARIO) {
+              this.cargarDocumentos(this.usuario.ID_USUARIO);
+            }
+          },
+          error: (err) => {
+            console.error('Error al cargar el perfil:', err);
+          },
+        });
+      }
+    }
+    this.cargarDatos();
+  }
+  getObjetosConPermisos(): void {
+    this.permisosService.getObjetosPermisos(this.token).subscribe({
+      next: (data) => {
+        this.objetos = data;
+        console.log('Objetos con permisos:', this.objetos);
+      },
+      error: (err) => {
+        console.error('Error al obtener objetos:', err);
+      }
+    });
+    
+  }
+  getPermiso(accion: string): boolean {
+    // Busca en el array el objeto cuyo TIPO_OBJETO (normalizado) coincida con la acción
+    const permiso = this.objetos.find(o => 
+      (o.TIPO_OBJETO || '').trim().toLowerCase() === accion.toLowerCase()
+    );
+    return permiso ? permiso.allowed : false;
+  }
+  private cargarDatos(): void {
     const correo = this.sharedService.getCorreo();
     if (correo) {
       this.usuarioService.perfil({ email: correo }).subscribe({
@@ -95,6 +148,7 @@ export default class DhashboardComponent {
     }
   }
 
+  
  descargarArchivo(url: string, nombre:string): void {
      // Crear un enlace temporal
      const link = document.createElement('a');
@@ -207,43 +261,8 @@ export default class DhashboardComponent {
     }
   }
 
-  // // Método para subir el archivo
-  // subirArchivo(): void {
-  //   if (this.archivoSeleccionado) {
-  //     this.docService
-  //       .subirDocumento(this.archivoSeleccionado, this.idUsuario)
-  //       .subscribe({
-  //         next: (response) => {
-  //           console.log('Archivo subido con éxito:', response);
-  //           // SweetAlert2: Alerta de éxito
-  //           Swal.fire({
-  //             icon: 'success',
-  //             title: '¡Éxito!',
-  //             text: 'Archivo subido con éxito',
-  //             confirmButtonText: 'Aceptar',
-  //           });
-  //         },
-  //         error: (error) => {
-  //           console.error('Error al subir el archivo:', error);
-  //           // SweetAlert2: Alerta de error
-  //           Swal.fire({
-  //             icon: 'error',
-  //             title: 'Error',
-  //             text: 'Hubo un error al subir el archivo',
-  //             confirmButtonText: 'Aceptar',
-  //           });
-  //         },
-  //       });
-  //   } else {
-  //     // SweetAlert2: Alerta de advertencia (archivo no seleccionado)
-  //     Swal.fire({
-  //       icon: 'warning',
-  //       title: 'Advertencia',
-  //       text: 'Por favor, selecciona un archivo.',
-  //       confirmButtonText: 'Aceptar',
-  //     });
-  //   }
-  // }
+
+
   subir() {
     this.route.navigate(['subir_documentos']);
   }

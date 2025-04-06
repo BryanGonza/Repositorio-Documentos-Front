@@ -4,6 +4,7 @@ import { PermisosService } from '../../../services/permisos.service'; // Asegúr
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SharedService } from '../../../shared.service';
 
 @Component({
   selector: 'app-actualizar-permiso',
@@ -28,37 +29,37 @@ export default class ActualizarPermisoComponent {
   fechaCreacion: Date | null = null;
   fechaModificacion: Date | null = null;
 
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor(private activatedRoute: ActivatedRoute, private sharedService: SharedService) {}
 
   ngOnInit(): void {
-    // Usar ActivatedRoute para acceder a los queryParams
     this.activatedRoute.queryParams.subscribe(params => {
       this.permisoId = params['id'];
       this.idRol = params['idRol'];
       this.idObjeto = params['idObjeto'];
-      this.permisoInsercion = params['permisoInsercion'];
-      this.permisoEliminacion = params['permisoEliminacion'];
-      this.permisoActualizacion = params['permisoActualizacion'];
-      this.permisoConsultar = params['permisoConsultar'];
+      this.permisoInsercion = params['permisoInsercion'] ? params['permisoInsercion'].toLowerCase() : '';
+      this.permisoEliminacion = params['permisoEliminacion'] ? params['permisoEliminacion'].toLowerCase() : '';
+      this.permisoActualizacion = params['permisoActualizacion'] ? params['permisoActualizacion'].toLowerCase() : '';
+      this.permisoConsultar = params['permisoConsultar'] ? params['permisoConsultar'].toLowerCase() : '';
       this.creadoPor = params['creadoPor'];
       this.modificadoPor = params['modificadoPor'];
       this.fechaCreacion = params['fechaCreacion'] ? new Date(params['fechaCreacion']) : null;
       this.fechaModificacion = params['fechaModificacion'] ? new Date(params['fechaModificacion']) : null;
     });
   }
-
+  userCorreo: string = '';
   actualizarPermiso() {
     // Crear objeto con los campos a actualizar
+  
     const datosActualizados: any = {
       ID_PERMISO: this.permisoId,
       ID_ROL: this.idRol,
-      ID_OBJETO: this.idObjeto,
+      ID_OBJETO: this.idObjeto, // Se mantiene si es requerido en la lógica, aunque no se muestra en el formulario
       PERMISO_INSERCION: this.permisoInsercion,
       PERMISO_ELIMINACION: this.permisoEliminacion,
       PERMISO_ACTUALIZACION: this.permisoActualizacion,
       PERMISO_CONSULTAR: this.permisoConsultar,
       CREADO_POR: this.creadoPor, // Mantener el creado por original
-      MODIFICADO_POR: this.modificadoPor,
+      MODIFICADO_POR:this.userCorreo = this.sharedService.getCorreo(),
       FECHA_CREACION: this.fechaCreacion, // Mantener la fecha de creación original
       FECHA_MODIFICACION: new Date(), // Fecha de modificación automática
     };

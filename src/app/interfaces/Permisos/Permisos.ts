@@ -1,7 +1,6 @@
 export interface Permisos {
     ID_PERMISO: number;
     ID_ROL: number;
-    ID_OBJETO: number;
     PERMISO_INSERCION?: string;
     PERMISO_ELIMINACION?: string;
     PERMISO_ACTUALIZACION?: string;

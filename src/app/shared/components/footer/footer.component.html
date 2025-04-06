@@ -1,112 +1,134 @@
-<!-- component -->
 <footer class="bg-white" aria-labelledby="footer-heading">
   <h2 id="footer-heading" class="sr-only">Footer</h2>
-  <div class="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
-    <div class="xl:grid xl:grid-cols-3 xl:gap-8">
-      <div class="space-y-8">
-        <img class="h-20" src="data:image/png;base64,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" alt="Company name">
-        <p class="text-sm leading-6 text-gray-600">Sistema de repositorio de documentos UANH.</p>
-        <div class="flex space-x-6">
-          <a href="https://www.facebook.com/unahoficial/?locale=es_LA" class="text-gray-400 hover:text-gray-500">
+
+  <!-- Contenedor principal -->
+  <div class="mx-auto max-w-7xl px-6 pb-10 pt-16 lg:px-8">
+    <!-- Sección superior: Logo, descripción, redes sociales -->
+    <div class="grid grid-cols-1 gap-10 xl:grid-cols-3 xl:gap-8">
+      <!-- Columna 1: Logo + texto + redes -->
+      <div class="space-y-6">
+        <!-- Logo UNAH (usa el tuyo o ajusta el base64 si lo deseas) -->
+        <a href="https://www.unah.edu.hn/" target="_blank" rel="noopener noreferrer">
+          <img class="h-16" src="../../../../assets/images/logo-unah-2-1024x651.png" alt="Logo UNAH" />
+        </a>
+
+        <!-- Texto breve -->
+        <p class="text-sm leading-6 text-gray-600">
+          Sistema de Repositorio de Documentos de la
+          <strong>Universidad Nacional Autónoma de Honduras</strong>.
+        </p>
+
+        <!-- Redes sociales -->
+        <div class="flex space-x-5">
+          <!-- Facebook -->
+          <a href="https://www.facebook.com/unahoficial/?locale=es_LA"
+            class="text-gray-400 hover:text-gray-500 transition-colors" target="_blank" rel="noopener noreferrer">
             <span class="sr-only">Facebook</span>
-            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 
+                       2 12c0 4.991 3.657 9.128 8.438 
+                       9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 
+                       1.492-3.89 3.777-3.89 1.094 0 
+                       2.238.195 2.238.195v2.46h-1.26c-1.243 
+                       0-1.63.771-1.63 1.562V12h2.773l-.443 
+                       2.89h-2.33v6.988C18.343 21.128 22 
+                       16.991 22 12z" />
             </svg>
           </a>
-          
-          <a href="https://x.com/UNAHoficial?mx=2" class="text-gray-400 hover:text-blue-4      00">
-            <span class="sr-only">X</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
-  <path d="M2.75 2a.75.75 0 0 0-.75.75v10.5a.75.75 0 0 0 1.5 0v-2.624l.33-.083A6.044 6.044 0 0 1 8 11c1.29.645 2.77.807 4.17.457l1.48-.37a.462.462 0 0 0 .35-.448V3.56a.438.438 0 0 0-.544-.425l-1.287.322C10.77 3.808 9.291 3.646 8 3a6.045 6.045 0 0 0-4.17-.457l-.34.085A.75.75 0 0 0 2.75 2Z" />
-</svg>
+
+          <!-- X (Twitter) -->
+          <a href="https://x.com/UNAHoficial?mx=2" class="text-gray-400 hover:text-gray-500 transition-colors"
+            target="_blank" rel="noopener noreferrer">
+            <span class="sr-only">X (Twitter)</span>
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M2.75 2a.75.75 0 0 0-.75.75v10.5a.75.75 0 0 
+                       0 1.5 0v-2.624l.33-.083A6.044 6.044 0 
+                       0 1 8 11c1.29.645 2.77.807 4.17.457l1.48-.37a.462.462 
+                       0 0 0 .35-.448V3.56a.438.438 0 0 0-.544-.425l-1.287.322C10.77
+                       3.808 9.291 3.646 8 3a6.045 6.045 0 0 0-4.17-.457l-.34.085A.75.75
+                       0 0 0 2.75 2Z" />
+            </svg>
           </a>
-  
-          <a href="https://www.youtube.com/unahoficial" class="text-gray-400 hover:text-gray-500">
+
+          <!-- YouTube -->
+          <a href="https://www.youtube.com/unahoficial" class="text-gray-400 hover:text-gray-500 transition-colors"
+            target="_blank" rel="noopener noreferrer">
             <span class="sr-only">YouTube</span>
-            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path fill-rule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z" clip-rule="evenodd" />
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M19.812 5.418c.861.23 
+                       1.538.907 1.768 1.768C21.998 8.746 
+                       22 12 22 12s0 3.255-.418 
+                       4.814a2.504 2.504 0 0 
+                       1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 
+                       0-7.814-.419a2.505 2.505 0 0 
+                       1-1.768-1.768C2 15.255 2 
+                       12 2 12s0-3.255.417-4.814a2.507 2.507 
+                       0 0 1 1.768-1.768C5.744 5 11.998 
+                       5 11.998 5s6.255 0 7.814.418ZM15.194 
+                       12 10 15V9l5.194 3Z" />
             </svg>
           </a>
         </div>
       </div>
-      <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-        <div class="md:grid md:grid-cols-2 md:gap-8">
-          <div>
-            <h3 class="text-sm font-semibold leading-6 text-gray-900">Solutions</h3>
-            <ul role="list" class="mt-6 space-y-4">
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Marketing</a>
-              </li>
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Analytics</a>
-              </li>
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Commerce</a>
-              </li>
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Insights</a>
-              </li>
-            </ul>
-          </div>
-          <div class="mt-10 md:mt-0">
-            <h3 class="text-sm font-semibold leading-6 text-gray-900">Support</h3>
-            <ul role="list" class="mt-6 space-y-4">
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Pricing</a>
-              </li>
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Documentation</a>
-              </li>
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Guides</a>
-              </li>
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">API Status</a>
-              </li>
-            </ul>
-          </div>
+
+      <!-- Sección de enlaces (dos columnas en mobile, hasta cuatro en pantallas más grandes) -->
+      <div class="xl:col-span-2 grid grid-cols-2 gap-8 mt-8 xl:mt-0 md:grid-cols-4">
+        <!-- Bloque 1: Servicios -->
+        <div>
+          <h3 class="text-sm font-bold text-[#00337f] uppercase mb-4">Servicios</h3>
+          <ul class="space-y-3 text-sm text-gray-600">
+            <li><a href="#" class="hover:text-[#00337f]">Biblioteca Virtual</a></li>
+            <li><a href="https://campusvirtual.unah.edu.hn/" class="hover:text-[#00337f]">Campus Virtual</a></li>
+            <li><a href="#" class="hover:text-[#00337f]">Servicio al Estudiante</a></li>
+            <li><a href="#" class="hover:text-[#00337f]">Bolsa de Empleo</a></li>
+          </ul>
         </div>
-        <div class="md:grid md:grid-cols-2 md:gap-8">
-          <div>
-            <h3 class="text-sm font-semibold leading-6 text-gray-900">Company</h3>
-            <ul role="list" class="mt-6 space-y-4">
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">About</a>
-              </li>
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Blog</a>
-              </li>
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Jobs</a>
-              </li>
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Press</a>
-              </li>
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Partners</a>
-              </li>
-            </ul>
-          </div>
-          <div class="mt-10 md:mt-0">
-            <h3 class="text-sm font-semibold leading-6 text-gray-900">Legal</h3>
-            <ul role="list" class="mt-6 space-y-4">
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Claim</a>
-              </li>
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Privacy</a>
-              </li>
-              <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Terms</a>
-              </li>
-            </ul>
-          </div>
+
+        <!-- Bloque 2: Recursos -->
+        <div>
+          <h3 class="text-sm font-bold text-[#00337f] uppercase mb-4">Recursos</h3>
+          <ul class="space-y-3 text-sm text-gray-600">
+            <li><a href="#" class="hover:text-[#00337f]">Calendario Académico</a></li>
+            <li><a href="#" class="hover:text-[#00337f]">Facultades y Carreras</a></li>
+            <li><a href="#" class="hover:text-[#00337f]">Investigación</a></li>
+            <li><a href="#" class="hover:text-[#00337f]">Normativas</a></li>
+          </ul>
+        </div>
+
+        <!-- Bloque 3: UNAH -->
+        <div>
+          <h3 class="text-sm font-bold text-[#00337f] uppercase mb-4">UNAH</h3>
+          <ul class="space-y-3 text-sm text-gray-600">
+            <li><a href="https://www.unah.edu.hn/" class="hover:text-[#00337f]" target="_blank"
+                rel="noopener noreferrer">Sitio Oficial</a></li>
+            <li><a href="https://registro.unah.edu.hn/" class="hover:text-[#00337f]" target="_blank"
+                rel="noopener noreferrer">Registro</a></li>
+            <li><a href="https://ead.unah.edu.hn/" class="hover:text-[#00337f]" target="_blank"
+                rel="noopener noreferrer">Educación a Distancia</a></li>
+            <li><a href="#" class="hover:text-[#00337f]">Historia</a></li>
+          </ul>
+        </div>
+
+        <!-- Bloque 4: Legal -->
+        <div>
+          <h3 class="text-sm font-bold text-[#00337f] uppercase mb-4">Legal</h3>
+          <ul class="space-y-3 text-sm text-gray-600">
+            <li><a href="#" class="hover:text-[#00337f]">Ley Orgánica</a></li>
+            <li><a href="#" class="hover:text-[#00337f]">Transparencia</a></li>
+            <li><a href="#" class="hover:text-[#00337f]">Reglamentos</a></li>
+            <li><a href="#" class="hover:text-[#00337f]">Términos de Uso</a></li>
+          </ul>
         </div>
       </div>
     </div>
-    <div class="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24">
-      <p class="text-xs leading-5 text-gray-500">&copy; Derechos reservados Universidad Nacional Autónoma de Honduras 2025
-        Desarrollado por Tech Dising</p>
+
+    <!-- Separador inferior -->
+    <div class="mt-12 border-t border-gray-200 pt-6 text-center">
+      <p class="text-xs text-gray-500">
+        &copy; Todos los derechos reservados Universidad Nacional Autónoma de Honduras 2025.
+        <br class="hidden sm:block" />
+        Desarrollado por <strong>Tech Dising</strong>.
+      </p>
     </div>
   </div>
 </footer>

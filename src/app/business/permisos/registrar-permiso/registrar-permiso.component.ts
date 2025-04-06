@@ -21,13 +21,12 @@ export class RegistrarPermisoComponent {
   public fromBuild = inject(FormBuilder);
 
   public formRegistro: FormGroup = this.fromBuild.group({
-    idRol: ['', Validators.required], // ID del rol asociado
-    idObjeto: ['', Validators.required], // ID del objeto asociado
-    permisoInsercion: ['', Validators.required], // Permiso de inserción
-    permisoEliminacion: ['', Validators.required], // Permiso de eliminación
-    permisoActualizacion: ['', Validators.required], // Permiso de actualización
-    permisoConsultar: ['', Validators.required], // Permiso de consulta
-    creadoPor: ['', Validators.required] // Usuario que crea el permiso
+    idRol: ['', Validators.required],
+    permisoInsercion: ['', [Validators.required, Validators.pattern(/^(si|no)$/i)]],
+    permisoEliminacion: ['', [Validators.required, Validators.pattern(/^(si|no)$/i)]],
+    permisoActualizacion: ['', [Validators.required, Validators.pattern(/^(si|no)$/i)]],
+    permisoConsultar: ['', [Validators.required, Validators.pattern(/^(si|no)$/i)]],
+    creadoPor: ['', Validators.required]
   });
 
   // Método para registrar el permiso

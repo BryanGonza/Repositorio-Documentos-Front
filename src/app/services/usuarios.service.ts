@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { appsettings } from '../setting/appsetting';
 import { lOg } from '../interfaces/Usuario/Login';
@@ -43,27 +43,29 @@ export class UsuariosService {
 
   //metodo para obtener los usuarios
   usuariosget(): Observable<ResponseUsuarios> {
-    return this.http.get<ResponseUsuarios>(
-      `${this.baseAPi}ms_usuarios/getUsuarios`
-    );
+  const token = localStorage.getItem('token') || '';
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  return this.http.get<ResponseUsuarios>(`${this.baseAPi}ms_usuarios/getUsuarios`, { headers });
   }
   //metodo para elimianar un usuario por id
   eliminar(ID_USUARIO: number): Observable<ResponseRegistro> {
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.request<ResponseRegistro>(
       'delete',
       `${this.baseAPi}ms_usuarios/deleteUsuario`,
       {
+        headers,
         body: { ID_USUARIO },
       }
     );
   }
   //registrar un usuario
   registro(objeto: registroUsuario): Observable<ResponseRegistro> {
-    return this.http.post<ResponseRegistro>(
-      `${this.baseAPi}ms_usuarios/register`,
-      objeto
-    );
-  }
+    const token = localStorage.getItem('token') || '';
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  return this.http.post<ResponseRegistro>(`${this.baseAPi}ms_usuarios/register`, objeto, { headers });
+}
   //actualizar un usuario
   actualizarUsuario(
     ID_USUARIO: number,
@@ -72,6 +74,8 @@ export class UsuariosService {
     CORREO_ELECTRONICO?: string,
     CONTRASEÑA?: string
   ): Observable<ResponseRegistro> {
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.put<ResponseRegistro>(
       `${this.baseAPi}ms_usuarios/updateUsuario`,
       {
@@ -80,9 +84,11 @@ export class UsuariosService {
         NOMBRE_USUARIO,
         CORREO_ELECTRONICO,
         CONTRASEÑA,
-      }
+      },
+      { headers }
     );
   }
+  
 
   //recuperar contraseña
   recucontraCorre(objeto: RecuContracontra): Observable<ResponseRegistro> {
