@@ -33,7 +33,12 @@ export class UsuariosService {
       obejto
     );
   }
-
+  Cambiarcontraperfil(obejto: lOg): Observable<accesoRespose> {
+    return this.http.post<accesoRespose>(
+      `${this.baseAPi}ms_usuarios/cambiarConperfil`,
+      obejto
+    );
+  }
   perfil(objeto: emaliUser): Observable<Usuarios> {
     return this.http.post<Usuarios>(
       `${this.baseAPi}ms_usuarios/getUsuarioEmail`,

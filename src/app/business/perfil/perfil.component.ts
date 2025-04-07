@@ -54,23 +54,25 @@ export default class PerfilComponent {
       this.errorMensaje = 'Ambos campos son obligatorios';
       return;
     }
-
+  
     if (this.nuevaContrasena !== this.confirmarContrasena) {
       this.errorMensaje = 'Las contraseñas no coinciden';
       return;
     }
-
+  
     if (this.usuario) {
-      this.usuarioService.actualizarUsuario(
-        this.usuario.ID_USUARIO,
-        this.usuario.USUARIO, // Mantener usuario
-        this.usuario.NOMBRE_USUARIO, // Mantener nombre
-        this.usuario.CORREO_ELECTRONICO, // Mantener correo
-        this.nuevaContrasena
-      ).subscribe({
-        next: () => {
-          alert('Contraseña actualizada con éxito');
-          this.mostrarCambioContrasena = false;
+      const objeto = {
+        CORREO_ELECTRONICO: this.usuario.CORREO_ELECTRONICO,
+        NUEVA_CONTRASEÑA: this.nuevaContrasena
+      };
+  
+      this.usuarioService.Cambiarcontraperfil(objeto).subscribe({
+        next: (response) => {
+          alert('Contraseña actualizada correctamente.');
+          this.nuevaContrasena = '';
+          this.confirmarContrasena = '';
+          this.errorMensaje = '';
+          this.mostrarModal = false;
         },
         error: (err) => {
           console.error('Error al actualizar la contraseña:', err);
@@ -78,4 +80,6 @@ export default class PerfilComponent {
       });
     }
   }
+  
+  
 }
