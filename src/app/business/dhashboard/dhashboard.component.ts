@@ -11,6 +11,7 @@ import { Usuarios } from '../../interfaces/Usuario/Usuarios';
 import { FormatDatePipe } from '../../format-date.pipe';
 import { ObjetoPermiso } from '../../interfaces/Objetos/Objetos';
 import { PermisosService } from '../../services/permisos.service';
+import { ObjetosService } from '../../services/objetos.service';
 
 @Component({
   selector: 'app-dhashboard',
@@ -33,15 +34,17 @@ export default class DhashboardComponent {
   public totalPages: number = 1;
   public usuario: Usuarios | null = null;
   private sharedService = inject(SharedService);
+  private objetoser = inject(ObjetosService);
+
   private usuarioService = inject(UsuariosService);
 
   //permisos 
 
 objetos: ObjetoPermiso[] = [];
 token: string = typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
-constructor(private permisosService: SharedService) {}
+constructor() {}
   ngOnInit() {
-  this.getObjetosConPermisos(); 
+
     if (typeof window !== 'undefined') {
       const shouldReload = localStorage.getItem('reloadAfterLogin');
       if (shouldReload === 'true') {
@@ -66,9 +69,11 @@ constructor(private permisosService: SharedService) {}
       }
     }
     this.cargarDatos();
+    this.getObjetosConPermisos(); 
   }
+  
   getObjetosConPermisos(): void {
-    this.permisosService.getObjetosPermisos(this.token).subscribe({
+    this.objetoser.getObjetosPermisos(this.token).subscribe({
       next: (data) => {
         this.objetos = data;
         console.log('Objetos con permisos:', this.objetos);

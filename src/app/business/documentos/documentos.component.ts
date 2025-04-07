@@ -9,6 +9,8 @@ import { DocumentosService } from '../../services/documentos.service';
 import { documento } from '../../interfaces/Documentos/Documetos';
 import { FormatDatePipe } from '../../format-date.pipe';
 import { SharedService } from '../../shared.service';
+import { ObjetosService } from '../../services/objetos.service';
+import { ObjetoPermiso } from '../../interfaces/Objetos/Objetos';
 
 @Component({
   selector: 'app-documentos',
@@ -20,7 +22,7 @@ import { SharedService } from '../../shared.service';
 export default class DocumentosComponent {
   private docService = inject(DocumentosService);
   private route = inject(Router);
-
+  private objetoser = inject(ObjetosService);
   // Paginación
   public filteredUsers: documento[] = [];
   public paginatedUsers: documento[] = [];
@@ -31,11 +33,37 @@ export default class DocumentosComponent {
   public totalPages: number = 1;
   rolActual: string = '';
     private sharedService = inject(SharedService);
+ 
   constructor() {
     this.cargarDocumentos();
     this.rolActual = this.sharedService.getRol();
   }
-
+//permisos
+objetos: ObjetoPermiso[] = [];
+token: string = typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
+ngOnInit() {
+  this.getObjetosConPermisos();
+}
+getObjetosConPermisos(): void {
+  this.objetoser.getObjetosPermisos(this.token).subscribe({
+    next: (data) => {
+      this.objetos = data;
+      console.log('Objetos con permisos:', this.objetos);
+    },
+    error: (err) => {
+      console.error('Error al obtener objetos:', err);
+    }
+  });
+  
+}
+getPermiso(accion: string): boolean {
+  // Busca en el array el objeto cuyo TIPO_OBJETO (normalizado) coincida con la acción
+  const permiso = this.objetos.find(o => 
+    (o.TIPO_OBJETO || '').trim().toLowerCase() === accion.toLowerCase()
+  );
+  return permiso ? permiso.allowed : false;
+}
+//documentos
   cargarDocumentos() {
     this.docService.DocumetosGet().subscribe({
       next: (data) => {

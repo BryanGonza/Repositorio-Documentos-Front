@@ -14,26 +14,38 @@ export class DocumentosService {
 
   //metodo para obtener los Documetos
   DocumetosGet(): Observable<ResponseDocumetos> {
-    return this.http.get<ResponseDocumetos>(
-      `${this.baseAPi}Documentos/MostrarDocuemtos`
-    );
+    let headers = new HttpHeaders();
+    if (typeof window !== 'undefined' && localStorage) {
+      const token = localStorage.getItem('token') || '';
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    return this.http.get<ResponseDocumetos>(`${this.baseAPi}Documentos/MostrarDocuemtos`, { headers });
   }
   getDocumentosPorCorreo(idCorreo: number): Observable<correo> {
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<correo>(
-      `${this.baseAPi}Documentos/correo/${idCorreo}`
+      `${this.baseAPi}Documentos/correo/${idCorreo}`, { headers }
     );
   }
 
   getDocumentosUser(idUsuario: number): Observable<ResponseDocumetos> {
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<ResponseDocumetos>(
-      `${this.baseAPi}Documentos/DocUser/${idUsuario}`
+      `${this.baseAPi}Documentos/DocUser/${idUsuario}`, { headers }
     );
   }
   //eliminar Documento
 
   eliminarDcoumento(idDocumento: number): Observable<msg> {
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
     return this.http.delete<msg>(
-      `${this.baseAPi}Documentos/EliminarDocumento/${idDocumento}`
+      `${this.baseAPi}Documentos/EliminarDocumento/${idDocumento}`, 
+      { headers }
     );
   }
   // , nombre: string, descripcion: string, privacidad: number

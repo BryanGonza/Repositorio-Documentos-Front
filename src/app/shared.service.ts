@@ -83,11 +83,5 @@ export class SharedService {private http = inject(HttpClient); private baseAPi :
     this.clearRol();
   }
 
-  getObjetosPermisos(token = localStorage.getItem('token') || ''): Observable<ObjetoPermiso[]> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    return this.http.get<ObjetoPermiso[]>(`${this.baseAPi}roles/objetosPermisos`, { headers });
-  }
   
 }

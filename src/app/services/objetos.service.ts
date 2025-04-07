@@ -48,4 +48,10 @@ registrarObjeto(objeto:RegistroObjetos): Observable<ResponseObjetos> {
   });
 }
 
+getObjetosPermisos(token = localStorage.getItem('token') || ''): Observable<ObjetoPermiso[]> {
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
+  return this.http.get<ObjetoPermiso[]>(`${this.baseAPi}objetos/objetosPermisos`, { headers });
+}
 }

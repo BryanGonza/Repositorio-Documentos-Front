@@ -62,6 +62,13 @@ export const routes: Routes = [
       },
       //rutas de parametros
       {
+        path: 'registrarParametros',
+        loadComponent: () =>
+          import('./business/parametros/registrar/registrar.component'),
+        canActivate: [AuthGuard]
+      },
+      {
+
         path: 'parametros',
         loadComponent: () =>
           import('./business/parametros/parametros.component'),

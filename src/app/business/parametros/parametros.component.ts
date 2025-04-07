@@ -86,7 +86,7 @@ export default class ParametrosComponent {
     });
   }
   registar() {
-    this.route.navigate(['/registarParametro']);
+    this.route.navigate(['/registrarParametros']);
   }
   eliminarParametro(ID_PARAMETRO: number) {
     Swal.fire({

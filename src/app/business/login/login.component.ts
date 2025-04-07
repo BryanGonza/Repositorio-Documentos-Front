@@ -84,9 +84,7 @@ export default class LoginComponent implements OnInit {
               // Decodificar el token
               const decoded = jwtDecode(data.token) as TokenPayload;
 
-
-  
-              // Guardar el correo y el rol en SharedService
+              
               this.sharedService.setCorreo(decoded.CORREO_ELECTRONICO);
               this.sharedService.setRol(decoded.rol);
               console.log('Correo:', decoded.CORREO_ELECTRONICO);
