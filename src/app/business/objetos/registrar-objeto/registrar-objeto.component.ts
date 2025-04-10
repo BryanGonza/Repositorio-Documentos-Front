@@ -25,7 +25,7 @@ export class RegistrarObjetoComponent {
     nombreObjeto: ['', Validators.required],
     tipoObjeto: ['', Validators.required],
     descripcion: ['', Validators.required],
-    creadoPor: ['', Validators.required]
+    
   });
 
   // Método para registrar el objeto

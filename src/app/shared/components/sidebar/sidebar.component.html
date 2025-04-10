@@ -88,30 +88,30 @@
               </button>
             </a>
           </li>
-          <li>
+          <li *ngIf="rolActual === '1'">
             <a routerLink="/parametros" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left" title="Gestionar Parametros">
                 Parametros
               </button>
             </a>
           </li>
-          <li>
+          <li *ngIf="rolActual === '1'">
             <a routerLink="/roles" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left" title="Gestionar Roles">
                 Roles
               </button>
             </a>
           </li>
-          <li>
+          <li *ngIf="rolActual === '1'">
             <a routerLink="/objetos" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left" title="Gestionar Objetos">
                 Objetos
               </button>
             </a>
           </li>
-          <li>
+          <li *ngIf="rolActual === '1'">
             <a routerLink="/permisos" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
-              <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left" title="Gestionar Permisos">
+              <button  class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left" title="Gestionar Permisos">
                 Permisos
               </button>
             </a>

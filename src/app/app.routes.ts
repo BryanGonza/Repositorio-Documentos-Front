@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { AdmiGuard } from './guards/Adm.guard';
 //rutas de usuarios
 export const routes: Routes = [
   {
@@ -65,27 +66,27 @@ export const routes: Routes = [
         path: 'registrarParametros',
         loadComponent: () =>
           import('./business/parametros/registrar/registrar.component'),
-        canActivate: [AuthGuard]
+        canActivate: [AdmiGuard]
       },
       {
 
         path: 'parametros',
         loadComponent: () =>
           import('./business/parametros/parametros.component'),
-        canActivate: [AuthGuard]
+        canActivate: [AdmiGuard]
       },
       {
         path: 'actualizarParametros',
         loadComponent: () =>
           import('./business/parametros/actualizar/actualizar.component'),
-        canActivate: [AuthGuard]
+        canActivate: [AdmiGuard]
       },
 
       // Rutas de Permisos
       {
         path: 'permisos',
         loadComponent: () => import('./business/permisos/permisos.component'),
-        canActivate: [AuthGuard]
+        canActivate: [AdmiGuard]
       },
       {
         path: 'registrar-permiso',
@@ -93,7 +94,7 @@ export const routes: Routes = [
           import(
             './business/permisos/registrar-permiso/registrar-permiso.component'
           ).then((m) => m.RegistrarPermisoComponent),
-          canActivate: [AuthGuard]
+          canActivate: [AdmiGuard]
       },
       {
         path: 'actualizar-permiso',
@@ -101,14 +102,14 @@ export const routes: Routes = [
           import(
             './business/permisos/actualizar-permiso/actualizar-permiso.component'
           ),
-          canActivate: [AuthGuard]
+          canActivate: [AdmiGuard]
       },
 
       // Rutas de Objetos
       {
         path: 'objetos',
         loadComponent: () => import('./business/objetos/objetos.component'),
-        canActivate: [AuthGuard]
+        canActivate: [AdmiGuard]
       },
       {
         path: 'registrar-objeto',
@@ -116,7 +117,7 @@ export const routes: Routes = [
           import(
             './business/objetos/registrar-objeto/registrar-objeto.component'
           ).then((m) => m.RegistrarObjetoComponent),
-          canActivate: [AuthGuard]
+          canActivate: [AdmiGuard]
       },
       {
         path: 'actualizar-objeto',
@@ -124,7 +125,7 @@ export const routes: Routes = [
           import(
             './business/objetos/actualizar-objeto/actualizar-objeto.component'
           ),
-          canActivate: [AuthGuard]
+          canActivate: [AdmiGuard]
       },
 
       //Rutas de Roles
@@ -132,7 +133,7 @@ export const routes: Routes = [
       {
         path: 'roles',
         loadComponent: () => import('./business/roles/roles.component'),
-        canActivate: [AuthGuard]
+        canActivate: [AdmiGuard]
       },
       {
         path: 'registrar-rol',
@@ -140,13 +141,13 @@ export const routes: Routes = [
           import('./business/roles/registrar-rol/registrar-rol.component').then(
             (m) => m.RegistrarRolComponent
           ),
-          canActivate: [AuthGuard]
+          canActivate: [AdmiGuard]
       },
       {
         path: 'actualizar-rol',
         loadComponent: () =>
           import('./business/roles/actualizar-rol/actualizar-rol.component'),
-        canActivate: [AuthGuard]
+        canActivate: [AdmiGuard]
       },
 
       //Rutas para subir un documento

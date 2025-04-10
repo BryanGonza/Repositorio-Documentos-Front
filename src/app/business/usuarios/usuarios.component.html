@@ -1,7 +1,9 @@
 <!-- Buscador y botón de Registro -->
 <div class="mb-4 flex flex-col items-center">
   <!-- Botón para Agregar Usuario -->
-  <button (click)="registro()" *ngIf="rolActual === '1'" class="bg-blue-500 hover:bg-yellow-500 text-white font-bold py-1 px-20 border border-blue-500 rounded block mx-auto mb-4" aria-label="Agregar Usuario" title="Agregar Usuario">
+  <button (click)="registro()" *ngIf="rolActual === '1'"
+    class="bg-blue-500 hover:bg-yellow-500 text-white font-bold py-1 px-20 border border-blue-500 rounded block mx-auto mb-4"
+    aria-label="Agregar Usuario" title="Agregar Usuario">
     Agregar Usuario
   </button>
   <!-- Buscador -->
@@ -20,20 +22,28 @@
 <table class="min-w-full border-collapse block md:table">
   <thead class="block md:table-header-group">
     <tr class="border border-yellow-500 md:border-none block md:table-row">
-      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">ID</th>
-      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Número Identidad</th>
-      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Alias</th>
-      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Nombre Completo</th>
-      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Estado Usuario</th>
-      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Fecha Creación</th>
-      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Correo Electrónico</th>
-      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-center block md:table-cell">Acciones</th>
+      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">ID
+      </th>
+      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+        Número Identidad</th>
+      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+        Alias</th>
+      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+        Nombre Completo</th>
+      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+        Estado Usuario</th>
+      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+        Fecha Creación</th>
+      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+        Correo Electrónico</th>
+      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-center block md:table-cell">
+        Acciones</th>
     </tr>
   </thead>
   <tbody class="block md:table-row-group">
     <tr *ngFor="let usuario of paginatedUsers; let i = index"
-        [ngClass]="{ 'bg-yellow-100': i % 2 === 0, 'bg-white': i % 2 !== 0 }"
-        class="border border-yellow-500 md:border-none block md:table-row">
+      [ngClass]="{ 'bg-yellow-100': i % 2 === 0, 'bg-white': i % 2 !== 0 }"
+      class="border border-yellow-500 md:border-none block md:table-row">
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.ID_USUARIO }}</td>
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.NUM_IDENTIDAD }}</td>
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.USUARIO }}</td>
@@ -44,14 +54,20 @@
       <td class="p-2 md:border md:border-yellow-500 text-center block md:table-cell">
         <div class="flex justify-center items-center gap-2">
           <!-- Botón Editar con ícono de lápiz -->
-          <button (click)="editarUsuario(usuario)" class="bg-blue-500 hover:bg-blue-600 text-white p-2 border border-blue-500 rounded" aria-label="Editar Usuario" title="Editar Usuario">
+          <button *ngIf="getPermiso('actualización')" (click)="editarUsuario(usuario)"
+            class="bg-blue-500 hover:bg-blue-600 text-white p-2 border border-blue-500 rounded"
+            aria-label="Editar Usuario" title="Editar Usuario">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828zM4 14v2h2l7.293-7.293-2-2L4 14z" />
+              <path
+                d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828zM4 14v2h2l7.293-7.293-2-2L4 14z" />
             </svg>
           </button>
           <!-- Botón Eliminar con ícono de papelera -->
-          <button (click)="eliminarUsuario(usuario.ID_USUARIO)" class="bg-red-500 hover:bg-red-600 text-white p-2 border border-red-500 rounded" aria-label="Eliminar Usuario" title="Eliminar Usuario">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button *ngIf="getPermiso('Eliminación')" (click)="eliminarUsuario(usuario.ID_USUARIO)"
+            class="bg-red-500 hover:bg-red-600 text-white p-2 border border-red-500 rounded"
+            aria-label="Eliminar Usuario" title="Eliminar Usuario">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>

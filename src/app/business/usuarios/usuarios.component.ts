@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { SharedService } from '../../shared.service';
+import { ObjetoPermiso } from '../../interfaces/Objetos/Objetos';
+import { ObjetosService } from '../../services/objetos.service';
 
 
 @Component({
@@ -56,9 +58,33 @@ export default class UsuariosComponent {
   ngOnInit() {
     this.sharedService.rol$.subscribe((rol) => {
       this.rolActual = rol;
+      this.getObjetosConPermisos();
     });
   }
+//permisos
+objetos: ObjetoPermiso[] = [];
+  private objetoser = inject(ObjetosService);
+token: string = typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
 
+getObjetosConPermisos(): void {
+  this.objetoser.getObjetosPermisos(this.token).subscribe({
+    next: (data) => {
+      this.objetos = data;
+      console.log('Objetos con permisos:', this.objetos);
+    },
+    error: (err) => {
+      console.error('Error al obtener objetos:', err);
+    }
+  });
+  
+}
+getPermiso(accion: string): boolean {
+  // Busca en el array el objeto cuyo TIPO_OBJETO (normalizado) coincida con la acción
+  const permiso = this.objetos.find(o => 
+    (o.TIPO_OBJETO || '').trim().toLowerCase() === accion.toLowerCase()
+  );
+  return permiso ? permiso.allowed : false;
+}
   filterUsers() {
     const query = this.searchQuery.toLowerCase();
     this.filteredUsers = this.ListUs.filter(user =>
@@ -107,31 +133,45 @@ export default class UsuariosComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.usuarioService.eliminar(ID_USUARIO).subscribe({
-          next: (res) => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Eliminado',
-              text: res.msg || 'El usuario ha sido eliminado exitosamente.',
-              confirmButtonColor: '#3085d6',
-            });
-
-            this.ListUs = this.ListUs.filter(user => user.ID_USUARIO !== ID_USUARIO);
-            this.filteredUsers = this.filteredUsers.filter(user => user.ID_USUARIO !== ID_USUARIO);
-            this.updatePagination();
-          },
-          error: (err) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error al eliminar',
-              text: err.error?.msg || 'Ocurrió un error al eliminar el usuario.',
-              confirmButtonColor: '#d33',
+        Swal.fire({
+          title: '¿Estás completamente seguro?',
+          text: '¡Se eliminarán también los documentos subidos por este usuario!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, eliminar todo',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.usuarioService.eliminar(ID_USUARIO).subscribe({
+              next: (res) => {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Eliminado',
+                  text: res.msg || 'El usuario y sus documentos han sido eliminados exitosamente.',
+                  confirmButtonColor: '#3085d6',
+                });
+  
+                this.ListUs = this.ListUs.filter(user => user.ID_USUARIO !== ID_USUARIO);
+                this.filteredUsers = this.filteredUsers.filter(user => user.ID_USUARIO !== ID_USUARIO);
+                this.updatePagination();
+              },
+              error: (err) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error al eliminar',
+                  text: err.error?.msg || 'Ocurrió un error al eliminar el usuario y/o sus documentos.',
+                  confirmButtonColor: '#d33',
+                });
+              }
             });
           }
         });
       }
     });
   }
+  
 
 
 }
