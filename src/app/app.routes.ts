@@ -163,8 +163,49 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./business/documentos/documentos.component'),
       },
+
+        // RUTAS DE FACULTAD
+      {
+        path: 'facultad',
+        loadComponent: () =>
+          import('./business/UNAH/facultad/facultad.component'),
+      },
+      
+      {
+        path: 'actualizar-facultad',
+        loadComponent: () =>
+          import('./business/UNAH/facultad/actualizar-facultad/actualizar-facultad.component'),
+      },
+
+      {
+        path: 'registrar-facultad',
+        loadComponent: () =>
+          import('./business/UNAH/facultad/registrar-facultad/registrar-facultad.component').then(
+            (m) => m.RegistrarFacultadComponent
+          ),
+      },
+
+      // Rutas de Tipo Documento
+      {
+        path: 'tipo-documento',
+        loadComponent: () =>
+          import('./business/documentos/tipo_documento/tipo-documento.component'),
+      },
+      {
+        path: 'registrar-tipo-documento',
+        loadComponent: () =>
+          import('./business/documentos/tipo_documento/registrar-tipo-documento/registrar-tipo-documento.component').then(
+            (m) => m.RegistrarTipoDocumentoComponent),
+      },
+      {
+        path: 'actualizar-tipo-documento',
+        loadComponent: () =>
+          import ('./business/documentos/tipo_documento/actualizar-tipo-documento/actualizar-tipo-documento.component')
+      }
     ],
   },
+
+
 
   // Redirige a login si no encuentra la ruta, dejar de ultima porfi :D
   {
