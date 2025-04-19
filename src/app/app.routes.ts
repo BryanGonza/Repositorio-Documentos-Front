@@ -201,7 +201,45 @@ export const routes: Routes = [
         path: 'actualizar-tipo-documento',
         loadComponent: () =>
           import ('./business/documentos/tipo_documento/actualizar-tipo-documento/actualizar-tipo-documento.component')
-      }
+      },
+
+      // RUTAS ESTRUCTURA ARCHIVOS
+      {
+        path: 'estructura_archivos',
+        loadComponent: () =>
+          import('./business/documentos/estructura_archivos/estructura-archivos.component')
+      },
+      {
+        path: 'registrar-estructura-archivos',
+        loadComponent: () =>
+          import('./business/documentos/estructura_archivos/registrar-estructura-archivos/registrar-estructura-archivos.component').then(
+            (m) => m.RegistrarEstructuraArchivosComponent
+          ),
+      },
+      {
+        path: 'actualizar-estructura-archivos',
+        loadComponent: () =>
+          import('./business/documentos/estructura_archivos/actualizar-estructura-archivos/actualizar-estructura-archivos.component')
+      },
+
+      //RUTAS ESTADO
+
+      { 
+        path: 'estado',
+        loadComponent: () =>
+          import('./business/estado/estado.component')
+      },
+      {
+        path:'registrar-estado',
+        loadComponent: () =>
+          import('./business/estado/registrar-estado/registrar-estado.component').then(
+            (m) => m.RegistrarEstadoComponent )
+      },
+      {
+        path: 'actualizar-estado',
+        loadComponent: () =>
+          import('./business/estado/actualizar-estado/actualizar-estado.component')
+      },
     ],
   },
 
