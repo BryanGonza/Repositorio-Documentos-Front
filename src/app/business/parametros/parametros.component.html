@@ -1,6 +1,7 @@
+<div *ngIf="getPermiso('consulta')">
 <!-- Buscador -->
 <div class="mb-4">
-  <button (click)="registar()"
+  <button *ngIf="getPermiso('insercion')" (click)="registar()"
     class="bg-blue-500 hover:bg-yellow-500 text-white font-bold py-1 px-20 border border-blue-500 rounded block mx-auto mb-4"
     title="Agregar Parámetro">
     Agregar parámetro
@@ -57,7 +58,7 @@
       <td class="p-2 md:border md:border-yellow-500 text-center block md:table-cell">
         <div class="flex justify-center items-center gap-2">
           <!-- Botón Editar con ícono y tooltip -->
-          <button (click)="editarParametros(usuario)"
+          <button *ngIf="getPermiso('actualizacion')" (click)="editarParametros(usuario)"
             class="bg-blue-500 hover:bg-blue-600 text-white p-2 border border-blue-500 rounded transition duration-300"
             aria-label="Editar Parámetro" title="Editar Parámetro">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -65,7 +66,7 @@
             </svg>
           </button>
           <!-- Botón Eliminar con ícono y tooltip -->
-          <button (click)="eliminarParametro(usuario.ID_PARAMETRO)"
+          <button *ngIf="getPermiso('eliminacion')" (click)="eliminarParametro(usuario.ID_PARAMETRO)"
             class="bg-red-500 hover:bg-red-600 text-white p-2 border border-red-500 rounded transition duration-300"
             aria-label="Eliminar Parámetro" title="Eliminar Parámetro">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -101,4 +102,6 @@
     title="Página Siguiente">
     Siguiente
   </button>
+</div>
+
 </div>

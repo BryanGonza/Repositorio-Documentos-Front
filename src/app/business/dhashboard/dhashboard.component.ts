@@ -73,7 +73,7 @@ constructor() {}
   }
   
   getObjetosConPermisos(): void {
-    this.objetoser.getObjetosPermisos(this.token).subscribe({
+    this.objetoser.getObjetosPermiss(this.token).subscribe({
       next: (data) => {
         this.objetos = data;
         console.log('Objetos con permisos:', this.objetos);

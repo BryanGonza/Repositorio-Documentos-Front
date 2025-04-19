@@ -5,6 +5,7 @@ import { RolesService } from '../../../services/roles.service';
 import { RegistroRol } from '../../../interfaces/Roles/RegistroRol';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { SharedService } from '../../../shared.service';
 
 @Component({
   selector: 'app-registrar-rol',
@@ -14,6 +15,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./registrar-rol.component.css']
 })
 export class RegistrarRolComponent {
+  constructor(private sharedService : SharedService){}
   private rolesService = inject(RolesService);
   private route = inject(Router);
   public fromBuild = inject(FormBuilder);
@@ -21,7 +23,7 @@ export class RegistrarRolComponent {
   public formRegistro: FormGroup = this.fromBuild.group({
     nombreRol: ['', Validators.required],
     descripcion: ['', Validators.required],
-    creadoPor: ['', Validators.required]
+
   });
 
   // Método para registrar el rol
@@ -37,9 +39,9 @@ export class RegistrarRolComponent {
     }
 
     const objeto: RegistroRol = {
-      ROL: this.formRegistro.value.nombreRol,
-      DESCRIPCION: this.formRegistro.value.descripcion,
-      CREADO_POR: this.formRegistro.value.creadoPor,
+      ROL: this.formRegistro.value.nombreRol.toUpperCase(),
+      DESCRIPCION: this.formRegistro.value.descripcion.toUpperCase(),
+      CREADO_POR: this.sharedService.getCorreo().toUpperCase(),
     };
 
     this.rolesService.registrarRol(objeto).subscribe({

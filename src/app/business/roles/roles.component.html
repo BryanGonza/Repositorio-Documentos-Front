@@ -1,9 +1,10 @@
+<div *ngIf="getPermiso('consulta')">
 <!-- Buscador -->
 <div class="mb-4 text-center">
-  <!-- <button (click)="registro()"
+  <button *ngIf="getPermiso('insercion')" (click)="registro()"
     class="bg-blue-500 hover:bg-yellow-500 text-white font-bold py-1 px-20 border border-blue-500 rounded block mx-auto mb-4">
     Registrar Rol
-  </button> -->
+  </button>
   <div class="relative w-80 mx-auto flex justify-center">
     <input type="text" [(ngModel)]="searchQuery" (input)="filterRoles()" placeholder="Buscar Rol por Nombre o Descripción"
       class="w-full p-2 pl-10 border border-yellow-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
@@ -46,7 +47,7 @@
       <td class="p-2 md:border md:border-yellow-500 text-center block md:table-cell">
         <div class="flex justify-center items-center gap-2">
           <!-- botn editar con icono y tooltip -->
-          <button (click)="editarRol(rol)"
+          <button *ngIf="getPermiso('actualizacion')" (click)="editarRol(rol)"
             class="bg-blue-500 hover:bg-blue-600 text-white p-2 border border-blue-500 rounded transition duration-300"
             aria-label="Editar Rol" title="Editar Rol">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -54,7 +55,7 @@
             </svg>
           </button>
           <!-- botn eliminar con icono y tooltip -->
-          <button (click)="eliminarRol(rol.ID_ROL)"
+          <button *ngIf="getPermiso('eliminacion')" (click)="eliminarRol(rol.ID_ROL)"
             class="bg-red-500 hover:bg-red-600 text-white p-2 border border-red-500 rounded transition duration-300"
             aria-label="Eliminar Rol" title="Eliminar Rol">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -88,4 +89,6 @@
   <button (click)="goToLastPage()" [disabled]="currentPage === totalPages"
     class="px-3 py-1 bg-blue-500 hover:bg-yellow-500 text-white font-bold rounded disabled:opacity-50"
     title="Ultima Pagina">Ultima</button>
+</div>
+
 </div>

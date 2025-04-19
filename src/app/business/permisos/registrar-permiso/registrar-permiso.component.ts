@@ -5,7 +5,9 @@ import { PermisosService } from '../../../services/permisos.service'; // Asegúr
 import { RegistroPermiso } from '../../../interfaces/Permisos/RegistroPermisos';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
-
+import { RolesService } from '../../../services/roles.service'; 
+import { SharedService } from '../../../shared.service';
+import { ObjetosService } from '../../../services/objetos.service';
 
 
 @Component({
@@ -16,18 +18,48 @@ import Swal from 'sweetalert2';
   styleUrls: ['./registrar-permiso.component.css']
 })
 export class RegistrarPermisoComponent {
+    constructor(private sharedService: SharedService) {}
+    
+  private objetosService = inject(ObjetosService);
+  private rolesService = inject(RolesService);
   private permisosService = inject(PermisosService);
   private route = inject(Router);
+
   public fromBuild = inject(FormBuilder);
+  public listaRoles: any[] = [];
+public listaObjetos: any[] = [];
 
   public formRegistro: FormGroup = this.fromBuild.group({
     idRol: ['', Validators.required],
+    idObjeto: ['', Validators.required],
     permisoInsercion: ['', [Validators.required, Validators.pattern(/^(si|no)$/i)]],
     permisoEliminacion: ['', [Validators.required, Validators.pattern(/^(si|no)$/i)]],
     permisoActualizacion: ['', [Validators.required, Validators.pattern(/^(si|no)$/i)]],
     permisoConsultar: ['', [Validators.required, Validators.pattern(/^(si|no)$/i)]],
-    creadoPor: ['', Validators.required]
+
   });
+  ngOnInit(): void {
+   this.rolesService.rolesget().subscribe({
+         next: (data) => {
+           if (data.ListRoles.length > 0) {
+             this.listaRoles = data.ListRoles;
+           }
+         },
+         error: (error) => {console.error('Error al cargar objetos', error)
+         },
+       });
+
+       this.objetosService.objetosget().subscribe({
+        next: (data) => {
+          if (data.Lista_Objetos.length > 0) {
+            this.listaObjetos = data.Lista_Objetos;
+          }
+        },
+        error: (error) => {console.error('Error al cargar objetos', error)
+        },
+      });
+  
+  }
 
   // Método para registrar el permiso
   registrarPermiso() {
@@ -44,11 +76,11 @@ export class RegistrarPermisoComponent {
     const objeto: RegistroPermiso = {
       ID_ROL: this.formRegistro.value.idRol,
       ID_OBJETO: this.formRegistro.value.idObjeto,
-      PERMISO_INSERCION: this.formRegistro.value.permisoInsercion,
-      PERMISO_ELIMINACION: this.formRegistro.value.permisoEliminacion,
-      PERMISO_ACTUALIZACION: this.formRegistro.value.permisoActualizacion,
-      PERMISO_CONSULTAR: this.formRegistro.value.permisoConsultar,
-      CREADO_POR: this.formRegistro.value.creadoPor,
+      PERMISO_INSERCION: this.formRegistro.value.permisoInsercion.toUpperCase(),
+      PERMISO_ELIMINACION: this.formRegistro.value.permisoEliminacion.toUpperCase(),
+      PERMISO_ACTUALIZACION: this.formRegistro.value.permisoActualizacion.toUpperCase(),
+      PERMISO_CONSULTAR: this.formRegistro.value.permisoConsultar.toUpperCase(),
+      CREADO_POR: this.sharedService.getCorreo(),
       FECHA_CREACION: new Date() // Agrega la fecha actual
     };
 

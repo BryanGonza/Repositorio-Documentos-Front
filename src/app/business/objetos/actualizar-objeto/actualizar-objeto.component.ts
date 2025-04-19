@@ -55,14 +55,14 @@ export default class ActualizarObjetoComponent {
 
     // Enviar la actualización
     this.objetosService.actualizarObjeto(
-      datosActualizados.ID_OBJETO,
-      datosActualizados.OBJETO,
-      datosActualizados.TIPO_OBJETO,
-      datosActualizados.DESCRIPCION,
+      datosActualizados.ID_OBJETO.toUpperCase(),
+      datosActualizados.OBJETO.toUpperCase(),
+      datosActualizados.TIPO_OBJETO.toUpperCase(),
+      datosActualizados.DESCRIPCION.toUpperCase(),
       datosActualizados.FECHA_CREACION,
-      datosActualizados.CREADO_POR,
+      datosActualizados.CREADO_POR.toUpperCase(),
       datosActualizados.FECHA_MODIFICACION,
-      datosActualizados.MODIFICADO_POR
+      datosActualizados.MODIFICADO_POR.toUpperCase()
     ).subscribe({
       next: (res) => {
         Swal.fire({

@@ -41,9 +41,9 @@ export class RegistrarObjetoComponent {
     }
 
     const objeto: RegistroObjetos = {
-      OBJETO: this.formRegistro.value.nombreObjeto,
-      TIPO_OBJETO: this.formRegistro.value.tipoObjeto,
-      DESCRIPCION: this.formRegistro.value.descripcion,
+      OBJETO: this.formRegistro.value.nombreObjeto.toUpperCase(),
+      TIPO_OBJETO: this.formRegistro.value.tipoObjeto.toUpperCase(),
+      DESCRIPCION: this.formRegistro.value.descripcion.toUpperCase(),
       CREADO_POR: this.sharedService.getCorreo(),
       
     };

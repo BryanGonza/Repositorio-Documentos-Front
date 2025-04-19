@@ -28,7 +28,7 @@ export class PermisosService {
    });
  }
 
- // Método para registrar un rol 
+ // Método para registrar un permiso
  registrarPermiso(objeto:RegistroPermiso): Observable<ResponseRegistroPermiso> { 
    return this.http.post<ResponseRegistroPermiso>(`${this.baseAPi}permisos/createPermiso`, objeto); 
  } 

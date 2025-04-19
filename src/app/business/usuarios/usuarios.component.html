@@ -1,7 +1,8 @@
+<div *ngIf="getPermiso('consulta')">
 <!-- Buscador y botón de Registro -->
 <div class="mb-4 flex flex-col items-center">
   <!-- Botón para Agregar Usuario -->
-  <button (click)="registro()" *ngIf="rolActual === '1'"
+  <button *ngIf="getPermiso('insercion')" (click)="registro()" 
     class="bg-blue-500 hover:bg-yellow-500 text-white font-bold py-1 px-20 border border-blue-500 rounded block mx-auto mb-4"
     aria-label="Agregar Usuario" title="Agregar Usuario">
     Agregar Usuario
@@ -54,7 +55,7 @@
       <td class="p-2 md:border md:border-yellow-500 text-center block md:table-cell">
         <div class="flex justify-center items-center gap-2">
           <!-- Botón Editar con ícono de lápiz -->
-          <button *ngIf="getPermiso('actualización')" (click)="editarUsuario(usuario)"
+          <button *ngIf="getPermiso('actualizacion')" (click)="editarUsuario(usuario)"
             class="bg-blue-500 hover:bg-blue-600 text-white p-2 border border-blue-500 rounded"
             aria-label="Editar Usuario" title="Editar Usuario">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -63,7 +64,7 @@
             </svg>
           </button>
           <!-- Botón Eliminar con ícono de papelera -->
-          <button *ngIf="getPermiso('Eliminación')" (click)="eliminarUsuario(usuario.ID_USUARIO)"
+          <button  *ngIf="getPermiso('eliminacion')"  (click)="eliminarUsuario(usuario.ID_USUARIO)"
             class="bg-red-500 hover:bg-red-600 text-white p-2 border border-red-500 rounded"
             aria-label="Eliminar Usuario" title="Eliminar Usuario">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -96,3 +97,5 @@
     Siguiente
   </button>
 </div>
+</div>
+

@@ -23,6 +23,7 @@
       <tr class="border border-yellow-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto md:relative">
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">ID Permiso</th>
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Rol</th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Objeto</th>
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Inserción</th>
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Eliminación</th>
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Actualización</th>
@@ -40,9 +41,8 @@
         [ngClass]="{ 'bg-yellow-100': i % 2 === 0, 'bg-white': i % 2 !== 0 }"
         class="border border-yellow-500 md:border-none block md:table-row">
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.ID_PERMISO }}</td>
-        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
-          {{ permiso.ID_ROL === 1 ? 'ADMINISTRADOR' : permiso.ID_ROL === 2 ? 'USUARIO' : permiso.ID_ROL === 3 ? 'USUARIO BASICO' : permiso.ID_ROL }}
-        </td>
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ getNombreRol(permiso.ID_ROL)}}</td>
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{  getNombreObjeto(permiso.ID_OBJETO)}}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.PERMISO_INSERCION }}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.PERMISO_ELIMINACION }}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.PERMISO_ACTUALIZACION }}</td>

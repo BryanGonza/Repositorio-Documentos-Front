@@ -4,6 +4,8 @@ import { PermisosService } from '../../services/permisos.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { ObjetosService } from '../../services/objetos.service';
+import { RolesService } from '../../services/roles.service';
 
 @Component({
   selector: 'app-permisos',
@@ -13,14 +15,17 @@ import Swal from 'sweetalert2';
   styleUrls: ['./permisos.component.css']
 })
 export default class PermisosComponent {
-
+  public listaRoles: any[] = [];
+  public listaObjetos: any[] = [];  
   private permisosService = inject(PermisosService);
   private route = inject(Router);
   public filteredPermisos: any[] = []; // Lista filtrada para mostrar
   public paginatedPermisos: any[] = []; // Permisos para la página actual
   public ListPermisos: any[] = [];
   public searchQuery: string = ''; // Valor del input de búsqueda
-
+    
+  private objetosService = inject(ObjetosService);
+  private rolesService = inject(RolesService);
   // Paginación
   public currentPage: number = 1;
   public itemsPerPage: number = 5;
@@ -58,18 +63,46 @@ export default class PermisosComponent {
         });
       },
     });
-  }
+    this.rolesService.rolesget().subscribe({
+      next: (data) => {
+        if (data.ListRoles.length > 0) {
+          this.listaRoles = data.ListRoles;
+        }
+      },
+      error: (error) => {console.error('Error al cargar objetos', error)
+      },
+    });
 
+    this.objetosService.objetosget().subscribe({
+     next: (data) => {
+       if (data.Lista_Objetos.length > 0) {
+         this.listaObjetos = data.Lista_Objetos;
+       }
+     },
+     error: (error) => {console.error('Error al cargar objetos', error)
+     },
+   });
+  }
+  getNombreRol(idRol: number): string {
+    const rol = this.listaRoles.find(r => r.ID_ROL === idRol);
+    return rol ? rol.ROL : 'Desconocido';
+  }
+  
+  getNombreObjeto(idObjeto: number): string {
+    const obj = this.listaObjetos.find(o => o.ID_OBJETO === idObjeto);
+    return obj ? obj.OBJETO : 'Desconocido';
+  }
+  
   // Método para filtrar permisos
   filterPermisos() {
-    const query = this.searchQuery.toLowerCase();
+    const query = this.searchQuery.toUpperCase();
     this.filteredPermisos = this.ListPermisos.filter(permiso =>
       permiso.ID_ROL.toString().includes(query) ||
       permiso.ID_OBJETO.toString().includes(query) ||
-      permiso.PERMISO_INSERCION.toLowerCase().includes(query) ||
-      permiso.PERMISO_ELIMINACION.toLowerCase().includes(query) ||
-      permiso.PERMISO_ACTUALIZACION.toLowerCase().includes(query) ||
-      permiso.PERMISO_CONSULTAR.toLowerCase().includes(query)
+      permiso.PERMISO_INSERCION.toUpperCase().includes(query) ||
+      permiso.PERMISO_ELIMINACION.toUpperCase().includes(query) ||
+      permiso.PERMISO_ACTUALIZACION.toUpperCase().includes(query) ||
+      permiso.PERMISO_CONSULTAR.toUpperCase().includes(query)
     );
     this.currentPage = 1;
     this.updatePagination();

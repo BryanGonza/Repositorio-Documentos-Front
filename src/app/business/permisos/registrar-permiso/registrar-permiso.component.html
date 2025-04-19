@@ -1,76 +1,93 @@
 <div class="my-5">
-    <!-- Contenedor principal con fondo azul -->
-    <div class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-blue-500 border-yellow-500 rounded-md">
-      
-      <!-- Botón Volver -->
-      <button (click)="volver()" class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md">
-        Volver
-      </button>
-      
-      <div class="my-3">
-        <!-- Título del formulario -->
-        <h1 class="text-center text-2xl sm:text-3xl font-bold text-gray-900">Registrar Permiso</h1>
-        <form [formGroup]="formRegistro" (ngSubmit)="registrarPermiso()">
-  
-          <!-- Campo para ID Rol -->
-          <div class="my-2">
-            <label for="idRol" class="text-sm sm:text-md font-bold text-gray-700">ID Rol</label>
-            <input type="number" id="idRol" formControlName="idRol" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el ID del rol">
-          </div>
-  
-     
-<!-- Campo para Permiso Inserción -->
-<div class="my-2">
-  <label for="permisoInsercion" class="text-sm sm:text-md font-bold text-gray-700">Permiso Inserción</label>
-  <select id="permisoInsercion" formControlName="permisoInsercion" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
-    <option value="">Seleccione...</option>
-    <option value="si">Si</option>
-    <option value="no">No</option>
-  </select>
-</div>
+  <!-- Contenedor principal con fondo azul -->
+  <div
+    class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-blue-500 border-yellow-500 rounded-md">
 
-<!-- Campo para Permiso Eliminación -->
-<div class="my-2">
-  <label for="permisoEliminacion" class="text-sm sm:text-md font-bold text-gray-700">Permiso Eliminación</label>
-  <select id="permisoEliminacion" formControlName="permisoEliminacion" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
-    <option value="">Seleccione...</option>
-    <option value="si">Si</option>
-    <option value="no">No</option>
-  </select>
-</div>
+    <!-- Botón Volver -->
+    <button (click)="volver()"
+      class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md">
+      Volver
+    </button>
 
-<!-- Campo para Permiso Actualización -->
-<div class="my-2">
-  <label for="permisoActualizacion" class="text-sm sm:text-md font-bold text-gray-700">Permiso Actualización</label>
-  <select id="permisoActualizacion" formControlName="permisoActualizacion" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
-    <option value="">Seleccione...</option>
-    <option value="si">Si</option>
-    <option value="no">No</option>
-  </select>
-</div>
+    <div class="my-3">
+      <!-- Título del formulario -->
+      <h1 class="text-center text-2xl sm:text-3xl font-bold text-gray-900">Registrar Permiso</h1>
+      <form [formGroup]="formRegistro" (ngSubmit)="registrarPermiso()">
 
-<!-- Campo para Permiso Consultar -->
-<div class="my-2">
-  <label for="permisoConsultar" class="text-sm sm:text-md font-bold text-gray-700">Permiso Consultar</label>
-  <select id="permisoConsultar" formControlName="permisoConsultar" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
-    <option value="">Seleccione...</option>
-    <option value="si">Si</option>
-    <option value="no">No</option>
-  </select>
-</div>
+        <!-- Select para ROL -->
+        <div class="my-2">
+          <label for="idRol" class="text-sm font-bold text-gray-700">Rol</label>
+          <select id="idRol" formControlName="idRol"
+            class="block w-full border border-yellow-500 px-2 py-2 rounded-md bg-white text-gray-900">
+            <option value="">Seleccione un rol</option>
+            <option *ngFor="let rol of listaRoles" [value]="rol.ID_ROL">{{ rol.ROL }}</option>
+          </select>
+        </div>
+        
+        <!-- Select para Objeto -->
+        <div class="my-2">
+          <label for="idObjeto" class="text-sm font-bold text-gray-700">Objeto</label>
+          <select id="idObjeto" formControlName="idObjeto"
+            class="block w-full border border-yellow-500 px-2 py-2 rounded-md bg-white text-gray-900">
+            <option value="">Seleccione un objeto</option>
+            <option *ngFor="let objeto of listaObjetos" [value]="objeto.ID_OBJETO">{{ objeto.OBJETO }}</option>
+          </select>
+        </div>
 
-          <!-- Campo para Creado Por -->
-          <div class="my-2">
-            <label for="creadoPor" class="text-sm sm:text-md font-bold text-gray-700">Creado Por</label>
-            <input type="text" id="creadoPor" formControlName="creadoPor" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el nombre de la persona que creó el permiso">
-          </div>
-  
-          <!-- Botón Guardar -->
-          <button type="submit" [disabled]="formRegistro.invalid" class="px-4 py-1 bg-emerald-500 hover:bg-emerald-600 rounded-md text-black text-sm sm:text-lg shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed">
-            Guardar
-          </button>
-  
-        </form>
-      </div>
+
+        <!-- Campo para Permiso Inserción -->
+        <div class="my-2">
+          <label for="permisoInsercion" class="text-sm sm:text-md font-bold text-gray-700">Permiso Inserción</label>
+          <select id="permisoInsercion" formControlName="permisoInsercion"
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
+            <option value="">Seleccione...</option>
+            <option value="si">Si</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <!-- Campo para Permiso Eliminación -->
+        <div class="my-2">
+          <label for="permisoEliminacion" class="text-sm sm:text-md font-bold text-gray-700">Permiso Eliminación</label>
+          <select id="permisoEliminacion" formControlName="permisoEliminacion"
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
+            <option value="">Seleccione...</option>
+            <option value="si">Si</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <!-- Campo para Permiso Actualización -->
+        <div class="my-2">
+          <label for="permisoActualizacion" class="text-sm sm:text-md font-bold text-gray-700">Permiso
+            Actualización</label>
+          <select id="permisoActualizacion" formControlName="permisoActualizacion"
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
+            <option value="">Seleccione...</option>
+            <option value="si">Si</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <!-- Campo para Permiso Consultar -->
+        <div class="my-2">
+          <label for="permisoConsultar" class="text-sm sm:text-md font-bold text-gray-700">Permiso Consultar</label>
+          <select id="permisoConsultar" formControlName="permisoConsultar"
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
+            <option value="">Seleccione...</option>
+            <option value="si">Si</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+
+        <!-- Botón Guardar -->
+        <button type="submit" [disabled]="formRegistro.invalid"
+          class="px-4 py-1 bg-emerald-500 hover:bg-emerald-600 rounded-md text-black text-sm sm:text-lg shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed">
+          Guardar
+        </button>
+
+      </form>
     </div>
   </div>
+</div>

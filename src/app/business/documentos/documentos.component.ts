@@ -10,7 +10,7 @@ import { documento } from '../../interfaces/Documentos/Documetos';
 import { FormatDatePipe } from '../../format-date.pipe';
 import { SharedService } from '../../shared.service';
 import { ObjetosService } from '../../services/objetos.service';
-import { ObjetoPermiso } from '../../interfaces/Objetos/Objetos';
+import { ObjetoPermiso, ObjetoPermisoExtendido } from '../../interfaces/Objetos/Objetos';
 
 @Component({
   selector: 'app-documentos',
@@ -22,7 +22,7 @@ import { ObjetoPermiso } from '../../interfaces/Objetos/Objetos';
 export default class DocumentosComponent {
   private docService = inject(DocumentosService);
   private route = inject(Router);
-  private objetoser = inject(ObjetosService);
+
   // Paginación
   public filteredUsers: documento[] = [];
   public paginatedUsers: documento[] = [];
@@ -31,39 +31,78 @@ export default class DocumentosComponent {
   public currentPage: number = 1;
   public itemsPerPage: number = 5;
   public totalPages: number = 1;
-  rolActual: string = '';
-    private sharedService = inject(SharedService);
+
  
-  constructor() {
-    this.cargarDocumentos();
-    this.rolActual = this.sharedService.getRol();
+
+  constructor(private sharedService: SharedService) {
+
+
   }
-//permisos
-objetos: ObjetoPermiso[] = [];
-token: string = typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
-ngOnInit() {
-  this.getObjetosConPermisos();
-}
-getObjetosConPermisos(): void {
-  this.objetoser.getObjetosPermisos(this.token).subscribe({
-    next: (data) => {
-      this.objetos = data;
-      console.log('Objetos con permisos:', this.objetos);
-    },
-    error: (err) => {
-      console.error('Error al obtener objetos:', err);
+
+  //roles y permisos
+  rolActual = '';
+  ngOnInit() {
+    this.cargarDocumentos();
+    this.sharedService.rol$.subscribe((rol) => {
+      this.rolActual = rol;
+      this.getObjetosConPermisos();
+    });
+  }
+  objetos: ObjetoPermisoExtendido[] = [];
+  private objetoser = inject(ObjetosService);
+  token: string =
+    typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
+
+  getObjetosConPermisos(): void {
+    this.objetoser.getObjetosPermisos(this.token).subscribe({
+      next: (data) => {
+        this.objetos = data;
+        console.log('Objetos con permisos:', this.objetos);
+      },
+      error: (err) => {
+        console.error('Error al obtener objetos:', err);
+      },
+    });
+  }
+  // MEtodo para normalizar cadenas
+  private normalize(str: string): string {
+    return str
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+  }
+
+  getPermiso(accion: string): boolean {
+    // Verifica si el permiso para la pantalla 'parametro' existe
+    const permiso = this.objetos.find((o) =>
+      this.normalize(o.OBJETO).includes('documento')
+    );
+    if (!permiso) {
+      console.warn("No se encontró permiso para la pantalla 'documentos'");
+      
+      return false;
     }
-  });
-  
-}
-getPermiso(accion: string): boolean {
-  // Busca en el array el objeto cuyo TIPO_OBJETO (normalizado) coincida con la acción
-  const permiso = this.objetos.find(o => 
-    (o.TIPO_OBJETO || '').trim().toLowerCase() === accion.toLowerCase()
-  );
-  return permiso ? permiso.allowed : false;
-}
-//documentos
+
+    const mapping: Record<
+      'consulta' | 'insercion' | 'actualizacion' | 'eliminacion',
+      boolean
+    > = {
+      consulta: permiso.PERMISO_CONSULTAR,
+      insercion: permiso.PERMISO_INSERCION,
+      actualizacion: permiso.PERMISO_ACTUALIZACION,
+      eliminacion: permiso.PERMISO_ELIMINACION,
+    };
+
+    const key = this.normalize(accion) as
+      | 'consulta'
+      | 'insercion'
+      | 'actualizacion'
+      | 'eliminacion';
+    return mapping[key] ?? false;
+  }
+  // Fin de roles y permisos
+
+  //documentos
   cargarDocumentos() {
     this.docService.DocumetosGet().subscribe({
       next: (data) => {
@@ -72,17 +111,19 @@ getPermiso(accion: string): boolean {
           this.filteredUsers = data.ListDocume;
           this.updatePagination();
 
-           // Obtener documentos por correo para cada usuario
-        this.ListUs.forEach((documento) => {
-          this.docService.getDocumentosPorCorreo(documento.ID_USUARIO).subscribe({
-            next: (correo) => {
-              documento.CORREO = correo.correo;
-            },
-            error: (error) => {
-              console.error('Error al obtener correo:', error);
-            }
+          // Obtener documentos por correo para cada usuario
+          this.ListUs.forEach((documento) => {
+            this.docService
+              .getDocumentosPorCorreo(documento.ID_USUARIO)
+              .subscribe({
+                next: (correo) => {
+                  documento.CORREO = correo.correo;
+                },
+                error: (error) => {
+                  console.error('Error al obtener correo:', error);
+                },
+              });
           });
-        });
         } else {
           console.warn('ListDocume está vacío o no es un array:', data);
           this.ListUs = [];
@@ -140,8 +181,8 @@ getPermiso(accion: string): boolean {
   }
 
   // URL de descarga directa (formato PDF)
-  
- eliminarDocumento(idDocumento: number) {
+
+  eliminarDocumento(idDocumento: number) {
     Swal.fire({
       title: '¿Estás seguro?',
       text: '¡No podrás revertir esto!',
@@ -183,22 +224,22 @@ getPermiso(accion: string): boolean {
       }
     });
   }
-  descargarArchivo(url: string, nombre:string): void {
+  descargarArchivo(url: string, nombre: string): void {
     // Crear un enlace temporal
     const link = document.createElement('a');
     link.href = url; // Usar la URL de descarga
     link.download = nombre; // Nombre del archivo descargado
     link.style.display = 'none'; // Ocultar el enlace
-  
+
     // Agregar el enlace al DOM
     document.body.appendChild(link);
-  
+
     // Simular clic en el enlace
     link.click();
-  
+
     // Eliminar el enlace temporal
     document.body.removeChild(link);
-  
+
     // Manejar errores
     link.onerror = () => {
       console.error('Error al descargar el archivo.');
@@ -229,7 +270,4 @@ getPermiso(accion: string): boolean {
     link.click();
     document.body.removeChild(link);
   }
-
 }
-  
-

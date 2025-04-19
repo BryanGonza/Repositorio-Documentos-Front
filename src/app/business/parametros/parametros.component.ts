@@ -5,6 +5,9 @@ import { parametros } from '../../interfaces/Parametros/resposeParametros';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { SharedService } from '../../shared.service';
+import { ObjetoPermisoExtendido } from '../../interfaces/Objetos/Objetos';
+import { ObjetosService } from '../../services/objetos.service';
 
 @Component({
   selector: 'app-parametros',
@@ -25,7 +28,7 @@ export default class ParametrosComponent {
   public currentPage: number = 1;
   public itemsPerPage: number = 5;
   public totalPages: number = 1;
-  constructor() {
+  constructor(private sharedService: SharedService) {
     this.parametroService.parametroGet().subscribe({
       next: (data) => {
         if (data.ListParametros.length > 0) {
@@ -36,14 +39,88 @@ export default class ParametrosComponent {
       },
       error: (error) => {
         Swal.fire({
-          icon: 'error',
-          title: 'Error al cargar usuarios',
-          text: error.message || 'No se pudieron obtener los usuarios.',
-          confirmButtonColor: '#d33',
+          icon: 'warning',
+          title: 'Acceso denegado',
+          html: `
+    <p>No tienes permisos para realizar esta acción.</p>
+    <p>Por favor, <strong>contacta al administrador</strong> para solicitar el acceso necesario.</p>
+  `,
+          footer:
+            '<a href="mailto:repositoriodedocuemntos@gmail.com">Enviar correo al soporte</a>',
+          confirmButtonText: 'Entendido',
+          confirmButtonColor: '#3085d6',
+          showCancelButton: true,
+          cancelButtonText: 'Cancelar',
+          cancelButtonColor: '#aaa',
+          background: '#f9f9f9',
+          allowOutsideClick: false,
+          focusConfirm: false,
         });
       },
     });
   }
+  //roles y permisos 
+  rolActual = '';
+  ngOnInit() {
+    this.sharedService.rol$.subscribe((rol) => {
+      this.rolActual = rol;
+      this.getObjetosConPermisos();
+    });
+  }
+  objetos: ObjetoPermisoExtendido[] = [];
+  private objetoser = inject(ObjetosService);
+  token: string =
+    typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
+
+  getObjetosConPermisos(): void {
+    this.objetoser.getObjetosPermisos(this.token).subscribe({
+      next: (data) => {
+        this.objetos = data;
+        console.log('Objetos con permisos:', this.objetos);
+      },
+      error: (err) => {
+        console.error('Error al obtener objetos:', err);
+      },
+    });
+  }
+    // MEtodo para normalizar cadenas
+    private normalize(str: string): string {
+      return str
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+    }
+  
+    getPermiso(accion: string): boolean {
+      // Verifica si el permiso para la pantalla 'parametro' existe
+      const permiso = this.objetos.find((o) =>
+        this.normalize(o.OBJETO).includes('parametro')
+      );
+      if (!permiso) {
+        console.warn("No se encontró permiso para la pantalla 'parametros'");
+        return false;
+      }
+  
+      const mapping: Record<
+        'consulta' | 'insercion' | 'actualizacion' | 'eliminacion',
+        boolean
+      > = {
+        consulta: permiso.PERMISO_CONSULTAR,
+        insercion: permiso.PERMISO_INSERCION,
+        actualizacion: permiso.PERMISO_ACTUALIZACION,
+        eliminacion: permiso.PERMISO_ELIMINACION,
+      };
+  
+      const key = this.normalize(accion) as
+        | 'consulta'
+        | 'insercion'
+        | 'actualizacion'
+        | 'eliminacion';
+      return mapping[key] ?? false;
+    }
+  // Fin de roles y permisos
+
+  // Funciones de paginación y búsqueda
   filterUsers() {
     const query = this.searchQuery.toLowerCase();
     this.filteredUsers = this.ListUs.filter(
