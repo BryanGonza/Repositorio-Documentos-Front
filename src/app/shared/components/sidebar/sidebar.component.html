@@ -1,0 +1,150 @@
+<!-- sidebar.component.html -->
+
+<aside class="bg-gradient-to-br bg-blue-500 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0">
+  <div class="relative border-b border-white/20">
+    <a class="flex items-center gap-4 py-6 px-8" routerLink="/dhashboard">
+      <h6 class="block tracking-normal font-sans text-base font-semibold leading-relaxed text-black">
+        Repositorio de Documentos
+      </h6>
+    </a>
+    <button class="absolute right-0 top-0 w-8 h-8 text-white hover:bg-white/10 active:bg-white/30 xl:hidden" type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-5 w-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+  <div class="m-4">
+    <!-- MENU PRINCIPAL -->
+    <ul class="mb-4 flex flex-col gap-1">
+      
+      <!-- Inicio -->
+      <li>
+        <a routerLink="/dhashboard">
+          <button
+            [ngClass]="{'bg-yellow-500 text-black': activeItem === 'inicio'}"
+            class="font-sans font-bold text-xs py-3 rounded-lg text-black hover:bg-white/10 active:bg-white/30 flex w-full items-center gap-4 px-4 capitalize"
+            title="Ir a Inicio"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+              <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"></path>
+              <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z"></path>
+            </svg>
+            <p class="block font-medium">Inicio</p>
+          </button>
+        </a>
+      </li>
+
+      <!-- Documentos -->
+      <li>
+        <button
+          (click)="toggleSubmDoc()"
+          [ngClass]="{'bg-yellow-500 text-black': activeItem === 'documentos'}"
+          class="font-sans font-bold text-xs py-3 rounded-lg text-black hover:bg-white/10 active:bg-white/30 flex w-full items-center gap-4 px-4 capitalize"
+          title="Mostrar Documentos"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+            <path d="M1.5 5.625c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v12.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 011.5 18.375V5.625z"></path>
+          </svg>
+          <p class="block font-medium">Documentos</p>
+          <span class="ml-auto">▼</span>
+        </button>
+        <ul *ngIf="mostrarSubmDoc" class="ml-6 mt-2 space-y-2">
+          <li>
+            <a routerLink="/Documentos" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
+              <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left" title="Ver Todos los Documentos">
+                Todos los Documentos
+              </button>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/subir_documentos" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
+              <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left" title="Subir Documentos">
+                Subir Documentos
+              </button>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Seguridad (solo si rol es 1 o 2) -->
+      <li *ngIf="rolActual === '1' || rolActual === '2'">
+        <button
+          (click)="toggleSubmenu()"
+          [ngClass]="{'bg-yellow-500 text-black': activeItem === 'seguridad'}"
+          class="font-sans font-bold text-xs py-3 rounded-lg text-black hover:bg-white/10 active:bg-white/30 flex w-full items-center gap-4 px-4 capitalize"
+          title="Mostrar Seguridad"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+            <path d="M1.5 5.625c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v12.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 011.5 18.375V5.625z"></path>
+          </svg>
+          <p class="block font-medium">Seguridad</p>
+          <span class="ml-auto">▼</span>
+        </button>
+        <ul *ngIf="mostrarSubmenu" class="ml-6 mt-2 space-y-2">
+          <li>
+            <a routerLink="/usuarios" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
+              <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left" title="Gestionar Usuarios">
+                Usuarios
+              </button>
+            </a>
+          </li>
+          <li *ngIf="rolActual === '1'">
+            <a routerLink="/parametros" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
+              <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left" title="Gestionar Parametros">
+                Parametros
+              </button>
+            </a>
+          </li>
+          <li *ngIf="rolActual === '1'">
+            <a routerLink="/roles" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
+              <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left" title="Gestionar Roles">
+                Roles
+              </button>
+            </a>
+          </li>
+          <li *ngIf="rolActual === '1'">
+            <a routerLink="/objetos" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
+              <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left" title="Gestionar Objetos">
+                Objetos
+              </button>
+            </a>
+          </li>
+          <li *ngIf="rolActual === '1'">
+            <a routerLink="/permisos" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
+              <button  class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left" title="Gestionar Permisos">
+                Permisos
+              </button>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    
+    <ul class="mb-4 flex flex-col gap-1">
+      <!-- seccion de cuenta -->
+      <li class="mx-3.5 mt-4 mb-2">
+        <p class="block text-sm text-white font-black uppercase opacity-75">Cuenta</p>
+      </li>
+      <!-- Item Perfil -->
+      <li>
+        <a routerLink="/perfil" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
+          <button class="font-sans font-bold text-xs py-3 rounded-lg text-black hover:bg-white/10 active:bg-white/30 flex w-full items-center gap-4 px-4 capitalize" title="Ir a Perfil">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+              <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z"/>
+            </svg>
+            <p class="block font-medium">Perfil</p>
+          </button>
+        </a>
+      </li>
+      <!-- Item Cerrar Sesion -->
+      <li>
+        <button (click)="cerrarSesion()" class="font-sans font-bold text-xs py-3 rounded-lg text-black hover:bg-white/10 active:bg-white/30 flex w-full items-center gap-4 px-4 capitalize" title="Cerrar Sesion">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+            <path d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9A.75.75 0 0115 9V5.25a1.5 1.5 0 00-1.5-1.5h-6zM18.22 8.47a.75.75 0 011.06 0l3 3a.75.75 0 010 1.06l-3 3a.75.75 0 11-1.06-1.06l1.72-1.72H9a.75.75 0 010-1.5h10.94l-1.72-1.72a.75.75 0 010-1.06z"/>
+          </svg>
+          <p class="block font-medium">Cerrar Sesion</p>
+        </button>
+      </li>
+    </ul>
+  </div>
+</aside>

@@ -1,0 +1,132 @@
+<div class="p-4 max-w-4xl mx-auto bg-white shadow-md rounded">
+  <!-- 📌 Título -->
+  <h2 class="text-2xl font-bold text-center text-gray-900 mb-4">Gestión de Sub Categorías</h2>
+
+  <!-- 📌 Botón para mostrar/ocultar formulario -->
+  <div class="text-center mb-4">
+    <button (click)="toggleFormulario()"
+      class="bg-blue-600 hover:bg-yellow-500 text-white font-bold py-2 px-6 rounded shadow">
+      {{ mostrarFormulario ? 'Ocultar' : 'Crear Sub Categoría' }}
+    </button>
+  </div>
+
+  <!-- 🔍 Buscador -->
+  <div class="flex justify-center mb-4">
+    <div class="relative w-96">
+      <input type="text" [(ngModel)]="filtroBusqueda" (input)="buscarSubCategoria()"
+        placeholder="Buscar sub categoría"
+        class="w-full p-2 pl-10 border border-yellow-500 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"
+        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- 🧾 Formulario con estilo personalizado -->
+  <form *ngIf="mostrarFormulario" [formGroup]="formSubCategoria" (ngSubmit)="guardarSubCategoria()"
+    class="bg-blue-500 border border-blue-700 rounded px-6 py-6 shadow mb-6 text-white">
+
+    <!-- Botón Volver -->
+    <div class="mb-4">
+      <button type="button" (click)="confirmarVolver()"
+        class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded shadow">
+        Volver
+      </button>
+    </div>
+
+    <!-- Título -->
+    <h2 class="text-2xl font-bold text-center mb-6 text-white">Agregar Sub Categoría</h2>
+
+    <!-- Campo: Categoría -->
+     
+    <label class="block font-semibold text-white mb-1">Nombre de Categoría</label>
+    <select formControlName="ID_CATEGORIA"
+      class="w-full mb-4 px-3 py-2 border-2 border-yellow-400 text-black rounded focus:outline-none">
+      <option value="" disabled selected></option>
+      <option *ngFor="let cat of categorias" [value]="cat.ID_CATEGORIA">
+        {{ cat.CATEGORIA }}
+      </option>
+    </select>
+
+    <!-- Campo: Sub Categoría -->
+    <label class="block font-semibold text-white mb-1">Nombre de la Sub Categoría</label>
+    <input type="number" formControlName="SUB_CATEGORIA" placeholder="Ingrese el nombre completo"
+      class="w-full mb-4 px-3 py-2 border-2 border-yellow-400 text-black rounded focus:outline-none" />
+
+    <!-- Botones -->
+    <button type="submit"
+      class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded shadow">
+      {{ editando ? 'Actualizar' : 'Guardar' }}
+    </button>
+
+    <button *ngIf="editando" type="button" (click)="confirmarCancelarEdicion()"
+      class="ml-2 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
+      Cancelar
+    </button>
+  </form>
+
+  <!-- 📋 Tabla -->
+  <table class="w-full table-auto border border-yellow-500 font-sans text-sm">
+    <thead class="bg-blue-600 text-white">
+      <tr>
+        <th class="py-2 px-4 border border-yellow-500">ID</th>
+        <th class="py-2 px-4 border border-yellow-500">ID Categoría</th>
+        <th class="py-2 px-4 border border-yellow-500">Sub Categoría</th>
+        <th class="py-2 px-4 border border-yellow-500">Estado</th>
+        <th class="py-2 px-4 border border-yellow-500 text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sub of paginatedSubCategorias"
+        [ngClass]="{ 'bg-yellow-100': sub.ID_SUB_CATEGORIA! % 2 === 0, 'bg-white': sub.ID_SUB_CATEGORIA! % 2 !== 0 }">
+        <td class="py-2 px-4 border border-yellow-500">{{ sub.ID_SUB_CATEGORIA }}</td>
+        <td class="py-2 px-4 border border-yellow-500">{{ sub.ID_CATEGORIA }}</td>
+        <td class="py-2 px-4 border border-yellow-500">{{ sub.SUB_CATEGORIA }}</td>
+        <td class="py-2 px-4 border border-yellow-500">{{ sub.ESTADO ? 'Activo' : 'Inactivo' }}</td>
+        <td class="py-2 px-4 border border-yellow-500 text-center">
+          <div class="flex justify-center gap-2">
+            <button (click)="editarSubCategoria(sub)"
+              class="bg-blue-500 hover:bg-blue-600 w-7 h-7 flex items-center justify-center rounded">
+              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M17.414 2.586a2 2 0 010 2.828L8.207 14.621l-4.95.707.707-4.95 9.207-9.207a2 2 0 012.828 0zM6.121 13.879l1.415-1.414-1.121-.121-.121-1.121-1.414 1.415.707.707.534.534z" />
+              </svg>
+            </button>
+            <button (click)="confirmarEliminarSubCategoria(sub.ID_SUB_CATEGORIA!)"
+              class="bg-red-500 hover:bg-red-600 w-7 h-7 flex items-center justify-center rounded">
+              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M6 2a1 1 0 00-1 1v1H3.5a.5.5 0 000 1H4v11a2 2 0 002 2h8a2 2 0 002-2V5h.5a.5.5 0 000-1H15V3a1 1 0 00-1-1H6zm1 4a.5.5 0 011 0v8a.5.5 0 01-1 0V6zm3 .5a.5.5 0 011 0v7a.5.5 0 01-1 0v-7zm3-.5a.5.5 0 011 0v8a.5.5 0 01-1 0V6z"
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="paginatedSubCategorias.length === 0">
+        <td colspan="5" class="py-4 text-center text-gray-500">No se encontraron sub categorías.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 📌 Paginación -->
+  <div class="flex justify-center items-center mt-6 gap-2">
+    <button (click)="goToPreviousPage()" [disabled]="currentPage === 1"
+      class="px-3 py-1 rounded font-semibold text-white bg-blue-600 hover:bg-yellow-500 disabled:bg-blue-300">
+      Anterior
+    </button>
+
+    <span class="px-3 py-1 rounded font-semibold text-white bg-blue-600">
+      Página {{ currentPage }} de {{ totalPages }}
+    </span>
+
+    <button (click)="goToNextPage()" [disabled]="currentPage === totalPages"
+      class="px-3 py-1 rounded font-semibold text-white bg-blue-600 hover:bg-yellow-500 disabled:bg-blue-300">
+      Siguiente
+    </button>
+  </div>
+</div>

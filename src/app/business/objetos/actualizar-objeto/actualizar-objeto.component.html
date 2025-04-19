@@ -1,0 +1,50 @@
+<!-- Contenedor principal -->
+<div class="my-5">
+    <div
+      class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-blue-500 border-yellow-500 rounded-md">
+  
+      <!-- Botón Volver -->
+      <button (click)="volver()"
+        class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md">
+        Volver
+      </button>
+  
+      <div class="my-3">
+        <!-- Título -->
+        <h1 class="text-center text-2xl sm:text-3xl font-bold text-white">Actualizar Objeto</h1>
+        <form (ngSubmit)="actualizarObjeto()">
+  
+          <!-- Campo para nombre del objeto -->
+          <div class="my-2">
+            <label for="nombreObjeto" class="text-sm sm:text-md font-bold text-yellow-300">Nombre del Objeto</label>
+            <input type="text" id="nombreObjeto" [(ngModel)]="NombreObjeto" name="nombreObjeto"
+              class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
+          </div>
+  
+          <!-- Campo para tipo de objeto -->
+          <div class="my-2">
+            <label for="tipoObjeto" class="text-sm sm:text-md font-bold text-yellow-300">Tipo de Objeto</label>
+            <input type="text" id="tipoObjeto" [(ngModel)]="TipoObjeto" name="tipoObjeto"
+              class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
+          </div>
+  
+          <!-- Campo para descripción del objeto -->
+          <div class="my-2">
+            <label for="descripcionObjeto" class="text-sm sm:text-md font-bold text-yellow-300">Descripción</label>
+            <input type="text" id="descripcionObjeto" [(ngModel)]="DescripcionObjeto" name="descripcionObjeto"
+              class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
+              placeholder="Ingrese la descripción del objeto">
+          </div>
+  
+      
+  
+          <!-- Botón Actualizar -->
+          <button type="submit"
+            class="px-4 py-1 bg-yellow-500 hover:bg-yellow-600 rounded-md text-black text-sm sm:text-lg shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed">
+            Actualizar
+          </button>
+        </form>
+  
+      </div>
+    </div>
+  </div>

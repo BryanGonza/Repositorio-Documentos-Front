@@ -1,0 +1,13 @@
+/* app.component.css */
+.ml-80 {
+    margin-left: 20rem; /* Ancho del sidebar abierto */
+  }
+  
+  .ml-16 {
+    margin-left: 4rem; /* Ancho reducido cuando está colapsado */
+  }
+  
+  .transition-all {
+    transition: all 0.3s ease-in-out;
+  }
+  
