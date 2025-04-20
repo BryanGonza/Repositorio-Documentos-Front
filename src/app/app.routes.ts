@@ -287,6 +287,25 @@ export const routes: Routes = [
           ),
         canActivate: [AuthGuard],
       },
+
+       //Rutas de Version
+       { 
+        path: 'version',
+        loadComponent: () =>
+          import('./business/documentos/version/version.component')
+      },
+      {
+        path: 'registrar-version',
+        loadComponent: () =>
+          import ('./business/documentos/version/registrar-version/registrar-version.component').then (
+            (m) => m.RegistrarVersionComponent
+          ),
+      },
+      {
+        path: 'actualizar-version',
+        loadComponent: () =>
+          import ('./business/documentos/version/actualizar-version/actualizar-version.component')
+      },
     ],
   },
 
