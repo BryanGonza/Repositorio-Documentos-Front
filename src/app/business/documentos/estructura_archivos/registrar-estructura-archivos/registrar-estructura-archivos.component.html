@@ -1,0 +1,73 @@
+<div class="my-5">
+  <!-- Contenedor principal con fondo azul -->
+  <div class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-blue-500 border-yellow-500 rounded-md">
+    
+    <!-- Botón Volver -->
+    <button (click)="volver()" class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md">
+      Volver
+    </button>
+    
+    <div class="my-3">
+      <!-- Título del formulario -->
+      <h1 class="text-center text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Registrar Estructura de Archivos</h1>
+      <form [formGroup]="formRegistro" (ngSubmit)="registrarEstructura()">
+
+        <!-- Campo para ID Departamento -->
+        <div class="my-2">
+          <label for="idDepartamento" class="text-sm sm:text-md font-bold text-gray-700 dark:text-gray-200">ID Departamento</label>
+          <input type="number" id="idDepartamento" formControlName="idDepartamento" 
+                 class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" 
+                 placeholder="Ingrese el ID del departamento">
+          <div *ngIf="formRegistro.get('idDepartamento')?.invalid && formRegistro.get('idDepartamento')?.touched"
+               class="text-red-600 dark:text-red-300 text-xs sm:text-sm">
+            * Campo requerido (solo números)
+          </div>
+        </div>
+
+        <!-- Campo para Espacio de Almacenamiento -->
+        <div class="my-2">
+          <label for="espacioAlmacenamiento" class="text-sm sm:text-md font-bold text-gray-700 dark:text-gray-200">Espacio de Almacenamiento (MB)</label>
+          <input type="number" id="espacioAlmacenamiento" formControlName="espacioAlmacenamiento" 
+                 class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" 
+                 placeholder="Ingrese el espacio en MB">
+          <div *ngIf="formRegistro.get('espacioAlmacenamiento')?.invalid && formRegistro.get('espacioAlmacenamiento')?.touched"
+               class="text-red-600 dark:text-red-300 text-xs sm:text-sm">
+            * Campo requerido (solo números)
+          </div>
+        </div>
+
+        <!-- Campo para Nombre -->
+        <div class="my-2">
+          <label for="nombre" class="text-sm sm:text-md font-bold text-gray-700 dark:text-gray-200">Nombre</label>
+          <input type="text" id="nombre" formControlName="nombre" 
+                 class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" 
+                 placeholder="Ingrese el nombre de la estructura">
+          <div *ngIf="formRegistro.get('nombre')?.invalid && formRegistro.get('nombre')?.touched"
+               class="text-red-600 dark:text-red-300 text-xs sm:text-sm">
+            * Campo requerido
+          </div>
+        </div>
+
+        <!-- Campo para Ubicación -->
+        <div class="my-2">
+          <label for="ubicacion" class="text-sm sm:text-md font-bold text-gray-700 dark:text-gray-200">Ubicación</label>
+          <input type="text" id="ubicacion" formControlName="ubicacion" 
+                 class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" 
+                 placeholder="Ingrese la ubicación">
+          <div *ngIf="formRegistro.get('ubicacion')?.invalid && formRegistro.get('ubicacion')?.touched"
+               class="text-red-600 dark:text-red-300 text-xs sm:text-sm">
+            * Campo requerido
+          </div>
+        </div>
+
+          <!-- Botón Guardar -->
+           <div>
+          <button type="submit" [disabled]="formRegistro.invalid" class="px-4 py-1 bg-emerald-500 hover:bg-emerald-600 rounded-md text-black text-sm sm:text-lg shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed">
+            Guardar
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

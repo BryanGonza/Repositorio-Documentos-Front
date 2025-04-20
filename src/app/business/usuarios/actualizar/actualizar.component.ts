@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './actualizar.component.html',
-  styleUrl: './actualizar.component.css'
+  styleUrl: './actualizar.component.css',
 })
 export default class ActualizarComponent implements OnInit {
   private route = inject(Router);
@@ -21,7 +21,9 @@ export default class ActualizarComponent implements OnInit {
   Usuari: string = '';
   Nombre: string = '';
   Correo: string = '';
+  Contrasena: string = '';
   mensajeRespuesta: string = '';
+  public actualizarContrasena: boolean = false;
 
   // Datos originales para comparación
   originalUsuari: string = '';
@@ -29,7 +31,7 @@ export default class ActualizarComponent implements OnInit {
   originalCorreo: string = '';
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe((params) => {
       this.Correo = params['email'] || '';
       if (this.Correo) {
         this.cargarDatosUsuario();
@@ -38,7 +40,7 @@ export default class ActualizarComponent implements OnInit {
           icon: 'error',
           title: 'Correo no proporcionado',
           text: 'No se pudo cargar el usuario porque no se recibió un correo válido.',
-          confirmButtonColor: '#d33'
+          confirmButtonColor: '#d33',
         });
       }
     });
@@ -47,14 +49,14 @@ export default class ActualizarComponent implements OnInit {
   cargarDatosUsuario() {
     // Objeto con el email a enviar en el body
     const emailUser = {
-      email: this.Correo 
+      email: this.Correo,
     };
 
     // Llamada al servicio usando el método perfil
     this.usuarioService.perfil(emailUser).subscribe({
       next: (user) => {
         // Asignar todos los datos del usuario, incluyendo el ID
-        this.userId = user.ID_USUARIO;  
+        this.userId = user.ID_USUARIO;
         this.Usuari = user.USUARIO;
         this.Nombre = user.NOMBRE_USUARIO;
         this.Correo = user.CORREO_ELECTRONICO;
@@ -68,20 +70,21 @@ export default class ActualizarComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Error al cargar usuario',
-          text: err.error?.msg || 'No se pudo obtener la información del usuario.',
-          confirmButtonColor: '#d33'
+          text:
+            err.error?.msg || 'No se pudo obtener la información del usuario.',
+          confirmButtonColor: '#d33',
         });
-      }
+      },
     });
   }
 
   actualizarUsuario() {
-    // Verificar si hubo cambios reales sin usar checkboxes
-    const cambiosRealizados = (
+    // Verificar si hubo cambios reales
+    const cambiosRealizados =
       this.Usuari !== this.originalUsuari ||
       this.Nombre !== this.originalNombre ||
-      this.Correo !== this.originalCorreo
-    );
+      this.Correo !== this.originalCorreo ||
+      (this.actualizarContrasena && this.Contrasena);
 
     if (!cambiosRealizados) {
       Swal.fire({
@@ -92,7 +95,7 @@ export default class ActualizarComponent implements OnInit {
         confirmButtonText: 'Regresar',
         cancelButtonText: 'Seguir editando',
         confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#f39c12'
+        cancelButtonColor: '#f39c12',
       }).then((result) => {
         if (result.isConfirmed) {
           this.route.navigate(['usuarios']);
@@ -101,39 +104,54 @@ export default class ActualizarComponent implements OnInit {
       return;
     }
 
-    // Crear un objeto con los campos a actualizar
+    // Crear objeto con los campos a actualizar
     const datosActualizados: any = {
       ID_USUARIO: this.userId,
       USUARIO: this.Usuari,
       NOMBRE_USUARIO: this.Nombre,
-      CORREO_ELECTRONICO: this.Correo
+      CORREO_ELECTRONICO: this.Correo,
     };
 
-    this.usuarioService.actualizarUsuario(
-      datosActualizados.ID_USUARIO,
-      datosActualizados.USUARIO,
-      datosActualizados.NOMBRE_USUARIO,
-      datosActualizados.CORREO_ELECTRONICO
-    ).subscribe({
-      next: (res) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Actualización exitosa',
-          text: res.msg || 'Usuario actualizado correctamente.',
-          confirmButtonColor: '#3085d6'
-        }).then(() => {
-          this.route.navigate(['usuarios']);
-        });
-      },
-      error: (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error al actualizar',
-          text: err.error?.msg || 'Ocurrió un error al actualizar el usuario.',
-          confirmButtonColor: '#d33'
-        });
-      }
-    });
+    // Solo incluir la contraseña si la checkbox está marcada
+    if (this.actualizarContrasena && this.Contrasena) {
+      datosActualizados.CONTRASEÑA = this.Contrasena;
+    }
+
+    // Enviar la actualización
+    this.usuarioService
+      .actualizarUsuario(
+        datosActualizados.ID_USUARIO,
+        datosActualizados.USUARIO,
+        datosActualizados.NOMBRE_USUARIO,
+        datosActualizados.CORREO_ELECTRONICO,
+        datosActualizados.CONTRASEÑA
+      )
+      .subscribe({
+        next: (res) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Actualización exitosa',
+            text: res.msg || 'Usuario actualizado correctamente.',
+            confirmButtonColor: '#3085d6',
+          }).then(() => {
+            this.route.navigate(['usuarios']);
+          });
+        },
+        error: (err) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al actualizar',
+            text:
+              err.error?.msg || 'Ocurrió un error al actualizar el usuario.',
+            confirmButtonColor: '#d33',
+          });
+        },
+      });
+  }
+  public showConfirmPassword: boolean = false;
+  // Método para alternar visibilidad de la contraseña de confirmación
+  toggleConfirmPasswordVisibility(isVisible: boolean) {
+    this.showConfirmPassword = isVisible;
   }
 
   volver() {

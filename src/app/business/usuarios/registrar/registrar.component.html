@@ -1,69 +1,130 @@
 <!-- component -->
 <div class="my-5">
   <!-- Contenedor principal con fondo azul -->
-  <div class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-blue-500 border-yellow-500 rounded-md">
-    
+  <div
+    class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-blue-500 border border-yellow-500 rounded-md">
+
     <!-- Botón Volver -->
-    <button (click)="volver()" class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md">
+    <button (click)="volver()"
+      class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md mb-4"
+      aria-label="Volver">
       Volver
     </button>
-    
+
     <div class="my-3">
       <!-- Título del formulario -->
-      <h1 class="text-center text-2xl sm:text-3xl font-bold text-gray-900">Registrar Usuario</h1>
-      <form [formGroup]="fromRegistro" (ngSubmit)="registrarse()">
+      <h1 class="text-center text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Registrar Usuario</h1>
+      <form [formGroup]="fromRegistro" (ngSubmit)="registrarse()" novalidate>
 
         <!-- Campo para Número de Identidad -->
         <div class="my-2">
           <label for="num_identidad" class="text-sm sm:text-md font-bold text-gray-700">Número de Identidad</label>
-          <input type="number" id="num_identidad" formControlName="numeroIdentidad" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el número de identidad">
+          <input type="number" id="num_identidad" formControlName="numeroIdentidad" required
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
+            placeholder="Ej: 123456789">
+          <div *ngIf="fromRegistro.get('numeroIdentidad')?.invalid && fromRegistro.get('numeroIdentidad')?.touched"
+            class="text-red-600 text-xs">
+            Este campo es obligatorio.
+          </div>
         </div>
 
         <!-- Campo para Usuario -->
         <div class="my-2">
           <label for="usuario" class="text-sm sm:text-md font-bold text-gray-700">Usuario</label>
-          <input type="text" id="usuario" formControlName="Usuario" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el nombre de usuario">
+          <input type="text" id="usuario" formControlName="Usuario" required
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
+            placeholder="Ej: usuario123">
+          <div *ngIf="fromRegistro.get('Usuario')?.invalid && fromRegistro.get('Usuario')?.touched"
+            class="text-red-600 text-xs">
+            Este campo es obligatorio.
+          </div>
         </div>
 
         <!-- Campo para Nombre Completo -->
         <div class="my-2">
           <label for="nombre_usuario" class="text-sm sm:text-md font-bold text-gray-700">Nombre Completo</label>
-          <input type="text" id="nombre_usuario" formControlName="NombreUs" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el nombre completo">
+          <input type="text" id="nombre_usuario" formControlName="NombreUs" required
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
+            placeholder="Ej: Juan Pérez">
+          <div *ngIf="fromRegistro.get('NombreUs')?.invalid && fromRegistro.get('NombreUs')?.touched"
+            class="text-red-600 text-xs">
+            Este campo es obligatorio.
+          </div>
         </div>
 
         <!-- Campo para Contraseña -->
         <div class="my-2 relative">
           <label for="contrasena" class="text-sm sm:text-md font-bold text-gray-700">Contraseña</label>
-          <input [type]="showPassword ? 'text' : 'password'" id="contrasena" formControlName="Contrasena" (input)="validarContrasenas()" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 pr-10 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese la contraseña">
+          <input [type]="showPassword ? 'text' : 'password'" id="contrasena" formControlName="Contrasena" required
+            (input)="validarContrasenas()"
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 pr-10 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
+            placeholder="Ingrese su contraseña" aria-describedby="passwordHelp">
           <!-- Botón para mostrar/ocultar contraseña -->
-          <button type="button" (mousedown)="togglePasswordVisibility(true)" (mouseup)="togglePasswordVisibility(false)" (mouseleave)="togglePasswordVisibility(false)" class="absolute right-2 top-9 text-gray-600">
-            👁️
+          <button type="button" (click)="togglePasswordVisibility()" class="absolute right-2 top-9 text-gray-600"
+            aria-label="Mostrar contraseña">
+            {{ showPassword ? '👁️' : '👁️' }}
           </button>
+          <div id="passwordHelp" class="text-xs text-gray-600">La contraseña debe tener al menos 6 caracteres.</div>
         </div>
 
         <!-- Campo para Confirmar Contraseña -->
         <div class="my-2 relative">
-          <label for="confirmar_contrasena" class="text-sm sm:text-md font-bold text-gray-700">Confirmar Contraseña</label>
-          <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmar_contrasena" formControlName="confirmarContrasena" (input)="validarContrasenas()" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 pr-10 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Confirme la contraseña">
+          <label for="confirmar_contrasena" class="text-sm sm:text-md font-bold text-gray-700">Confirmar
+            Contraseña</label>
+          <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmar_contrasena"
+            formControlName="confirmarContrasena" required (input)="validarContrasenas()"
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 pr-10 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
+            placeholder="Confirme su contraseña">
           <!-- Botón para mostrar/ocultar confirmar contraseña -->
-          <button type="button" (mousedown)="toggleConfirmPasswordVisibility(true)" (mouseup)="toggleConfirmPasswordVisibility(false)" (mouseleave)="toggleConfirmPasswordVisibility(false)" class="absolute right-2 top-9 text-gray-600">
-            👁️
+          <button type="button" (click)="toggleConfirmPasswordVisibility()" class="absolute right-2 top-9 text-gray-600"
+            aria-label="Mostrar confirmar contraseña">
+            {{ showConfirmPassword ? '👁️' : '👁️' }}
           </button>
-        </div>
-
-        <!-- Mostrar error si las contraseñas no coinciden -->
-        <div *ngIf="!contrasenasCoinciden && fromRegistro.get('confirmarContrasena')?.touched" class="text-red-600 text-sm">
-          Las contraseñas no coinciden.
+          <div *ngIf="!contrasenasCoinciden && fromRegistro.get('confirmarContrasena')?.touched"
+            class="text-red-600 text-xs">
+            Las contraseñas no coinciden.
+          </div>
         </div>
 
         <!-- Campo para Correo Electrónico -->
         <div class="my-2">
           <label for="correo_electronico" class="text-sm sm:text-md font-bold text-gray-700">Correo Electrónico</label>
-          <input type="email" id="correo_electronico" formControlName="correo" class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" placeholder="Ingrese el correo electrónico">
+          <input type="email" id="correo_electronico" formControlName="correo" required
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
+            placeholder="ejemplo@dominio.com">
+          <div *ngIf="fromRegistro.get('correo')?.invalid && fromRegistro.get('correo')?.touched"
+            class="text-red-600 text-xs">
+            Ingrese un correo válido.
+          </div>
+        </div>
+
+        <!-- Campo para Rol -->
+        <div class="my-2">
+          <label for="idRol" class="text-sm font-bold text-gray-700">Rol</label>
+          <select id="idRol" formControlName="idRol"
+            class="block w-full border border-yellow-500 px-2 py-2 rounded-md bg-white text-gray-900">
+            <option value="">Seleccione un rol</option>
+            <option *ngFor="let rol of listaRoles" [value]="rol.ID_ROL">{{ rol.ROL }}</option>
+          </select>
+        </div>
+
+        <!-- Campo para Departamento -->
+        <div class="my-2">
+          <label for="departamento" class="text-sm sm:text-md font-bold text-gray-700">Departamento</label>
+          <select id="departamento" formControlName="ID_DEPARTAMENTO" required
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
+            <option value="" disabled selected>Seleccione un departamento</option>
+            <option *ngFor="let depto of departamentos" [value]="depto.id">{{ depto.nombre }}</option>
+          </select>
+          <div *ngIf="fromRegistro.get('ID_DEPARTAMENTO')?.invalid && fromRegistro.get('ID_DEPARTAMENTO')?.touched"
+            class="text-red-600 text-xs">
+            Seleccione un departamento.
+          </div>
         </div>
 
         <!-- Botón Guardar -->
-        <button type="submit" [disabled]="fromRegistro.invalid || !contrasenasCoinciden" class="px-4 py-1 bg-emerald-500 hover:bg-emerald-600 rounded-md text-black text-sm sm:text-lg shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed">
+        <button type="submit" [disabled]="fromRegistro.invalid || !contrasenasCoinciden"
+          class="w-full mt-4 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 rounded-md text-black text-sm sm:text-lg shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed">
           Guardar
         </button>
 

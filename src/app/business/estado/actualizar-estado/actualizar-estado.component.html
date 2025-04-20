@@ -1,0 +1,32 @@
+<div class="my-5">
+    <div class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-blue-500 border-yellow-500 rounded-md">
+      
+      <!-- Botón Volver -->
+      <button (click)="volver()"
+        class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md">
+        Volver
+      </button>
+      
+      <div class="my-3">
+        <!-- Título -->
+        <h1 class="text-center text-2xl sm:text-3xl font-bold text-white">Actualizar Estado</h1>
+        <form (ngSubmit)="actualizarEstado()">
+          
+          <!-- Campo para nombre del estado -->
+          <div class="my-2">
+            <label for="nombreEstado" class="text-sm sm:text-md font-bold text-yellow-300">Nombre del Estado</label>
+            <input type="text" id="nombreEstado" [(ngModel)]="NombreEstado" name="nombreEstado"
+              class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
+              placeholder="Ingrese el nombre del estado">
+          </div>
+          
+          <!-- Botón Actualizar -->
+          <button type="submit"
+            class="w-full px-4 py-2 bg-yellow-500 hover:bg-yellow-600 rounded-md text-black font-bold text-sm sm:text-lg shadow-md mt-4
+                   disabled:bg-gray-400 disabled:cursor-not-allowed">
+            Actualizar Estado
+          </button>
+        </form>
+      </div>
+    </div>
+</div>

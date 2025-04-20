@@ -1,14 +1,20 @@
-<!-- Buscador -->
-<div class="mb-4">
-  <button (click)="registro()"
-    class="bg-blue-500 hover:bg-yellow-500 text-white font-bold py-1 px-20 border border-blue-500 rounded block mx-auto mb-4">
-    Registrar Usuario
+<div *ngIf="getPermiso('consulta')">
+<!-- Buscador y botón de Registro -->
+<div class="mb-4 flex flex-col items-center">
+  <!-- Botón para Agregar Usuario -->
+  <button *ngIf="getPermiso('insercion')" (click)="registro()" 
+    class="bg-blue-500 hover:bg-yellow-500 text-white font-bold py-1 px-20 border border-blue-500 rounded block mx-auto mb-4"
+    aria-label="Agregar Usuario" title="Agregar Usuario">
+    Agregar Usuario
   </button>
+  <!-- Buscador -->
   <div class="relative w-80">
     <input type="text" [(ngModel)]="searchQuery" (input)="filterUsers()" placeholder="Buscar Usuario por Nombre o Alias"
       class="w-full p-2 pl-10 border border-yellow-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-    <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" />
+    <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" />
     </svg>
   </div>
 </div>
@@ -16,27 +22,26 @@
 <!-- Tabla de Usuarios -->
 <table class="min-w-full border-collapse block md:table">
   <thead class="block md:table-header-group">
-    <tr
-      class="border border-yellow-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto md:relative">
+    <tr class="border border-yellow-500 md:border-none block md:table-row">
       <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">ID
       </th>
-      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Número
-        Identidad</th>
-      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Alias
-      </th>
-      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Nombre
-      </th>
       <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
-        Contraseña</th>
-      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Correo
-        Electrónico</th>
+        Número Identidad</th>
       <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+        Alias</th>
+      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+        Nombre Completo</th>
+      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+        Estado Usuario</th>
+      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+        Fecha Creación</th>
+      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+        Correo Electrónico</th>
+      <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-center block md:table-cell">
         Acciones</th>
     </tr>
   </thead>
-
   <tbody class="block md:table-row-group">
-    <!-- Recorrido con *ngFor para mostrar los usuarios paginados -->
     <tr *ngFor="let usuario of paginatedUsers; let i = index"
       [ngClass]="{ 'bg-yellow-100': i % 2 === 0, 'bg-white': i % 2 !== 0 }"
       class="border border-yellow-500 md:border-none block md:table-row">
@@ -44,37 +49,53 @@
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.NUM_IDENTIDAD }}</td>
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.USUARIO }}</td>
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.NOMBRE_USUARIO }}</td>
-      <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario['CONTRASEÑA'] }}</td>
+      <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.ESTADO_USUARIO }}</td>
+      <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.FECHA_CREACION }}</td>
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.CORREO_ELECTRONICO }}</td>
-      <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
-        <!-- Botón Editar -->
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded"
-          (click)="editarUsuario(usuario)">
-          Editar
-        </button>
-        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded"
-          (click)="eliminarUsuario(usuario.ID_USUARIO)">
-          Eliminar
-        </button>
+      <td class="p-2 md:border md:border-yellow-500 text-center block md:table-cell">
+        <div class="flex justify-center items-center gap-2">
+          <!-- Botón Editar con ícono de lápiz -->
+          <button *ngIf="getPermiso('actualizacion')" (click)="editarUsuario(usuario)"
+            class="bg-blue-500 hover:bg-blue-600 text-white p-2 border border-blue-500 rounded"
+            aria-label="Editar Usuario" title="Editar Usuario">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828zM4 14v2h2l7.293-7.293-2-2L4 14z" />
+            </svg>
+          </button>
+          <!-- Botón Eliminar con ícono de papelera -->
+          <button  *ngIf="getPermiso('eliminacion')"  (click)="eliminarUsuario(usuario.ID_USUARIO)"
+            class="bg-red-500 hover:bg-red-600 text-white p-2 border border-red-500 rounded"
+            aria-label="Eliminar Usuario" title="Eliminar Usuario">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        </div>
       </td>
     </tr>
-
     <!-- Mensaje si no hay usuarios -->
     <tr *ngIf="filteredUsers.length === 0">
-      <td colspan="7" class="p-4 text-center text-gray-600">No se encontraron usuarios.</td>
+      <td colspan="8" class="p-4 text-center text-gray-600">No se encontraron usuarios.</td>
     </tr>
   </tbody>
 </table>
 
-<!-- Controles de Paginación -->
-<div class="flex justify-center mt-4 space-x-2">
-  <button (click)="goToFirstPage()" [disabled]="currentPage === 1"
-    class="px-3 py-1 bg-blue-500 hover:bg-yellow-500 text-white font-bold rounded disabled:opacity-50">Primera</button>
-  <button (click)="goToPreviousPage()" [disabled]="currentPage === 1"
-    class="px-3 py-1 bg-blue-500 hover:bg-yellow-500 text-white font-bold rounded disabled:opacity-50">Anterior</button>
-  <span class="px-3 py-1">Página {{ currentPage }} de {{ totalPages }}</span>
-  <button (click)="goToNextPage()" [disabled]="currentPage === totalPages"
-    class="px-3 py-1 bg-blue-500 hover:bg-yellow-500 text-white font-bold rounded disabled:opacity-50">Siguiente</button>
-  <button (click)="goToLastPage()" [disabled]="currentPage === totalPages"
-    class="px-3 py-1 bg-blue-500 hover:bg-yellow-500 text-white font-bold rounded disabled:opacity-50">Última</button>
+<!-- Paginación -->
+<div class="flex justify-center items-center mt-4">
+  <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1"
+    class="px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50 mx-1">
+    Anterior
+  </button>
+  <span class="px-3 py-1 border rounded bg-blue-500 text-white mx-1">
+    Página {{ currentPage }} de {{ totalPages }}
+  </span>
+  <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages"
+    class="px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50 mx-1">
+    Siguiente
+  </button>
 </div>
+</div>
+

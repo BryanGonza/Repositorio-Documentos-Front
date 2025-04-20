@@ -1,5 +1,7 @@
 export interface accesoRespose {
-    success?: string;
+    success?: boolean;
     token?: string;
     msg?: string;
+    rol?: string;
   }
+  
