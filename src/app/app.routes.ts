@@ -306,6 +306,25 @@ export const routes: Routes = [
         loadComponent: () =>
           import ('./business/documentos/version/actualizar-version/actualizar-version.component')
       },
+
+      // RUTAS DE CARACTERISTICAS
+      {
+        path:'caracteristicas',
+        loadComponent: () =>
+          import ('./business/documentos/caracteristica/caracteristica.component')
+      },
+      {
+        path:'registrar-caracteristicas',
+        loadComponent: () =>
+          import ('./business/documentos/caracteristica/registrar-caracteristica/registrar-caracteristica.component') .then(
+            (m) => m.RegistrarCaracteristicaComponent
+          )
+      },
+      { 
+        path: 'actualizar-caracteristicas',
+        loadComponent: () =>
+          import('./business/documentos/caracteristica/actualizar-caracteristica/actualizar-caracteristica.component')
+      },
     ],
   },
 
