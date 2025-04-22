@@ -1,0 +1,54 @@
+<div class="my-5">
+    <!-- Contenedor principal con fondo azul -->
+    <div class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-blue-500 border-yellow-500 rounded-md">
+      
+      <!-- Botón Volver -->
+      <button (click)="volver()" class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md">
+        Volver
+      </button>
+      
+      <div class="my-3">
+        <!-- Título del formulario -->
+        <h1 class="text-center text-2xl sm:text-3xl font-bold text-white">Registrar Característica</h1>
+        <form [formGroup]="formRegistro" (ngSubmit)="registrarCaracteristica()">
+  
+          <!-- Campo para Tipo de Característica -->
+          <div class="my-2">
+            <label for="tipoCaracteristica" class="text-sm sm:text-md font-bold text-yellow-300">Tipo de Característica *</label>
+            <input type="text" id="tipoCaracteristica" formControlName="tipoCaracteristica" 
+                   class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" 
+                   placeholder="Ingrese el tipo de característica">
+            <div *ngIf="formRegistro.get('tipoCaracteristica')?.invalid && formRegistro.get('tipoCaracteristica')?.touched"
+                 class="text-red-600 text-xs sm:text-sm">
+              * Este campo es requerido
+            </div>
+          </div>
+
+          <!-- Campo para Nombre de Característica -->
+          <div class="my-2">
+            <label for="nombreCaracteristica" class="text-sm sm:text-md font-bold text-yellow-300">Nombre de Característica</label>
+            <input type="text" id="nombreCaracteristica" formControlName="nombreCaracteristica" 
+                   class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" 
+                   placeholder="Ingrese el nombre (opcional)">
+          </div>
+
+          <!-- Checkbox para Valores Predeterminados -->
+          <div class="my-3 flex items-center">
+            <input type="checkbox" id="valoresPredeterminados" formControlName="valoresPredeterminados"
+                   class="h-4 w-4 border border-yellow-500 rounded focus:ring-yellow-500 text-yellow-600">
+            <label for="valoresPredeterminados" class="ml-2 text-sm sm:text-md font-bold text-yellow-300">
+              Usa valores predeterminados
+            </label>
+          </div>
+  
+          <!-- Botón Guardar -->
+          <div>
+            <button type="submit" [disabled]="formRegistro.invalid" class="px-4 py-1 bg-emerald-500 hover:bg-emerald-600 rounded-md text-black text-sm sm:text-lg shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed">
+              Guardar
+            </button>
+          </div>
+  
+        </form>
+      </div>
+    </div>
+</div>
