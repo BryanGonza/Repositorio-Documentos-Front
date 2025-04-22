@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TipoCaracteristica } from '../../interfaces/Tipo_Caracteristica/tipo_caracteristica';
 import { TipoCaracteristicaService } from '../../services/tipo_caracteristica.service';
 import Swal from 'sweetalert2';
+import { ObjetoPermisoExtendido } from '../../interfaces/Objetos/Objetos';
+import { ObjetosService } from '../../services/objetos.service';
+import { SharedService } from '../../shared.service';
 
 @Component({
   selector: 'app-tipo-caracteristica',
@@ -29,15 +32,73 @@ export  class TipoCaracteristicaComponent implements OnInit {
   itemsPerPage: number = 5;
   totalPages: number = 1;
 
-  constructor(private fb: FormBuilder, private tipoCaracteristicaService: TipoCaracteristicaService) {}
+  constructor(private sharedService: SharedService, private fb: FormBuilder, private tipoCaracteristicaService: TipoCaracteristicaService) {}
 
   ngOnInit(): void {
+    this.sharedService.rol$.subscribe((rol) => {
+      this.rolActual = rol;
+      this.getObjetosConPermisos();
+    });
     this.formTipoCaracteristica = this.fb.group({
       TIPO_CARACTERISTICA: ['', Validators.required],
     });
     this.obtenerLista();
   }
+//roles y permisos 
+  rolActual = '';
 
+  objetos: ObjetoPermisoExtendido[] = [];
+  private objetoser = inject(ObjetosService);
+  token: string =
+    typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
+
+  getObjetosConPermisos(): void {
+    this.objetoser.getObjetosPermisos(this.token).subscribe({
+      next: (data) => {
+        this.objetos = data;
+        console.log('Objetos con permisos:', this.objetos);
+      },
+      error: (err) => {
+        console.error('Error al obtener objetos:', err);
+      },
+    });
+  }
+    // MEtodo para normalizar cadenas
+    private normalize(str: string): string {
+      return str
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+    }
+  
+    getPermiso(accion: string): boolean {
+      // Verifica si el permiso para la pantalla 'caracteristica' existe
+      const permiso = this.objetos.find((o) =>
+        this.normalize(o.OBJETO).includes('caracteristica')
+      );
+      if (!permiso) {
+        console.warn("No se encontró permiso para la pantalla 'caracteristica'");
+        return false;
+      }
+  
+      const mapping: Record<
+        'consulta' | 'insercion' | 'actualizacion' | 'eliminacion',
+        boolean
+      > = {
+        consulta: permiso.PERMISO_CONSULTAR,
+        insercion: permiso.PERMISO_INSERCION,
+        actualizacion: permiso.PERMISO_ACTUALIZACION,
+        eliminacion: permiso.PERMISO_ELIMINACION,
+      };
+  
+      const key = this.normalize(accion) as
+        | 'consulta'
+        | 'insercion'
+        | 'actualizacion'
+        | 'eliminacion';
+      return mapping[key] ?? false;
+    }
+  // Fin de roles y permisos
   obtenerLista(): void {
     this.tipoCaracteristicaService.getTipoCaracteristicas().subscribe((resp) => {
       this.listaTipoCaracteristicas = resp.Listado_Tipo_Caracteristica;

@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core'; 
+import { Component, inject, OnInit } from '@angular/core'; 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Clase, ClaseService } from '../../../services/clase.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { ObjetoPermisoExtendido } from '../../../interfaces/Objetos/Objetos';
+import { SharedService } from '../../../shared.service';
+import { ObjetosService } from '../../../services/objetos.service';
 
 @Component({
   selector: 'app-clase',
@@ -14,6 +17,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./clase.component.css']
 })
 export  class ClaseComponent implements OnInit {
+  
   [x: string]: any;
 
   formClase!: FormGroup;
@@ -34,20 +38,79 @@ export  class ClaseComponent implements OnInit {
   filtroBusqueda: string = '';
   clasesFiltradas: Clase[] = [];
 
-  constructor(private fb: FormBuilder, private claseService: ClaseService) {}
+  constructor(private sharedService: SharedService, private fb: FormBuilder, private claseService: ClaseService) {}
 
   ngOnInit(): void {
+    
+    this.sharedService.rol$.subscribe((rol) => {
+      this.rolActual = rol;
+      this.getObjetosConPermisos();
+    });
     this.initForm();
     this.cargarClases();
   }
+  //roles y permisos 
+  rolActual = '';
 
+  objetos: ObjetoPermisoExtendido[] = [];
+  private objetoser = inject(ObjetosService);
+  token: string =
+    typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
+
+  getObjetosConPermisos(): void {
+    this.objetoser.getObjetosPermisos(this.token).subscribe({
+      next: (data) => {
+        this.objetos = data;
+        console.log('Objetos con permisos:', this.objetos);
+      },
+      error: (err) => {
+        console.error('Error al obtener objetos:', err);
+      },
+    });
+  }
+    // MEtodo para normalizar cadenas
+    private normalize(str: string): string {
+      return str
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+    }
+  
+    getPermiso(accion: string): boolean {
+      // Verifica si el permiso para la pantalla 'rol' existe
+      const permiso = this.objetos.find((o) =>
+        this.normalize(o.OBJETO).includes('clase')
+      );
+      if (!permiso) {
+        console.warn("No se encontró permiso para la pantalla 'clases'");
+        return false;
+      }
+  
+      const mapping: Record<
+        'consulta' | 'insercion' | 'actualizacion' | 'eliminacion',
+        boolean
+      > = {
+        consulta: permiso.PERMISO_CONSULTAR,
+        insercion: permiso.PERMISO_INSERCION,
+        actualizacion: permiso.PERMISO_ACTUALIZACION,
+        eliminacion: permiso.PERMISO_ELIMINACION,
+      };
+  
+      const key = this.normalize(accion) as
+        | 'consulta'
+        | 'insercion'
+        | 'actualizacion'
+        | 'eliminacion';
+      return mapping[key] ?? false;
+    }
+  // Fin de roles y permisos
   initForm(): void {
     this.formClase = this.fb.group({
       NOMBRE: ['', Validators.required],
       APROBADO: ['', Validators.required],
       RECEPCIONADO: ['', Validators.required],
       FORMATO: ['', Validators.required],
-      ESTADO: [true, Validators.required]
+      ESTADO: ['', Validators.required]
     });
   }
 

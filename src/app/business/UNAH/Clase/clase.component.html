@@ -1,8 +1,9 @@
-<!-- 📌 Encabezado, Botón y Buscador alineados al centro -->
+<div *ngIf="getPermiso('consulta')">
+  <!-- 📌 Encabezado, Botón y Buscador alineados al centro -->
 <div class="flex flex-col items-center justify-center mb-6 space-y-4">
   <h2 class="text-2xl font-bold text-gray-900 text-center">Repositorio De Documentos</h2>
 
-  <button (click)="mostrarFormulario = !mostrarFormulario"
+  <button  *ngIf="getPermiso('insercion')" (click)="mostrarFormulario = !mostrarFormulario"
     class="bg-blue-600 hover:bg-yellow-500 text-white font-bold py-2 px-6 rounded shadow">
     {{ mostrarFormulario ? 'Ocultar' : 'Agregar Clase' }}
   </button>
@@ -96,7 +97,7 @@
         <td class="py-2 px-4 border border-yellow-500">{{ clase.ESTADO ? 'Activo' : 'Inactivo' }}</td>
         <td class="py-2 px-4 border border-yellow-500 text-center">
           <div class="flex justify-center gap-2">
-            <button (click)="editarClase(clase)"
+            <button *ngIf="getPermiso('actualizacion')" (click)="editarClase(clase)"
               class="bg-blue-500 hover:bg-blue-600 w-7 h-7 flex items-center justify-center rounded">
               <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">
@@ -104,7 +105,7 @@
                   d="M17.414 2.586a2 2 0 010 2.828L8.207 14.621l-4.95.707.707-4.95 9.207-9.207a2 2 0 012.828 0zM6.121 13.879l1.415-1.414-1.121-.121-.121-1.121-1.414 1.415.707.707.534.534z" />
               </svg>
             </button>
-            <button (click)="confirmarEliminar(clase.ID_CLASE!)"
+            <button  *ngIf="getPermiso('eliminacion')" (click)="confirmarEliminar(clase.ID_CLASE!)"
               class="bg-red-500 hover:bg-red-600 w-7 h-7 flex items-center justify-center rounded">
               <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">
@@ -138,3 +139,5 @@
   </button>
 </div>
 
+
+</div>

@@ -27,6 +27,7 @@ export class ObjetosService {
     });
   }
 
+
   //metodo para elimianar un usuario por id
   eliminar(ID_OBJETO: number): Observable<ResponseObjetos> {
     const token = localStorage.getItem('token') || '';

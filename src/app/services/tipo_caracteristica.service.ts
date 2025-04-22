@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {
   TipoCaracteristica,
@@ -16,27 +16,49 @@ export class TipoCaracteristicaService {
   constructor(private http: HttpClient) {}
 
   // Crear nueva característica
-  createTipoCaracteristica(data: TipoCaracteristica): Observable<{ msg: string; Nuevo_Registro: TipoCaracteristica }> {
+  createTipoCaracteristica(
+    data: TipoCaracteristica
+  ): Observable<{ msg: string; Nuevo_Registro: TipoCaracteristica }> {
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.post<{ msg: string; Nuevo_Registro: TipoCaracteristica }>(
       `${this.baseUrl}/createTipo_c`,
-      data
+      data,
+      { headers }
     );
   }
 
   // Obtener todas las características
   getTipoCaracteristicas(): Observable<ResponseTipoCaracteristica> {
-    return this.http.get<ResponseTipoCaracteristica>(`${this.baseUrl}/getTipo_c`);
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<ResponseTipoCaracteristica>(
+      `${this.baseUrl}/getTipo_c`,
+      { headers }
+    );
   }
 
   // Actualizar característica existente
   updateTipoCaracteristica(data: TipoCaracteristica): Observable<MsgResponse> {
-    return this.http.put<MsgResponse>(`${this.baseUrl}/updateTipo_c`, data);
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<MsgResponse>(`${this.baseUrl}/updateTipo_c`, data, {
+      headers});
   }
 
   // Eliminar característica por ID
-  deleteTipoCaracteristica(ID_TIPO_CARACTERISTICA: number): Observable<MsgResponse> {
-    return this.http.request<MsgResponse>('delete', `${this.baseUrl}/deleteTipo_c`, {
-      body: { ID_TIPO_CARACTERISTICA },
-    });
+  deleteTipoCaracteristica(
+    ID_TIPO_CARACTERISTICA: number
+  ): Observable<MsgResponse> {
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.request<MsgResponse>(
+      'delete',
+      `${this.baseUrl}/deleteTipo_c`,
+      {
+        headers,
+        body: { ID_TIPO_CARACTERISTICA },
+      }
+    );
   }
 }

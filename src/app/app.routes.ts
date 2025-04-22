@@ -287,6 +287,16 @@ export const routes: Routes = [
           ),
         canActivate: [AuthGuard],
       },
+            //rutas de tipo archivo
+            {
+              path: 'TipoArchivo',
+              loadComponent: () =>
+                import('./business/tipo-archivo/tipo-archivo.component').then(
+                  (m) => m.TipoArchivoComponent
+                ),
+              canActivate: [AuthGuard],
+            },
+      
     ],
   },
 
