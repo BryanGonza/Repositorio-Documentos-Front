@@ -93,20 +93,37 @@ export default class PermisosComponent {
     return obj ? obj.OBJETO : 'Desconocido';
   }
   
-  // Método para filtrar permisos
-  filterPermisos() {
-    const query = this.searchQuery.toUpperCase();
-    this.filteredPermisos = this.ListPermisos.filter(permiso =>
-      permiso.ID_ROL.toString().includes(query) ||
-      permiso.ID_OBJETO.toString().includes(query) ||
-      permiso.PERMISO_INSERCION.toUpperCase().includes(query) ||
-      permiso.PERMISO_ELIMINACION.toUpperCase().includes(query) ||
-      permiso.PERMISO_ACTUALIZACION.toUpperCase().includes(query) ||
-      permiso.PERMISO_CONSULTAR.toUpperCase().includes(query)
+// Método para filtrar permisos
+filterPermisos() {
+  const query = this.searchQuery.toUpperCase();
+
+  this.filteredPermisos = this.ListPermisos.filter(permiso => {
+    const idRolMatch = permiso.ID_ROL.toString().includes(query);
+    const idObjetoMatch = permiso.ID_OBJETO.toString().includes(query);
+    const insercionMatch = permiso.PERMISO_INSERCION.toUpperCase().includes(query);
+    const eliminacionMatch = permiso.PERMISO_ELIMINACION.toUpperCase().includes(query);
+    const actualizacionMatch = permiso.PERMISO_ACTUALIZACION.toUpperCase().includes(query);
+    const consultarMatch = permiso.PERMISO_CONSULTAR.toUpperCase().includes(query);
+
+    // aquí las dos nuevas comprobaciones
+    const nombreRolMatch = this.getNombreRol(permiso.ID_ROL).toUpperCase().includes(query);
+    const nombreObjetoMatch = this.getNombreObjeto(permiso.ID_OBJETO).toUpperCase().includes(query);
+
+    return (
+      idRolMatch ||
+      idObjetoMatch ||
+      insercionMatch ||
+      eliminacionMatch ||
+      actualizacionMatch ||
+      consultarMatch ||
+      nombreRolMatch ||
+      nombreObjetoMatch
     );
-    this.currentPage = 1;
-    this.updatePagination();
-  }
+  });
+
+  this.currentPage = 1;
+  this.updatePagination();
+}
 
   // Actualizar paginación
   updatePagination() {

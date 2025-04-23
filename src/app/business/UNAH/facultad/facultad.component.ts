@@ -62,6 +62,7 @@ export default class FacultadComponent {
         this.rolActual = rol;
         this.getObjetosConPermisos();
       });
+      
     }
     objetos: ObjetoPermisoExtendido[] = [];
     private objetoser = inject(ObjetosService);

@@ -5,6 +5,9 @@ import { EstadoService } from '../../services/estado.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { SharedService } from '../../shared.service';
+import { ObjetoPermisoExtendido } from '../../interfaces/Objetos/Objetos';
+import { ObjetosService } from '../../services/objetos.service';
 
 @Component({
   selector: 'app-estado',
@@ -32,7 +35,7 @@ export default class EstadoComponent {
     'Estado'
   ];
 
-  constructor() {
+  constructor(private sharedService: SharedService) {
     this.estadoService.estadoget().subscribe({
       next: (data) => {
         if (data.Listado_Estado?.length > 0) {
@@ -51,7 +54,66 @@ export default class EstadoComponent {
       },
     });
   }
+ //roles y permisos 
+  rolActual = '';
+  ngOnInit() {
+    this.sharedService.rol$.subscribe((rol) => {
+      this.rolActual = rol;
+      this.getObjetosConPermisos();
+    });
+  }
+  objetos: ObjetoPermisoExtendido[] = [];
+  private objetoser = inject(ObjetosService);
+  token: string =
+    typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
 
+  getObjetosConPermisos(): void {
+    this.objetoser.getObjetosPermisos(this.token).subscribe({
+      next: (data) => {
+        this.objetos = data;
+        console.log('Objetos con permisos:', this.objetos);
+      },
+      error: (err) => {
+        console.error('Error al obtener objetos:', err);
+      },
+    });
+  }
+    // MEtodo para normalizar cadenas
+    private normalize(str: string): string {
+      return str
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+    }
+  
+    getPermiso(accion: string): boolean {
+      // Verifica si el permiso para la pantalla 'parametro' existe
+      const permiso = this.objetos.find((o) =>
+        this.normalize(o.OBJETO).includes('estado')
+      );
+      if (!permiso) {
+        console.warn("No se encontró permiso para la pantalla 'estado'");
+        return false;
+      }
+  
+      const mapping: Record<
+        'consulta' | 'insercion' | 'actualizacion' | 'eliminacion',
+        boolean
+      > = {
+        consulta: permiso.PERMISO_CONSULTAR,
+        insercion: permiso.PERMISO_INSERCION,
+        actualizacion: permiso.PERMISO_ACTUALIZACION,
+        eliminacion: permiso.PERMISO_ELIMINACION,
+      };
+  
+      const key = this.normalize(accion) as
+        | 'consulta'
+        | 'insercion'
+        | 'actualizacion'
+        | 'eliminacion';
+      return mapping[key] ?? false;
+    }
+  // Fin de roles y permisos
   // Método para filtrar estados
   filterEstados() {
     const query = this.searchQuery.toLowerCase();

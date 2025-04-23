@@ -1,13 +1,11 @@
-<div *ngIf="getPermiso('consulta')">
-  
-  <div class="mb-4 text-center">
-    <button *ngIf="getPermiso('insercion')" (click)="registro()"
+<!-- Buscador y Botón de Registrar -->
+<div class="mb-4 text-center">
+    <button (click)="registro()"
       class="bg-blue-500 hover:bg-yellow-500 text-white font-bold py-1 px-20 border border-blue-500 rounded block mx-auto mb-4">
-      Agregar Nuevo Tipo de Documento
+      Registrar Nueva Versión
     </button>
     <div class="relative w-80 mx-auto flex justify-center">
-      <input type="text" [(ngModel)]="searchQuery" (input)="filterTipoDocumentos()"
-        placeholder="Buscar por Tipo o Estado"
+      <input type="text" [(ngModel)]="searchQuery" (input)="filterVersiones()" placeholder="Buscar por Usuario, Nombre o Cambios"
         class="w-full p-2 pl-10 border border-yellow-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
       <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -15,52 +13,51 @@
           d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" />
       </svg>
     </div>
-  </div>
+</div>
 
-  <!-- Tabla de Tipos de Documento -->
-  <table class="min-w-full border-collapse block md:table">
+<!-- Tabla de Versiones -->
+<table class="min-w-full border-collapse block md:table">
     <thead class="block md:table-header-group">
       <tr
         class="border border-yellow-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto md:relative">
-        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">ID
-        </th>
-        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
-          Tipo Documento</th>
-        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
-          Estado</th>
-        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-center block md:table-cell">
-          Acciones</th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">ID</th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Usuario</th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Nombre</th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Cambios</th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Fecha Actualización</th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-center block md:table-cell">Acciones</th>
       </tr>
     </thead>
-
+    
     <tbody class="block md:table-row-group">
-      <!-- recorro la lista de tipos de documento paginados -->
-      <tr *ngFor="let tipoDoc of paginatedTipoDocumentos; let i = index"
+      <!-- recorro la lista de versiones paginadas -->
+      <tr *ngFor="let version of paginatedVersiones; let i = index"
         [ngClass]="{ 'bg-yellow-100': i % 2 === 0, 'bg-white': i % 2 !== 0 }"
         class="border border-yellow-500 md:border-none block md:table-row">
-        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ tipoDoc.ID_TIPO_DOCUMENTO }}
-        </td>
-        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ tipoDoc.TIPO_DOCUMENTO }}</td>
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ version.ID_VERSION }}</td>
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ version.ID_USUARIO }}</td>
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ version.NOMBRE || 'N/A' }}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
-          {{ tipoDoc.ESTADO ? 'ACTIVO' : 'INACTIVO' }}
+          {{ version.CAMBIOS ? 'SÍ' : 'NO' }}
+        </td>
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
+          {{ version.FECHA_ACTU | date:'dd/MM/yyyy HH:mm' || 'N/A' }}
         </td>
         <td class="p-2 md:border md:border-yellow-500 text-center block md:table-cell">
           <div class="flex justify-center items-center gap-2">
             <!-- botón editar con icono y tooltip -->
-            <button *ngIf="getPermiso('actualizacion')" (click)="editarTipoDocumento(tipoDoc)"
+            <button (click)="editarVersion(version)"
               class="bg-blue-500 hover:bg-blue-600 text-white p-2 border border-blue-500 rounded transition duration-300"
-              aria-label="Editar Tipo Documento" title="Editar Tipo Documento">
+              aria-label="Editar Version" title="Editar Version">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828zM4 14v2h2l7.293-7.293-2-2L4 14z" />
+                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828zM4 14v2h2l7.293-7.293-2-2L4 14z" />
               </svg>
             </button>
             <!-- botón eliminar con icono y tooltip -->
-            <button *ngIf="getPermiso('eliminacion')" (click)="eliminarTipoDocumento(tipoDoc.ID_TIPO_DOCUMENTO)"
+            <button (click)="eliminarVersion(version.ID_VERSION)"
               class="bg-red-500 hover:bg-red-600 text-white p-2 border border-red-500 rounded transition duration-300"
-              aria-label="Eliminar Tipo Documento" title="Eliminar Tipo Documento">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
+              aria-label="Eliminar Versión" title="Eliminar Versión">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
@@ -68,16 +65,16 @@
           </div>
         </td>
       </tr>
-
-      <!-- mensaje si no hay tipos de documento -->
-      <tr *ngIf="filteredTipoDocumentos.length === 0">
-        <td colspan="4" class="p-4 text-center text-gray-600">No se encontraron tipos de documento.</td>
+    
+      <!-- mensaje si no hay versiones -->
+      <tr *ngIf="filteredVersiones.length === 0">
+        <td colspan="6" class="p-4 text-center text-gray-600">No se encontraron versiones.</td>
       </tr>
     </tbody>
-  </table>
+</table>
 
-  <!-- Controles de Paginacion -->
-  <div class="flex justify-center mt-4 space-x-2">
+<!-- Controles de Paginacion -->
+<div class="flex justify-center mt-4 space-x-2">
     <button (click)="goToFirstPage()" [disabled]="currentPage === 1"
       class="px-3 py-1 bg-blue-500 hover:bg-yellow-500 text-white font-bold rounded disabled:opacity-50"
       title="Primera Pagina">Primera</button>
@@ -91,6 +88,4 @@
     <button (click)="goToLastPage()" [disabled]="currentPage === totalPages"
       class="px-3 py-1 bg-blue-500 hover:bg-yellow-500 text-white font-bold rounded disabled:opacity-50"
       title="Ultima Pagina">Ultima</button>
-  </div>
-
 </div>
