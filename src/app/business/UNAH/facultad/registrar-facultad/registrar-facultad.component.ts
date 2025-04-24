@@ -5,6 +5,7 @@ import { FacultadService } from '../../../../services/facultad.service';
 import { RegistroFacultad } from '../../../../interfaces/UNAH/Facultad/RegistroFacultad';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { jwtDecode } from "jwt-decode";
 
 @Component({
   selector: 'app-registrar-facultad',
@@ -34,6 +35,8 @@ export class RegistrarFacultadComponent {
       });
       return;
     }
+
+
 
     const objeto: RegistroFacultad = {
       NOMBRE: this.formRegistro.value.nombreFacultad.toUpperCase(), 

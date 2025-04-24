@@ -287,16 +287,46 @@ export const routes: Routes = [
           ),
         canActivate: [AuthGuard],
       },
-            //rutas de tipo archivo
-            {
-              path: 'TipoArchivo',
-              loadComponent: () =>
-                import('./business/tipo-archivo/tipo-archivo.component').then(
-                  (m) => m.TipoArchivoComponent
-                ),
-              canActivate: [AuthGuard],
-            },
+           
       
+
+       //Rutas de Version
+       { 
+        path: 'version',
+        loadComponent: () =>
+          import('./business/documentos/version/version.component')
+      },
+      {
+        path: 'registrar-version',
+        loadComponent: () =>
+          import ('./business/documentos/version/registrar-version/registrar-version.component').then (
+            (m) => m.RegistrarVersionComponent
+          ),
+      },
+      {
+        path: 'actualizar-version',
+        loadComponent: () =>
+          import ('./business/documentos/version/actualizar-version/actualizar-version.component')
+      },
+
+      // RUTAS DE CARACTERISTICAS
+      {
+        path:'caracteristicas',
+        loadComponent: () =>
+          import ('./business/documentos/caracteristica/caracteristica.component')
+      },
+      {
+        path:'registrar-caracteristicas',
+        loadComponent: () =>
+          import ('./business/documentos/caracteristica/registrar-caracteristica/registrar-caracteristica.component') .then(
+            (m) => m.RegistrarCaracteristicaComponent
+          )
+      },
+      { 
+        path: 'actualizar-caracteristicas',
+        loadComponent: () =>
+          import('./business/documentos/caracteristica/actualizar-caracteristica/actualizar-caracteristica.component')
+      },
     ],
   },
 

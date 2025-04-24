@@ -32,6 +32,7 @@ export class ParametrosService {
     ID_PARAMETRO: number,
     PARAMETRO?: string,
     VALOR?: string,
+    ID_USUARIO?: number,
     ADMIN_INTENTOS_INVALIDOS?: number
   ): Observable<ResponseRegistro> {
     const token = localStorage.getItem('token') || '';
@@ -43,6 +44,7 @@ export class ParametrosService {
         ID_PARAMETRO,
         PARAMETRO,
         VALOR,
+        ID_USUARIO,
         ADMIN_INTENTOS_INVALIDOS,
       },
       { headers }

@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { CommonModule, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { parametros } from '../../../interfaces/Parametros/resposeParametros';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-actualizar',
@@ -35,11 +36,14 @@ export default class ActualizarComponent {
   }
 
   actualizarParametro() {
+    const token = localStorage.getItem('token') || '';
+    const decodedToken: any = jwtDecode(token);
     // Crear objeto con los campos a actualizar
     const datosActualizados: any = {
       ID_PARAMETRO: this.paramId,
       PARAMETRO: this.NombreParame,
       VALOR: this.ValorParametro,
+      ID_USUARIO: decodedToken.id,
       ADMIN_INTENTOS_INVALIDOS: this.CantIntentos,
     };
 
@@ -48,6 +52,7 @@ export default class ActualizarComponent {
       datosActualizados.ID_PARAMETRO,
       datosActualizados.PARAMETRO,
       datosActualizados.VALOR,
+      datosActualizados.ID_USUARIO,
       datosActualizados.ADMIN_INTENTOS_INVALIDOS
     ).subscribe({
       next: (res) => {
