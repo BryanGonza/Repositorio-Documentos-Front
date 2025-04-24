@@ -91,7 +91,7 @@ transition-transform duration-300 xl:translate-x-0
         </button>
         <ul *ngIf="mostrarSubmMant" class="ml-6 mt-2 space-y-2">
           <!-- Facultad -->
-          <li>
+          <li *ngIf="getPermisoConsulta('facultad')">
             <a routerLink="/facultad" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
                 Facultades
@@ -100,7 +100,7 @@ transition-transform duration-300 xl:translate-x-0
           </li>
 
           <!-- Tipo Documento -->
-          <li>
+          <li *ngIf="getPermisoConsulta('tipo de documento')">
             <a routerLink="/tipo-documento" routerLinkActive="active-menu">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
                 Tipos Documentos
@@ -109,7 +109,7 @@ transition-transform duration-300 xl:translate-x-0
           </li>
 
           <!-- Estructura Archivos -->
-          <li>
+          <li >
             <a routerLink="/estructura_archivos" routerLinkActive="active-menu">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
                 Estructuras
@@ -118,7 +118,7 @@ transition-transform duration-300 xl:translate-x-0
           </li>
 
           <!-- Estado -->
-          <li>
+          <li *ngIf="getPermisoConsulta('estado')">
             <a routerLink="/estado" routerLinkActive="active-menu">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
                 Estados
@@ -127,7 +127,7 @@ transition-transform duration-300 xl:translate-x-0
           </li>
 
           <!-- Clases -->
-          <li>
+          <li *ngIf="getPermisoConsulta('clase')">
             <a routerLink="/clases" routerLinkActive="active-menu">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
                 Clases
@@ -152,6 +152,22 @@ transition-transform duration-300 xl:translate-x-0
               </button>
             </a>
           </li>
+           <!-- VERSIO  -->
+           <li>
+            <a routerLink="/version" routerLinkActive="active-menu">
+              <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
+                Version
+              </button>
+            </a>
+          </li>
+              <!-- caracteristicas  -->
+              <li>
+                <a routerLink="/caracteristicas" routerLinkActive="active-menu">
+                  <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
+                    Caracteristicas
+                  </button>
+                </a>
+              </li>
 
           <!-- Sub-categoría -->
           <li>

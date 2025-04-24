@@ -24,10 +24,10 @@
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">ID Permiso</th>
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Rol</th>
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Objeto</th>
-        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Inserción</th>
-        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Eliminación</th>
-        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Actualización</th>
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Consulta</th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Inserción</th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Actualización</th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Eliminación</th>
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Creado Por</th>
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Modificado Por</th>
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Fecha Creación</th>
@@ -43,10 +43,10 @@
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.ID_PERMISO }}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ getNombreRol(permiso.ID_ROL)}}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{  getNombreObjeto(permiso.ID_OBJETO)}}</td>
-        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.PERMISO_INSERCION }}</td>
-        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.PERMISO_ELIMINACION }}</td>
-        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.PERMISO_ACTUALIZACION }}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.PERMISO_CONSULTAR }}</td>
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.PERMISO_INSERCION }}</td>
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.PERMISO_ACTUALIZACION }}</td>
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.PERMISO_ELIMINACION }}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.CREADO_POR }}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.MODIFICADO_POR }}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ permiso.FECHA_CREACION | date }}</td>
