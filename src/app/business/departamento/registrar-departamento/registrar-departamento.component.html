@@ -9,23 +9,24 @@
       
       <div class="my-3">
         <!-- Título del formulario -->
-        <h1 class="text-center text-2xl sm:text-3xl font-bold text-white">Registrar Tipo de Archivo</h1>
+        <h1 class="text-center text-2xl sm:text-3xl font-bold text-white">Registrar Departamento</h1>
         <form [formGroup]="formRegistro" (ngSubmit)="registrarDepartamento()">
   
           <!-- Campo para ID FACULTAD -->
           <div class="my-2">
-            <label for="IDFacu" class="text-sm sm:text-md font-bold text-yellow-300">ID FACULTAD</label>
-            <input type="text" id="IDFacu" formControlName="IDFacu" 
-                   class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" 
-                   placeholder="Ingrese el id tipo de archivo">
+            <label for="IDFacu" class="text-sm font-bold text-gray-700">Rol</label>
+            <select id="IDFacu" formControlName="IDFacu"
+              class="block w-full border border-yellow-500 px-2 py-2 rounded-md bg-white text-gray-900">
+              <option value="">Seleccione un facultad</option>
+              <option *ngFor="let facu of listafacu" [value]="facu.ID_FACULTAD">{{ facu.NOMBRE }}</option>
+            </select>
           </div>
-
           <!-- Campo para Nombre -->
           <div class="my-2">
             <label for="Nombre" class="text-sm sm:text-md font-bold text-yellow-300">Nombre</label>
             <input type="text" id="Nombre" formControlName="Nombre" 
                    class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" 
-                   placeholder="Ingrese el tipo de archivo">
+                   placeholder="Ingrese nombre">
           </div>
 
           <!-- Campo para ESTADO -->

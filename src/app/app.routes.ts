@@ -327,6 +327,46 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./business/documentos/caracteristica/actualizar-caracteristica/actualizar-caracteristica.component')
       },
+      // RUTAS DE DEPARTAMENTO
+      {
+        path: 'departamento',
+        loadComponent: () =>
+          import('./business/departamento/departamento.component'),
+      },
+      
+      {
+        path: 'actualizar-departamento',
+        loadComponent: () =>
+          import('./business/departamento/actualizar-departamento/actualizar-departamento.component'),
+      },
+
+      {
+        path: 'registrar-departamento',
+        loadComponent: () =>
+          import('./business/departamento/registrar-departamento/registrar-departamento.component').then(
+            (m) => m.RegistrarDepartamentoComponent
+          ),
+      },
+      // RUTAS DE TIPO DE ARCHIVO
+      {
+        path: 'tipo_archivo',
+        loadComponent: () =>
+          import('./business/tipo_archivo/tipo_archivo.component'),
+      },
+      
+      {
+        path: 'actualizar-tipo_archivo',
+        loadComponent: () =>
+          import('./business/tipo_archivo/actualizar-tipo_archivo/actualizar-tipo_archivo.component'),
+      },
+
+      {
+        path: 'registrar-tipo_archivo',
+        loadComponent: () =>
+          import('./business/tipo_archivo/registrar-tipo_archivo/registrar-tipo_archivo.component').then(
+            (m) => m.RegistrarTipo_archivoComponent
+          ),
+      },
     ],
   },
 

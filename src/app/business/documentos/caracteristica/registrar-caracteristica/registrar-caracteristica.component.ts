@@ -5,6 +5,7 @@ import { CaracteristicaService } from '../../../../services/caracteristica.servi
 import { RegistroCaracteristica } from '../../../../interfaces/Documentos/Caracteristica/RegistroCaracteristica';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { TipoCaracteristicaService } from '../../../../services/tipo_caracteristica.service';
 
 @Component({
   selector: 'app-registrar-caracteristica',
@@ -15,9 +16,23 @@ import Swal from 'sweetalert2';
 })
 export class RegistrarCaracteristicaComponent {
   private caracteristicaService = inject(CaracteristicaService);
+  private tipocaracteristica = inject(TipoCaracteristicaService);
   private route = inject(Router);
   public fromBuild = inject(FormBuilder);
+  public listatCara: any[] = [];
+  ngOnInit(): void {
+    this.tipocaracteristica.getTipoCaracteristicas().subscribe({
+      next: (data) => {
+        if (data.Listado_Tipo_Caracteristica.length > 0) {
+          this.listatCara = data.Listado_Tipo_Caracteristica;
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar objetos', error);
+      },
+    });
 
+  }
   public formRegistro: FormGroup = this.fromBuild.group({
     tipoCaracteristica: ['', Validators.required],
     nombreCaracteristica: [''],

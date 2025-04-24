@@ -5,6 +5,7 @@ import { DepartamentoService } from '../../../services/departamento.service';
 import { Registrodepartamento } from '../../../interfaces/Departamento/RegistroDepartamento';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { FacultadService } from '../../../services/facultad.service';
 
 @Component({
   selector: 'app-registrar-departamento',
@@ -17,7 +18,21 @@ export class RegistrarDepartamentoComponent {
   private DepartamentoService = inject(DepartamentoService);
   private route = inject(Router);
   public fromBuild = inject(FormBuilder);
+  private facultadService = inject(FacultadService);
+  public listafacu: any[] = [];
+  ngOnInit(): void {
+    this.facultadService.facultadget().subscribe({
+      next: (data) => {
+        if (data.Lista_Facultad.length > 0) {
+          this.listafacu = data.Lista_Facultad;
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar objetos', error);
+      },
+    });
 
+  }
   public formRegistro: FormGroup = this.fromBuild.group({
     IDFacu: ['', Validators.required],
     Nombre: ['', Validators.required],

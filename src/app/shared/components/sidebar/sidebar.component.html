@@ -98,6 +98,14 @@ transition-transform duration-300 xl:translate-x-0
               </button>
             </a>
           </li>
+              <!-- DEPARTAMENTO -->
+              <li >
+                <a routerLink="/departamento" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
+                  <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
+                    Departamentos
+                  </button>
+                </a>
+              </li>
 
           <!-- Tipo Documento -->
           <li *ngIf="getPermisoConsulta('tipo de documento')">
@@ -180,11 +188,11 @@ transition-transform duration-300 xl:translate-x-0
 
           <!-- Tipo Archivo -->
           <li>
-            <!-- <a routerLink="/TipoArchivo" routerLinkActive="active-menu">
+            <a routerLink="/tipo_archivo" routerLinkActive="active-menu">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
                 Tipo Archivo
               </button>
-            </a> -->
+            </a>
           </li>
         </ul>
       </li>

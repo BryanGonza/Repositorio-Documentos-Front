@@ -12,6 +12,7 @@ import { registroUsuario } from '../../../interfaces/Usuario/RegistroUsuario';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import { RolesService } from '../../../services/roles.service';
+import { DepartamentoService } from '../../../services/departamento.service';
 
 @Component({
   selector: 'app-registrar',
@@ -24,15 +25,27 @@ export default class RegistrarComponent {
   public showPassword: boolean = false;
   public showConfirmPassword: boolean = false;
   private rolesService = inject(RolesService);
+  private departamentoService = inject(DepartamentoService);
   private usuarioService = inject(UsuariosService);
   private route = inject(Router);
   public fromBuild = inject(FormBuilder);
   public listaRoles: any[] = [];
+  public listadepar: any[] = [];
   ngOnInit(): void {
     this.rolesService.rolesget().subscribe({
       next: (data) => {
         if (data.ListRoles.length > 0) {
           this.listaRoles = data.ListRoles;
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar objetos', error);
+      },
+    });
+    this.departamentoService.Departamentoget().subscribe({
+      next: (data) => {
+        if (data.Listado_Departamentos.length > 0) {
+          this.listadepar = data.Listado_Departamentos;
         }
       },
       error: (error) => {
@@ -57,10 +70,10 @@ export default class RegistrarComponent {
 
 
 
-  public departamentos = [
-    { id: 3, nombre: '1.Mercadotecnia' },
-    { id: 2, nombre: '2.Informática' },
-  ];
+  // public departamentos = [
+  //   { id: 3, nombre: '1.Mercadotecnia' },
+  //   { id: 2, nombre: '2.Informática' },
+  // ];
 
   // Alterna la visibilidad de la contraseña
   togglePasswordVisibility() {
