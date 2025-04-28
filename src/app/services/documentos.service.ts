@@ -55,7 +55,13 @@ export class DocumentosService {
     idUsuario: number,
     nombre: string,
     descripcion: string,
-    es_public: number
+    es_public: number,
+    ID_DEPARTAMENTO: number,
+    ID_ESTRUCTURA_ARCHIVO: number,
+    ID_TIPO_ARCHIVO: number,
+    ID_CATEGORIA: number,
+    ID_CARACTERISTICA: number,
+    VALOR_CARACTERISTICA : string,
   ): Observable<any> {
     // Crear un FormData para enviar el archivo y campos adicionales
     const formData = new FormData();
@@ -64,6 +70,13 @@ export class DocumentosService {
     formData.append('ES_PUBLICO', String(es_public));
     formData.append('DESCRIPCION', descripcion);
     formData.append('NOMBRE', nombre);
+    formData.append('ID_DEPARTAMENTO', String(ID_DEPARTAMENTO));
+    formData.append('ID_ESTRUCTURA_ARCHIVOS', String(ID_ESTRUCTURA_ARCHIVO));
+    formData.append('ID_TIPO_ARCHIVO', String(ID_TIPO_ARCHIVO));
+    formData.append('ID_CATEGORIA', String(ID_CATEGORIA));
+      formData.append('ID_CARACTERISTICA', String(ID_CARACTERISTICA));
+    formData.append('VALOR_CARACTERISTICA', VALOR_CARACTERISTICA);
+ 
   
     // Obtener el token y construir el header con Authorization
     const token = localStorage.getItem('token') || '';

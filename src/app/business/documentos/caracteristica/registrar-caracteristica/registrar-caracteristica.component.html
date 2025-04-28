@@ -18,7 +18,7 @@
             <label for="tipoCaracteristica" class="text-sm font-bold text-gray-700">Tipo de Característica *</label>
             <select id="tipoCaracteristica" formControlName="tipoCaracteristica"
               class="block w-full border border-yellow-500 px-2 py-2 rounded-md bg-white text-gray-900">
-              <option value="">Seleccione un rol</option>
+              <option value="">Seleccione un tipo de característica</option>
               <option *ngFor="let Departamento of listatCara" [value]="Departamento.ID_TIPO_CARACTERISTICA">{{ Departamento.TIPO_CARACTERISTICA }}</option>
             </select>
           </div>

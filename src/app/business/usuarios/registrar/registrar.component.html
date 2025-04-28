@@ -113,7 +113,7 @@
           <label for="ID_DEPARTAMENTO" class="text-sm font-bold text-gray-700">Rol</label>
           <select id="ID_DEPARTAMENTO" formControlName="ID_DEPARTAMENTO"
             class="block w-full border border-yellow-500 px-2 py-2 rounded-md bg-white text-gray-900">
-            <option value="">Seleccione un rol</option>
+            <option value="">Seleccione un Departamento</option>
             <option *ngFor="let Departamento of listadepar" [value]="Departamento.ID_DEPARTAMENTO">{{ Departamento.NOMBRE }}</option>
           </select>
         </div>
