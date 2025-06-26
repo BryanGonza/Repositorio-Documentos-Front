@@ -1,21 +1,26 @@
 <div class="my-5">
-  <div class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-blue-500 border-yellow-500 rounded-md">
+  <div
+    class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-blue-500 border-yellow-500 rounded-md">
     <!-- Botón Volver -->
-    <button (click)="volver()" class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md">
+    <button (click)="volver()"
+      class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md">
       Volver
     </button>
 
     <div class="my-3">
       <!-- Título -->
-      <h1 class="text-center text-2xl sm:text-3xl font-bold text-white">Actualizar Permiso</h1>
+     <h1 class="text-center text-2xl sm:text-3xl font-bold text-white">
+  Actualizar Permiso - {{ getNombreObjeto(idObjeto) }}
+</h1>
       <form (ngSubmit)="actualizarPermiso()">
-        <!-- Campo para ID Rol -->
-        <div class="my-2">
-          <label for="idRol" class="text-sm sm:text-md font-bold text-yellow-300">ID Rol</label>
-          <input type="number" id="idRol" [(ngModel)]="idRol" name="idRol"
-            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
+        <!-- Mostrar nombre del rol si existe -->
+        <div class="my-2" *ngIf="rolesCargados">
+          <label class="text-sm sm:text-md font-bold text-yellow-300">Nombre del Rol</label>
+          <p
+            class="block w-full border border-yellow-300 px-2 py-2 text-sm sm:text-md rounded-md bg-yellow-100 text-gray-900">
+            {{ getNombreRol(idRol) }}
+          </p>
         </div>
-
         <!-- Campo para Permiso Inserción -->
         <div class="my-2">
           <label for="permisoInsercion" class="text-sm sm:text-md font-bold text-yellow-300">Permiso Inserción</label>
@@ -29,7 +34,8 @@
 
         <!-- Campo para Permiso Eliminación -->
         <div class="my-2">
-          <label for="permisoEliminacion" class="text-sm sm:text-md font-bold text-yellow-300">Permiso Eliminación</label>
+          <label for="permisoEliminacion" class="text-sm sm:text-md font-bold text-yellow-300">Permiso
+            Eliminación</label>
           <select id="permisoEliminacion" [(ngModel)]="permisoEliminacion" name="permisoEliminacion"
             class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
             <option value="">Seleccione...</option>
@@ -40,7 +46,8 @@
 
         <!-- Campo para Permiso Actualización -->
         <div class="my-2">
-          <label for="permisoActualizacion" class="text-sm sm:text-md font-bold text-yellow-300">Permiso Actualización</label>
+          <label for="permisoActualizacion" class="text-sm sm:text-md font-bold text-yellow-300">Permiso
+            Actualización</label>
           <select id="permisoActualizacion" [(ngModel)]="permisoActualizacion" name="permisoActualizacion"
             class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
             <option value="">Seleccione...</option>

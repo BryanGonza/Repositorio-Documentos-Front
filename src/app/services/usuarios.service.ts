@@ -84,7 +84,8 @@ export class UsuariosService {
     USUARIO?: string,
     NOMBRE_USUARIO?: string,
     CORREO_ELECTRONICO?: string,
-    CONTRASEÑA?: string
+    CONTRASEÑA?: string,
+    ID_ROL?: number
   ): Observable<ResponseRegistro> {
     const token = localStorage.getItem('token') || '';
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -96,6 +97,7 @@ export class UsuariosService {
         NOMBRE_USUARIO,
         CORREO_ELECTRONICO,
         CONTRASEÑA,
+        ID_ROL
       },
       { headers }
     );

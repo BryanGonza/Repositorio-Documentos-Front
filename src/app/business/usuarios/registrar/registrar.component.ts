@@ -70,10 +70,6 @@ export default class RegistrarComponent {
 
 
 
-  // public departamentos = [
-  //   { id: 3, nombre: '1.Mercadotecnia' },
-  //   { id: 2, nombre: '2.Informática' },
-  // ];
 
   // Alterna la visibilidad de la contraseña
   togglePasswordVisibility() {
@@ -114,6 +110,7 @@ export default class RegistrarComponent {
       return;
     }
 
+    
     const objeto: registroUsuario = {
       NUM_IDENTIDAD: this.fromRegistro.value.numeroIdentidad,
       USUARIO: this.fromRegistro.value.Usuario.toUpperCase(),

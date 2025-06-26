@@ -1,4 +1,4 @@
-<div *ngIf="getPermiso('consulta')">
+<div >
 <!-- Buscador -->
 <div class="mb-4 text-center">
   <button *ngIf="getPermiso('insercion')" (click)="registro()"
@@ -32,7 +32,7 @@
     </tr>
   </thead>
   
-  <tbody class="block md:table-row-group">
+  <tbody *ngIf="getPermiso('consulta')"class="block md:table-row-group">
     <!-- recorro la lista de roles paginados -->
     <tr *ngFor="let rol of paginatedRoles; let i = index"
       [ngClass]="{ 'bg-yellow-100': i % 2 === 0, 'bg-white': i % 2 !== 0 }"

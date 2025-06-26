@@ -21,7 +21,7 @@ export class PermisosService {
      return this.http.get<ResponsePermisos>(`${this.baseAPi}permisos/getPermisos`)
    }
    
-   //metodo para elimianar un usuario por id
+   //metodo para elimianar un permiso por id
  eliminarPermiso(ID_PERMISO: number): Observable<ResponsePermisos> {
    return this.http.request<ResponsePermisos>('delete', `${this.baseAPi}permisos/deletePermiso`, {
      body: { ID_PERMISO },
