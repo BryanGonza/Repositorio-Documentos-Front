@@ -1,4 +1,5 @@
 export interface Usuarios {
+    ID_ROL: number;
     ID_USUARIO: number,
     NUM_IDENTIDAD: number,
     USUARIO: string,
@@ -6,6 +7,7 @@ export interface Usuarios {
     FECHA_CREACION: string,
     ESTADO_USUARIO: string,
     CORREO_ELECTRONICO: string,
+    ROL: string
 
   }
 

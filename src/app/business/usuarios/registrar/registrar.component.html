@@ -110,16 +110,12 @@
 
         <!-- Campo para Departamento -->
         <div class="my-2">
-          <label for="departamento" class="text-sm sm:text-md font-bold text-gray-700">Departamento</label>
-          <select id="departamento" formControlName="ID_DEPARTAMENTO" required
-            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900">
-            <option value="" disabled selected>Seleccione un departamento</option>
-            <option *ngFor="let depto of departamentos" [value]="depto.id">{{ depto.nombre }}</option>
+          <label for="ID_DEPARTAMENTO" class="text-sm font-bold text-gray-700">Rol</label>
+          <select id="ID_DEPARTAMENTO" formControlName="ID_DEPARTAMENTO"
+            class="block w-full border border-yellow-500 px-2 py-2 rounded-md bg-white text-gray-900">
+            <option value="">Seleccione un Departamento</option>
+            <option *ngFor="let Departamento of listadepar" [value]="Departamento.ID_DEPARTAMENTO">{{ Departamento.NOMBRE }}</option>
           </select>
-          <div *ngIf="fromRegistro.get('ID_DEPARTAMENTO')?.invalid && fromRegistro.get('ID_DEPARTAMENTO')?.touched"
-            class="text-red-600 text-xs">
-            Seleccione un departamento.
-          </div>
         </div>
 
         <!-- Botón Guardar -->

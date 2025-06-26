@@ -48,9 +48,12 @@ export class UsuariosService {
 
   //metodo para obtener los usuarios
   usuariosget(): Observable<ResponseUsuarios> {
-  const token = localStorage.getItem('token') || '';
-  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  return this.http.get<ResponseUsuarios>(`${this.baseAPi}ms_usuarios/getUsuarios`, { headers });
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<ResponseUsuarios>(
+      `${this.baseAPi}ms_usuarios/getUsuarios`,
+      { headers }
+    );
   }
   //metodo para elimianar un usuario por id
   eliminar(ID_USUARIO: number): Observable<ResponseRegistro> {
@@ -68,16 +71,21 @@ export class UsuariosService {
   //registrar un usuario
   registro(objeto: registroUsuario): Observable<ResponseRegistro> {
     const token = localStorage.getItem('token') || '';
-  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  return this.http.post<ResponseRegistro>(`${this.baseAPi}ms_usuarios/register`, objeto, { headers });
-}
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<ResponseRegistro>(
+      `${this.baseAPi}ms_usuarios/register`,
+      objeto,
+      { headers }
+    );
+  }
   //actualizar un usuario
   actualizarUsuario(
     ID_USUARIO: number,
     USUARIO?: string,
     NOMBRE_USUARIO?: string,
     CORREO_ELECTRONICO?: string,
-    CONTRASEÑA?: string
+    CONTRASEÑA?: string,
+    ID_ROL?: number
   ): Observable<ResponseRegistro> {
     const token = localStorage.getItem('token') || '';
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -89,11 +97,11 @@ export class UsuariosService {
         NOMBRE_USUARIO,
         CORREO_ELECTRONICO,
         CONTRASEÑA,
+        ID_ROL
       },
       { headers }
     );
   }
-  
 
   //recuperar contraseña
   recucontraCorre(objeto: RecuContracontra): Observable<ResponseRegistro> {
@@ -108,5 +116,4 @@ export class UsuariosService {
       objeto
     );
   }
-
 }

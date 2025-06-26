@@ -31,7 +31,7 @@
         Valor Parámetro
       </th>
       <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
-        Cantidad Intentos Inválidos
+        Creado/actualizado por
       </th>
       <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
         Fecha de Creación
@@ -51,8 +51,11 @@
       class="border border-yellow-500 md:border-none block md:table-row">
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.ID_PARAMETRO }}</td>
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.PARAMETRO }}</td>
-      <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.VALOR }}</td>
-      <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.ADMIN_INTENTOS_INVALIDOS }}</td>
+      <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
+        {{ usuario.VALOR }}
+        <span *ngIf="i === 0"> ({{ usuario.ADMIN_INTENTOS_INVALIDOS }} INTENTOS)</span>
+      </td>
+      <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.CORREO_ELECTRONICO }}</td>
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.FECHA_CREACION }}</td> 
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ usuario.FECHA_MODIFICACION }}</td>
       <td class="p-2 md:border md:border-yellow-500 text-center block md:table-cell">

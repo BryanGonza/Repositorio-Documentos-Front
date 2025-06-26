@@ -1,0 +1,48 @@
+<div class="my-5">
+    <!-- Contenedor principal con fondo azul -->
+    <div class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-blue-500 border-yellow-500 rounded-md">
+      
+      <!-- Botón Volver -->
+      <button (click)="volver()" class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md">
+        Volver
+      </button>
+      
+      <div class="my-3">
+        <!-- Título del formulario -->
+        <h1 class="text-center text-2xl sm:text-3xl font-bold text-white">Registrar Tipo de Archivo</h1>
+        <form [formGroup]="formRegistro" (ngSubmit)="registrarTipo_archivo()">
+  
+          <!-- Campo para Nombre de la id_tipo_archivo
+          <div class="my-2">
+            <label for="IDTipo_archivo" class="text-sm sm:text-md font-bold text-yellow-300">ID TIPO DE ARCHIVO</label>
+            <input type="text" id="IDTipo_archivo" formControlName="IDTipo_archivo" 
+                   class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" 
+                   placeholder="Ingrese el id tipo de archivo">
+          </div>-->
+
+          <!-- Campo para Nombre de la tipo_archivo -->
+          <div class="my-2">
+            <label for="Tipo" class="text-sm sm:text-md font-bold text-yellow-300">TIPO DE ARCHIVO</label>
+            <input type="text" id="Tipo" formControlName="Tipo" 
+                   class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" 
+                   placeholder="Ingrese el tipo de archivo">
+          </div>
+
+          <!-- Campo para limite de almacenamiento -->
+          <div class="my-2">
+            <label for="Limite" class="text-sm sm:text-md font-bold text-yellow-300">LIMITE DE ALMACENAMIENTO</label>
+            <input type="text" id="Limite" formControlName="Limite" 
+                   class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900" 
+                   placeholder="Ingrese el tipo de archivo">
+          </div>
+  
+        
+          <!-- Botón Guardar -->
+          <button type="submit" [disabled]="formRegistro.invalid" class="px-4 py-1 bg-emerald-500 hover:bg-emerald-600 rounded-md text-black text-sm sm:text-lg shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed">
+            Guardar
+          </button>
+  
+        </form>
+      </div>
+    </div>
+  </div>

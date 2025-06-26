@@ -9,6 +9,12 @@ import { Usuarios } from '../../interfaces/Usuario/Usuarios';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
 import { TruncatePipe } from '../../shared/pipes/truncate.pipe';
+import { DepartamentoService } from '../../services/departamento.service';
+import { ClaseService } from '../../services/clase.service';
+import { TipoArchivoService } from '../../services/tipo-archivo.service';
+import { EstructuraArchivosService } from '../../services/estructura-archivos.service';
+import { CategoriaService } from '../../services/categoria.service';
+import { CaracteristicaService } from '../../services/caracteristica.service';
 
 @Component({
   selector: 'app-subir-documentos',
@@ -29,10 +35,109 @@ export class SubirDocumentosComponent {
   nombre: string = '';
   descripcion: string = '';
   es_public: number = 0;
+  ID_DEPARTAMENTO: number = 0;
+  ID_ESTRUCTURA_ARCHIVO: number = 0;
+  ID_TIPO_ARCHIVO: number = 0;
+  ID_CATEGORIA: number = 0;
+  ID_CARACTERISTICA: number = 0;
+  VALOR_CARACTERISTICA: string = '';
   usuario: Usuarios | null = null;
   subiendoArchivo: boolean = false;
   arrastrandoArchivo: boolean = false;
 
+
+
+  private departamentoService = inject(DepartamentoService);
+  private claseService = inject(ClaseService);
+  private estructuraArchivosService = inject(EstructuraArchivosService);
+  private tipo_archivoService = inject(TipoArchivoService);
+  private CategoriaService = inject(CategoriaService);
+  private caracteristicaService = inject(CaracteristicaService);
+  public listadepar: any[] = [];
+  public listclase: any[] = [];
+  public listestructu: any[] = [];
+  public listtipoarchivo: any[] = [];
+  public listcategoria: any[] = [];
+  public listcaracteristica: any[] = [];
+  ngOnInit(): void {
+    const correo = this.sharedService.getCorreo();
+    if (correo) {
+      this.usuarioService.perfil({ email: correo }).subscribe({
+        next: (data) => (this.usuario = data),
+        error: (err) => {
+          console.error('Error al cargar el perfil:', err);
+          Swal.fire(
+            'Error',
+            'No se pudo cargar la información del usuario',
+            'error'
+          );
+        },
+      });
+    }
+
+    // Cargar los datos de los selectores
+    this.departamentoService.Departamentoget().subscribe({
+      next: (data) => {
+        if (data.Listado_Departamentos.length > 0) {
+          this.listadepar = data.Listado_Departamentos;
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar departamentos', error);
+      },
+    });
+
+    // Cargar estructura de archivos y tipo de archivo
+    this.estructuraArchivosService.estructuraget().subscribe({
+      next: (data) => {
+        if (data.Listado_Estrucura_Archivos.length > 0) {
+          this.listestructu = data.Listado_Estrucura_Archivos;
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar estructura de archivos', error);
+      },
+    });
+    this.tipo_archivoService.Tipoarchivoget().subscribe({
+      next: (data) => {
+        if (data.Listado_Tipo_Archivo.length > 0) {
+          this.listtipoarchivo = data.Listado_Tipo_Archivo;
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar tipo de archivo', error);
+      },
+    });
+
+    //categoria
+    this.CategoriaService.getCategorias().subscribe({
+      next: (data) => {
+        if (data.Listado_Categoria.length > 0) {
+          this.listcategoria = data.Listado_Categoria;
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar categoria', error);
+      },
+    });
+    // caracteristica
+    this.caracteristicaService.cget().subscribe({
+      next: (data) => {
+        if (data.Listado_Caracteristicas.length > 0) {
+          this.listcaracteristica = data.Listado_Caracteristicas;
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar tipo de archivo', error);
+      },
+    });
+  }
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.validarArchivo(input.files[0]);
+    }
+  }
   get formularioValido(): boolean {
     return !!(
       this.nombre && 
@@ -40,29 +145,9 @@ export class SubirDocumentosComponent {
       this.descripcion &&
       this.descripcion.length <= 250 &&
       this.archivoSeleccionado
+   
     );
   }
-
-  ngOnInit() {
-    const correo = this.sharedService.getCorreo();
-    if (correo) {
-      this.usuarioService.perfil({ email: correo }).subscribe({
-        next: (data) => this.usuario = data,
-        error: (err) => {
-          console.error('Error al cargar el perfil:', err);
-          Swal.fire('Error', 'No se pudo cargar la información del usuario', 'error');
-        },
-      });
-    }
-  }
-
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.validarArchivo(input.files[0]);
-    }
-  }
-
   validarArchivo(file: File): void {
     const formatosPermitidos = ['application/pdf', 
                               'application/msword',
@@ -137,7 +222,14 @@ export class SubirDocumentosComponent {
         this.usuario.ID_USUARIO,
         this.nombre,
         this.descripcion,
-        this.es_public
+        this.es_public,
+        this.ID_DEPARTAMENTO,
+        this.ID_ESTRUCTURA_ARCHIVO,
+        this.ID_TIPO_ARCHIVO,
+        this.ID_CATEGORIA,
+        this.ID_CARACTERISTICA,
+        this.VALOR_CARACTERISTICA,
+        
       )
       .subscribe({
         next: () => {
@@ -244,7 +336,13 @@ subirMultiplesArchivos(): void {
       this.usuario!.ID_USUARIO,
       doc.nombre,
       doc.descripcion,
-      doc.es_public
+      doc.es_public,
+      this.ID_DEPARTAMENTO,
+      this.ID_ESTRUCTURA_ARCHIVO,
+      this.ID_TIPO_ARCHIVO,
+      this.ID_CATEGORIA,
+      this.ID_CARACTERISTICA,
+      this.VALOR_CARACTERISTICA,
     ).toPromise();
   });
 

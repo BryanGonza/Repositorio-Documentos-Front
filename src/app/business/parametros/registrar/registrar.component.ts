@@ -5,6 +5,7 @@ import { ParametrosService } from '../../../services/parametros.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { parametros, registro } from '../../../interfaces/Parametros/resposeParametros';
 import { CommonModule } from '@angular/common';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-registrar',
@@ -24,8 +25,11 @@ export default class RegistrarComponent {
     });
 
   registrarParametro() {
+    const token = localStorage.getItem('token') || '';
+    const decodedToken: any = jwtDecode(token);
     const objeto: registro = {
       PARAMETRO: this.fromRegistro.value.nombreParame.toUpperCase(),
+      ID_USUARIO: decodedToken.id,
       VALOR: this.fromRegistro.value.ValorParame.toUpperCase(),
     };
 

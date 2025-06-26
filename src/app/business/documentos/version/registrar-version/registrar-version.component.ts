@@ -6,6 +6,7 @@ import { VersionService } from '../../../../services/version.service';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import { RegistroVersion } from '../../../../interfaces/Documentos/Version/RegistroVersion';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-registrar-version',
@@ -20,7 +21,6 @@ export class RegistrarVersionComponent {
   public fromBuild = inject(FormBuilder);
 
   public formRegistro: FormGroup = this.fromBuild.group({
-    idUsuario: ['', Validators.required],
     nombre: [''],
     cambios: [false]
   });
@@ -36,9 +36,10 @@ export class RegistrarVersionComponent {
       });
       return;
     }
-
+    const token = localStorage.getItem('token') || '';
+    const decodedToken: any = jwtDecode(token);
     const objeto: RegistroVersion = {
-      ID_USUARIO: this.formRegistro.value.idUsuario,
+      ID_USUARIO: decodedToken.id,
       NOMBRE: this.formRegistro.value.nombre.toUpperCase(),
       CAMBIOS: this.formRegistro.value.cambios,
       FECHA_ACTU: new Date() // Asigna la fecha actual automáticamente

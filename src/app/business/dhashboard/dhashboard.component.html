@@ -186,10 +186,46 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
               </button>
+              
+              <button
+              class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 border border-red-500 rounded flex items-center"
+              (click)="detelles(usuario.ID_DOCUMENTO)"
+              title="Detalles"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20h9M12 4h9M3 6h18M3 18h18M3 6v12" />
+              </svg>
+            </button>
+            
             </div>
           </td>
         </tr>
-
+        <div
+        *ngIf="mostrarModalDetalles"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      >
+        <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md">
+          <h2 class="text-2xl font-bold mb-4">Detalles del Documento</h2>
+          
+          <div class="space-y-2 text-gray-800">
+            <p><strong>Nombre del Documento:</strong> {{ documento.NOMBRE }}</p>
+            <p><strong>Formato:</strong> {{ documento.detalles[0].FORMATO }}</p>
+            <p><strong>Departamento al que pertenece:</strong> {{ documento.detalles[0].departamento.Nombre }}</p>
+            <p><strong>Categoría:</strong> {{ documento.detalles[0].categoria.Categoria }}</p>
+            <p><strong>Tipo de Archivo:</strong> {{ documento.detalles[0].tipoArchivo.Tipo_Archivo }}</p>
+          </div>
+      
+          <div class="flex justify-end mt-6">
+            <button
+              (click)="mostrarModalDetalles = false"
+              class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+      
         <!-- Mensaje si no hay documentos -->
         <tr *ngIf="filteredUsers.length === 0">
           <td colspan="7" class="p-4 text-center text-gray-600">No se han subido documentos.</td>
@@ -213,3 +249,4 @@
     </div>
   </div>
 </div>
+

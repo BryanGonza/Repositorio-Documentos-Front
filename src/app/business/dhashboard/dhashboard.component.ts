@@ -12,6 +12,7 @@ import { FormatDatePipe } from '../../format-date.pipe';
 import { ObjetoPermiso } from '../../interfaces/Objetos/Objetos';
 import { PermisosService } from '../../services/permisos.service';
 import { ObjetosService } from '../../services/objetos.service';
+import { Documento } from '../../interfaces/Documentos/detalles';
 
 @Component({
   selector: 'app-dhashboard',
@@ -76,6 +77,7 @@ constructor() {}
     this.objetoser.getObjetosPermiss(this.token).subscribe({
       next: (data) => {
         this.objetos = data;
+    
         console.log('Objetos con permisos:', this.objetos);
       },
       error: (err) => {
@@ -244,7 +246,20 @@ constructor() {}
       }
     });
   }
+  mostrarModalDetalles: boolean = false;
 
+  documento!: Documento;
+  detelles(idDocumento: number) {
+    this.docService.getDocumentoDetalle(idDocumento).subscribe({
+      next: (data) => {
+        this.documento = data.doc;
+        this.mostrarModalDetalles = true; 
+      },
+      error: (err) => {
+        console.error('Error al cargar el documento:', err);
+      }
+    });
+  }
   // Propiedad para controlar la visibilidad del área de carga
   showUploadArea: boolean = false;
 

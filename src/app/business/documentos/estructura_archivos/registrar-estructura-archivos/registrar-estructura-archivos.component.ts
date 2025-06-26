@@ -5,6 +5,7 @@ import { EstructuraArchivosService } from '../../../../services/estructura-archi
 import { RegistroEstructuraArchivos } from '../../../../interfaces/Documentos/Estructura_archivos/ResgistroEstructura_archivos';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { DepartamentoService } from '../../../../services/departamento.service';
 
 @Component({
   selector: 'app-registrar-estructura-archivos',
@@ -17,14 +18,27 @@ export class RegistrarEstructuraArchivosComponent {
   private estructuraArchivosService = inject(EstructuraArchivosService);
   private route = inject(Router);
   public fromBuild = inject(FormBuilder);
-
+private departamentoService = inject(DepartamentoService);
   public formRegistro: FormGroup = this.fromBuild.group({
     idDepartamento: ['', Validators.required],
     espacioAlmacenamiento: ['', Validators.required],
     nombre: ['', Validators.required],
     ubicacion: ['', Validators.required],
   });
+  public listadepa: any[] = [];
+  ngOnInit(): void {
+    this.departamentoService.Departamentoget().subscribe({
+      next: (data) => {
+        if (data.Listado_Departamentos.length > 0) {
+          this.listadepa = data.Listado_Departamentos;
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar objetos', error);
+      },
+    });
 
+  }
   // Método para registrar la estructura de archivos
   registrarEstructura() {
     if (this.formRegistro.invalid) {

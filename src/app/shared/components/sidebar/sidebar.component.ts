@@ -15,69 +15,70 @@ import { ObjetosService } from '../../../services/objetos.service';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
-
-
-
   public mostrarSubmenu = false;
   public mostrarSubmDoc = false;
   public mostrarSubmMant = false;
   public activeItem: 'inicio' | 'documentos' | 'seguridad' | 'mantenimiento' | '' = '';
 
-  public objetos: ObjetoPermisoExtendido[] = [];
   constructor(
     private sharedService: SharedService,
-    private route: Router,           
-    private objetosService: ObjetosService
+    private route: Router           
   ) {}
-
+ rolActual: string = '';
   ngOnInit() {
     this.route.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
       .subscribe(e => this.definirItemActivo(e.urlAfterRedirects));
-
-    this.sharedService.rol$.subscribe(() => this.fetchPermisos());
-  }
-
-  private fetchPermisos() {
-    const token = localStorage.getItem('token') || '';
-    this.objetosService.getObjetosPermisos(token).subscribe({
-      next: data => this.objetos = data,
-      error: err => console.error(err)
+          this.sharedService.rol$.subscribe((rol) => {
+      this.rolActual = rol;
+      this.getObjetosConPermisos();
+      
     });
   }
+    objetos: ObjetoPermisoExtendido[] = [];
+  private objetoser = inject(ObjetosService);
+  token: string = typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
 
-  private normalize(str: string) {
-    return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+ getObjetosConPermisos(): void {
+    this.objetoser.getObjetosPermisos(this.token).subscribe({
+      next: (data) => {
+        this.objetos = data;
+        console.log('Objetos con permisos:', this.objetos);
+      },
+      error: (err) => {
+        console.error('Error al obtener objetos:', err);
+      },
+    });
   }
-
-  getPermisoConsulta(objName: string): boolean {
-    const busca = this.normalize(objName);
-    return this.objetos.some(o => {
-      const nombre = this.normalize(o.OBJETO);
-      // compara exacto, singular o plural:
-      return nombre.includes(busca)
-          || nombre.includes(busca.replace(/s$/, ''))
-          || nombre.includes(busca + 's');
-    }) && /* además */ this.objetos
-      .find(o => this.normalize(o.OBJETO).includes(busca))!
-      .PERMISO_CONSULTAR === true;
-  }
+  // MEtodo para normalizar cadenas
+    private normalize(str: string): string {
+      return str
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+    }
   
+getPermisoPorPalabraClave(clave: string): boolean {
+  const claveNormalizada = this.normalize(clave);
+  const permiso = this.objetos.find((o) =>
+    this.normalize(o.OBJETO).includes(claveNormalizada)
+  );
 
-  /** ¿Mostrar el menú de Mantenimiento? */
-  get showMantenimiento(): boolean {
-    return [
-      'facultad',
-      'tipo documento',
-      'estructura archivos',
-      'estado',
-      'clases',
-      'tipo caracteristica',
-      'categoria',
-      'sub categoria',
-      'tipo de archivo'
-    ].some(name => this.getPermisoConsulta(name));
-  }
+  if (!permiso) return false;
+
+  return (
+    permiso.PERMISO_CONSULTAR ||
+    permiso.PERMISO_INSERCION ||
+    permiso.PERMISO_ACTUALIZACION ||
+    permiso.PERMISO_ELIMINACION
+  );
+}
+
+
+tienePermisosSeguridad(): boolean {
+  const claves = ['usuario', 'parametros', 'roles', 'objetos', 'permisos'];
+  return claves.some(clave => this.getPermisoPorPalabraClave(clave));
+}
 
   private definirItemActivo(url: string) {
     // reset
@@ -87,27 +88,15 @@ export class SidebarComponent {
   
     if (ruta === '/dhashboard') {
       this.activeItem = 'inicio';
-  
     } else if (ruta.includes('/documentos') || ruta.includes('/subir_documentos')) {
       this.activeItem = 'documentos';
       this.mostrarSubmDoc = true;
-  
-    } else if (
-      ['usuarios', 'parametros', 'roles', 'objetos', 'permisos']
-        .some(seg => ruta.includes(seg))
-    ) {
+    } else if (['usuarios', 'parametros', 'roles', 'objetos', 'permisos'].some(seg => ruta.includes(seg))) {
       this.activeItem = 'seguridad';
       this.mostrarSubmenu = true;
-  
-    } else if (
-      ['facultad', 'tipo-documento', 'estructura_archivos', 'estado',
-       'clases', 'tipo-caracteristica', 'categoria', 'sub-categoria',
-       'tipo de archivo']
-        .some(mant => ruta.includes(mant) && this.getPermisoConsulta(mant))
-    ) {
+    } else if (['facultad', 'tipo-documento', 'estructura_archivos', 'estado', 'clases', 'tipo-caracteristica', 'categoria', 'sub-categoria', 'tipo de archivo'].some(mant => ruta.includes(mant))) {
       this.activeItem = 'mantenimiento';
       this.mostrarSubmMant = true;
-  
     } else {
       this.activeItem = '';
     }
@@ -118,7 +107,6 @@ export class SidebarComponent {
     if (this.activeItem === 'documentos') {
       this.activeItem = '';
       this.mostrarSubmDoc = false;
-
     } else {
       this.activeItem = 'documentos';
       this.mostrarSubmDoc = true;
@@ -132,7 +120,6 @@ export class SidebarComponent {
     if (this.activeItem === 'seguridad') {
       this.activeItem = '';
       this.mostrarSubmenu = false;
-
     } else {
       this.activeItem = 'seguridad';
       this.mostrarSubmenu = true;
@@ -146,7 +133,6 @@ export class SidebarComponent {
     if (this.activeItem === 'mantenimiento') {
       this.activeItem = '';
       this.mostrarSubmMant = false;
-
     } else {
       this.activeItem = 'mantenimiento';
       this.mostrarSubmMant = true;

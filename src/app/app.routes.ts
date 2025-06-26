@@ -37,13 +37,13 @@ export const routes: Routes = [
         path: 'registrar',
         loadComponent: () =>
           import('./business/usuarios/registrar/registrar.component'),
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
       },
       {
         path: 'actualizar',
         loadComponent: () =>
           import('./business/usuarios/actualizar/actualizar.component'),
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
       },
       {
         path: 'dhashboard',
@@ -58,26 +58,26 @@ export const routes: Routes = [
       {
         path: 'usuarios',
         loadComponent: () => import('./business/usuarios/usuarios.component'),
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
       },
       //rutas de parametros
       {
         path: 'registrarParametros',
         loadComponent: () =>
           import('./business/parametros/registrar/registrar.component'),
-        canActivate: [AdmiGuard],
+        // canActivate: [AdmiGuard],
       },
       {
         path: 'parametros',
         loadComponent: () =>
           import('./business/parametros/parametros.component'),
-        canActivate: [AdmiGuard],
+        // canActivate: [AdmiGuard],
       },
       {
         path: 'actualizarParametros',
         loadComponent: () =>
           import('./business/parametros/actualizar/actualizar.component'),
-        canActivate: [AdmiGuard],
+        // canActivate: [AdmiGuard],
       },
 
       // Rutas de Permisos
@@ -92,7 +92,7 @@ export const routes: Routes = [
           import(
             './business/permisos/registrar-permiso/registrar-permiso.component'
           ).then((m) => m.RegistrarPermisoComponent),
-        canActivate: [AdmiGuard],
+        // canActivate: [AdmiGuard],
       },
       {
         path: 'actualizar-permiso',
@@ -100,14 +100,14 @@ export const routes: Routes = [
           import(
             './business/permisos/actualizar-permiso/actualizar-permiso.component'
           ),
-        canActivate: [AdmiGuard],
+        // canActivate: [AdmiGuard],
       },
 
       // Rutas de Objetos
       {
         path: 'objetos',
         loadComponent: () => import('./business/objetos/objetos.component'),
-        canActivate: [AdmiGuard],
+        // canActivate: [AdmiGuard],
       },
       {
         path: 'registrar-objeto',
@@ -115,7 +115,7 @@ export const routes: Routes = [
           import(
             './business/objetos/registrar-objeto/registrar-objeto.component'
           ).then((m) => m.RegistrarObjetoComponent),
-        canActivate: [AdmiGuard],
+        // canActivate: [AdmiGuard],
       },
       {
         path: 'actualizar-objeto',
@@ -123,7 +123,7 @@ export const routes: Routes = [
           import(
             './business/objetos/actualizar-objeto/actualizar-objeto.component'
           ),
-        canActivate: [AdmiGuard],
+        // canActivate: [AdmiGuard],
       },
 
       //Rutas de Roles
@@ -131,7 +131,7 @@ export const routes: Routes = [
       {
         path: 'roles',
         loadComponent: () => import('./business/roles/roles.component'),
-        canActivate: [AdmiGuard],
+        // canActivate: [AdmiGuard],
       },
       {
         path: 'registrar-rol',
@@ -139,13 +139,13 @@ export const routes: Routes = [
           import('./business/roles/registrar-rol/registrar-rol.component').then(
             (m) => m.RegistrarRolComponent
           ),
-        canActivate: [AdmiGuard],
+        // canActivate: [AdmiGuard],
       },
       {
         path: 'actualizar-rol',
         loadComponent: () =>
           import('./business/roles/actualizar-rol/actualizar-rol.component'),
-        canActivate: [AdmiGuard],
+        // canActivate: [AdmiGuard],
       },
 
       //Rutas para subir un documento
@@ -258,7 +258,7 @@ export const routes: Routes = [
           import('./business/UNAH/Clase/clase.component').then(
             (m) => m.ClaseComponent
           ),
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
       },
       //rutsa tipo caracteristica
       {
@@ -267,7 +267,7 @@ export const routes: Routes = [
           import(
             './business/tipo_caracteristica/tipo-caracteristica.component'
           ).then((m) => m.TipoCaracteristicaComponent),
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
       },
       //rutas de categoria
       {
@@ -276,7 +276,7 @@ export const routes: Routes = [
           import('./business/categoria/categoria.component').then(
             (m) => m.CategoriaComponent
           ),
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
       },
       //rutas de sub_categoria
       {
@@ -285,18 +285,88 @@ export const routes: Routes = [
           import('./business/sub_categoria/sub-categoria.component').then(
             (m) => m.SubCategoriaComponent
           ),
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
       },
-            //rutas de tipo archivo
-            {
-              path: 'TipoArchivo',
-              loadComponent: () =>
-                import('./business/tipo-archivo/tipo-archivo.component').then(
-                  (m) => m.TipoArchivoComponent
-                ),
-              canActivate: [AuthGuard],
-            },
+           
       
+
+       //Rutas de Version
+       { 
+        path: 'version',
+        loadComponent: () =>
+          import('./business/documentos/version/version.component')
+      },
+      {
+        path: 'registrar-version',
+        loadComponent: () =>
+          import ('./business/documentos/version/registrar-version/registrar-version.component').then (
+            (m) => m.RegistrarVersionComponent
+          ),
+      },
+      {
+        path: 'actualizar-version',
+        loadComponent: () =>
+          import ('./business/documentos/version/actualizar-version/actualizar-version.component')
+      },
+
+      // RUTAS DE CARACTERISTICAS
+      {
+        path:'caracteristicas',
+        loadComponent: () =>
+          import ('./business/documentos/caracteristica/caracteristica.component')
+      },
+      {
+        path:'registrar-caracteristicas',
+        loadComponent: () =>
+          import ('./business/documentos/caracteristica/registrar-caracteristica/registrar-caracteristica.component') .then(
+            (m) => m.RegistrarCaracteristicaComponent
+          )
+      },
+      { 
+        path: 'actualizar-caracteristicas',
+        loadComponent: () =>
+          import('./business/documentos/caracteristica/actualizar-caracteristica/actualizar-caracteristica.component')
+      },
+      // RUTAS DE DEPARTAMENTO
+      {
+        path: 'departamento',
+        loadComponent: () =>
+          import('./business/departamento/departamento.component'),
+      },
+      
+      {
+        path: 'actualizar-departamento',
+        loadComponent: () =>
+          import('./business/departamento/actualizar-departamento/actualizar-departamento.component'),
+      },
+
+      {
+        path: 'registrar-departamento',
+        loadComponent: () =>
+          import('./business/departamento/registrar-departamento/registrar-departamento.component').then(
+            (m) => m.RegistrarDepartamentoComponent
+          ),
+      },
+      // RUTAS DE TIPO DE ARCHIVO
+      {
+        path: 'tipo_archivo',
+        loadComponent: () =>
+          import('./business/tipo_archivo/tipo_archivo.component'),
+      },
+      
+      {
+        path: 'actualizar-tipo_archivo',
+        loadComponent: () =>
+          import('./business/tipo_archivo/actualizar-tipo_archivo/actualizar-tipo_archivo.component'),
+      },
+
+      {
+        path: 'registrar-tipo_archivo',
+        loadComponent: () =>
+          import('./business/tipo_archivo/registrar-tipo_archivo/registrar-tipo_archivo.component').then(
+            (m) => m.RegistrarTipo_archivoComponent
+          ),
+      },
     ],
   },
 

@@ -1,5 +1,3 @@
-<!-- sidebar.component.html -->
-
 <aside class="
 fixed top-4 bottom-4 left-4 z-50
 w-72 rounded-xl
@@ -58,7 +56,7 @@ transition-transform duration-300 xl:translate-x-0
           <span class="ml-auto">▼</span>
         </button>
         <ul *ngIf="mostrarSubmDoc" class="ml-6 mt-2 space-y-2">
-          <li>
+          <li *ngIf="getPermisoPorPalabraClave('documentos')" >
             <a routerLink="/Documentos" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left"
                 title="Ver Todos los Documentos">
@@ -77,18 +75,18 @@ transition-transform duration-300 xl:translate-x-0
           </li>
         </ul>
       </li>
-      <!-- MANTENIMIENTO -->
-      <li *ngIf="showMantenimiento">
-        <button (click)="toggleSubmMant()" [ngClass]="{'bg-yellow-500 text-black': activeItem === 'mantenimiento'}"
+
+      <!-- Mantenimiento -->
+      <li>
+        <!-- <button (click)="toggleSubmMant()" [ngClass]="{'bg-yellow-500 text-black': activeItem === 'mantenimiento'}"
           class="font-sans font-bold text-xs py-3 rounded-lg text-black hover:bg-white/10 active:bg-white/30 flex w-full items-center gap-4 px-4 capitalize"
           title="Mostrar Mantenimiento">
-          <!-- ícono genérico, cámbialo si quieres otro -->
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
             <path d="M12 2a2 2 0 00-2 2v2H6v2h4v2a2 2 0 104 0V8h4V6h-4V4a2 2 0 00-2-2z" />
           </svg>
           <p class="block font-medium">Mantenimiento</p>
           <span class="ml-auto">▼</span>
-        </button>
+        </button> -->
         <ul *ngIf="mostrarSubmMant" class="ml-6 mt-2 space-y-2">
           <!-- Facultad -->
           <li>
@@ -161,20 +159,11 @@ transition-transform duration-300 xl:translate-x-0
               </button>
             </a>
           </li>
-
-          <!-- Tipo Archivo -->
-          <li>
-            <!-- <a routerLink="/TipoArchivo" routerLinkActive="active-menu">
-              <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
-                Tipo Archivo
-              </button>
-            </a> -->
-          </li>
         </ul>
       </li>
 
       <!-- Seguridad -->
-      <li  >
+      <li *ngIf="tienePermisosSeguridad()">
         <button (click)="toggleSubmenu()" [ngClass]="{'bg-yellow-500 text-black': activeItem === 'seguridad'}"
           class="font-sans font-bold text-xs py-3 rounded-lg text-black hover:bg-white/10 active:bg-white/30 flex w-full items-center gap-4 px-4 capitalize"
           title="Mostrar Seguridad">
@@ -187,7 +176,7 @@ transition-transform duration-300 xl:translate-x-0
           <span class="ml-auto">▼</span>
         </button>
         <ul *ngIf="mostrarSubmenu" class="ml-6 mt-2 space-y-2">
-          <li *ngIf="getPermisoConsulta('usuario')">
+          <li *ngIf="getPermisoPorPalabraClave('usuario')" >
             <a routerLink="/usuarios" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left"
                 title="Gestionar Usuarios">
@@ -195,7 +184,7 @@ transition-transform duration-300 xl:translate-x-0
               </button>
             </a>
           </li>
-          <li *ngIf="getPermisoConsulta('parametros')">
+          <li *ngIf="getPermisoPorPalabraClave('parametros')">
             <a routerLink="/parametros" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left"
                 title="Gestionar Parametros">
@@ -203,7 +192,7 @@ transition-transform duration-300 xl:translate-x-0
               </button>
             </a>
           </li>
-          <li *ngIf="getPermisoConsulta('roles')">
+          <li *ngIf="getPermisoPorPalabraClave('roles')">
             <a routerLink="/roles" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left"
                 title="Gestionar Roles">
@@ -211,7 +200,7 @@ transition-transform duration-300 xl:translate-x-0
               </button>
             </a>
           </li>
-          <li *ngIf="getPermisoConsulta('objetos')">
+          <li *ngIf="getPermisoPorPalabraClave('objetos')">
             <a routerLink="/objetos" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left"
                 title="Gestionar Objetos">
@@ -219,7 +208,7 @@ transition-transform duration-300 xl:translate-x-0
               </button>
             </a>
           </li>
-          <li>
+          <li *ngIf="getPermisoPorPalabraClave('permisos')">
             <a routerLink="/permisos" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left"
                 title="Gestionar Permisos">

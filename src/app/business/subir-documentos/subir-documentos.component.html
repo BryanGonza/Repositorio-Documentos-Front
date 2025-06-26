@@ -18,6 +18,7 @@
   </div>
 
   <!-- Modo individual  -->
+   
   <div *ngIf="!multiMode && showUploadArea" class="upload-form-container">
     <div class="upload-container">
       <h2 class="upload-title">Subir Nuevo Documento</h2>
@@ -43,7 +44,86 @@
                       class="form-input" rows="3" placeholder="Describe el contenido del documento" required></textarea>
             <small class="form-hint">Máximo 250 caracteres</small>
           </div>
-    
+          
+              <!-- Campo departamento -->
+              <div class="form-group">
+                <label for="ID_DEPARTAMENTO" class="form-label">
+                  <span class="required">*</span> Departamento
+                </label>
+                <select id="ID_DEPARTAMENTO" [(ngModel)]="ID_DEPARTAMENTO" name="ID_DEPARTAMENTO" class="form-input" required>
+                  <option value="">Seleccione un departamento</option>
+                  <option *ngFor="let dep of listadepar" [value]="dep.ID_DEPARTAMENTO">
+                    {{ dep.NOMBRE }}
+                  </option>
+                </select>
+                <small class="form-hint">Seleccione un departamento de la lista</small>
+              </div>
+
+            <!-- Campo estructura de archivos -->
+            <div class="form-group">
+              <label for="ID_ESTRUCTURA_ARCHIVO" class="form-label">
+                <span class="required">*</span> Estructura de Archivo
+              </label>
+              <select id="ID_ESTRUCTURA_ARCHIVO" [(ngModel)]="ID_ESTRUCTURA_ARCHIVO" name="ID_ESTRUCTURA_ARCHIVO" class="form-input" required>
+                <option value="">Seleccione una estructura</option>
+                <option *ngFor="let est of listestructu" [value]="est.ID_ESTRUCTURA_ARCHIVOS">
+                  {{ est.NOMBRE }}
+                </option>
+              </select>
+              <small class="form-hint">Seleccione una estructura de archivos</small>
+            </div>
+              <!-- Campo TIPO DE ARCHIVO -->
+            <div class="form-group">
+              <label for="ID_TIPO_ARCHIVO" class="form-label">
+                <span class="required">*</span> Tipo de Archivo
+              </label>
+              <select id="ID_TIPO_ARCHIVO" [(ngModel)]="ID_TIPO_ARCHIVO" name="ID_TIPO_ARCHIVO" class="form-input" required>
+                <option value="">Seleccione un tipo de archivo</option>
+                <option *ngFor="let tipo of listtipoarchivo" [value]="tipo.ID_TIPO_ARCHIVO">
+                  {{ tipo.TIPO_ARCHIVO }}
+                </option>
+              </select>
+              <small class="form-hint">Seleccione el tipo de archivo correcto</small>
+            </div>
+            
+          <!-- Campo CATEGORIA -->
+          <div class="form-group">
+            <label for="ID_CATEGORIA" class="form-label">
+              <span class="required">*</span> Categoría
+            </label>
+            <select id="ID_CATEGORIA" [(ngModel)]="ID_CATEGORIA" name="ID_CATEGORIA" class="form-input" required>
+              <option value="">Seleccione una categoría</option>
+              <option *ngFor="let cat of listcategoria" [value]="cat.ID_CATEGORIA">
+                {{ cat.CATEGORIA }}
+              </option>
+            </select>
+            <small class="form-hint">Seleccione la categoría correspondiente</small>
+          </div>
+          
+          <!-- Campo CARACATERISTICA -->
+          <div class="form-group">
+            <label for="ID_CARACTERISTICA" class="form-label">
+              <span class="required">*</span> Característica
+            </label>
+            <select id="ID_CARACTERISTICA" [(ngModel)]="ID_CARACTERISTICA" name="ID_CARACTERISTICA" class="form-input" required>
+              <option value="">Seleccione una característica</option>
+              <option *ngFor="let car of listcaracteristica" [value]="car.ID_CARACTERISTICA">
+                {{ car.CARACTERISTICA }}
+              </option>
+            </select>
+            <small class="form-hint">Seleccione una característica disponible</small>
+          </div>
+          
+          <div class="form-group">
+            <label for="VALOR_CARACTERISTICA" class="form-label">
+              <span class="required">*</span> Valor de la Característica
+            </label>
+            <input type="text" id="VALOR_CARACTERISTICA" [(ngModel)]="VALOR_CARACTERISTICA" name="VALOR_CARACTERISTICA"
+                   class="form-input" placeholder="Ingrese el valor de la característica" required>
+        
+          </div>
+          
+
           <!-- Selector de Visibilidad -->
           <div class="form-group">
             <label class="form-label">
@@ -185,7 +265,84 @@
           <textarea id="descripcion-{{i}}" [(ngModel)]="doc.descripcion" name="descripcion-{{i}}"
                     class="form-input" rows="2" placeholder="Describe el contenido del documento" required></textarea>
         </div>
+          
+              <!-- Campo departamento -->
+              <div class="form-group">
+                <label for="ID_DEPARTAMENTO" class="form-label">
+                  <span class="required">*</span> Departamento
+                </label>
+                <select id="ID_DEPARTAMENTO" [(ngModel)]="ID_DEPARTAMENTO" name="ID_DEPARTAMENTO" class="form-input" required>
+                  <option value="">Seleccione un departamento</option>
+                  <option *ngFor="let dep of listadepar" [value]="dep.ID_DEPARTAMENTO">
+                    {{ dep.NOMBRE }}
+                  </option>
+                </select>
+                <small class="form-hint">Seleccione un departamento de la lista</small>
+              </div>
 
+            <!-- Campo estructura de archivos -->
+            <div class="form-group">
+              <label for="ID_ESTRUCTURA_ARCHIVO" class="form-label">
+                <span class="required">*</span> Estructura de Archivo
+              </label>
+              <select id="ID_ESTRUCTURA_ARCHIVO" [(ngModel)]="ID_ESTRUCTURA_ARCHIVO" name="ID_ESTRUCTURA_ARCHIVO" class="form-input" required>
+                <option value="">Seleccione una estructura</option>
+                <option *ngFor="let est of listestructu" [value]="est.ID_ESTRUCTURA_ARCHIVOS">
+                  {{ est.NOMBRE }}
+                </option>
+              </select>
+              <small class="form-hint">Seleccione una estructura de archivos</small>
+            </div>
+              <!-- Campo TIPO DE ARCHIVO -->
+            <div class="form-group">
+              <label for="ID_TIPO_ARCHIVO" class="form-label">
+                <span class="required">*</span> Tipo de Archivo
+              </label>
+              <select id="ID_TIPO_ARCHIVO" [(ngModel)]="ID_TIPO_ARCHIVO" name="ID_TIPO_ARCHIVO" class="form-input" required>
+                <option value="">Seleccione un tipo de archivo</option>
+                <option *ngFor="let tipo of listtipoarchivo" [value]="tipo.ID_TIPO_ARCHIVO">
+                  {{ tipo.TIPO_ARCHIVO }}
+                </option>
+              </select>
+              <small class="form-hint">Seleccione el tipo de archivo correcto</small>
+            </div>
+            
+          <!-- Campo CATEGORIA -->
+          <div class="form-group">
+            <label for="ID_CATEGORIA" class="form-label">
+              <span class="required">*</span> Categoría
+            </label>
+            <select id="ID_CATEGORIA" [(ngModel)]="ID_CATEGORIA" name="ID_CATEGORIA" class="form-input" required>
+              <option value="">Seleccione una categoría</option>
+              <option *ngFor="let cat of listcategoria" [value]="cat.ID_CATEGORIA">
+                {{ cat.CATEGORIA }}
+              </option>
+            </select>
+            <small class="form-hint">Seleccione la categoría correspondiente</small>
+          </div>
+          
+          <!-- Campo CARACATERISTICA -->
+          <div class="form-group">
+            <label for="ID_CARACTERISTICA" class="form-label">
+              <span class="required">*</span> Característica
+            </label>
+            <select id="ID_CARACTERISTICA" [(ngModel)]="ID_CARACTERISTICA" name="ID_CARACTERISTICA" class="form-input" required>
+              <option value="">Seleccione una característica</option>
+              <option *ngFor="let car of listcaracteristica" [value]="car.ID_CARACTERISTICA">
+                {{ car.CARACTERISTICA }}
+              </option>
+            </select>
+            <small class="form-hint">Seleccione una característica disponible</small>
+          </div>
+          
+          <div class="form-group">
+            <label for="VALOR_CARACTERISTICA" class="form-label">
+              <span class="required">*</span> Valor de la Característica
+            </label>
+            <input type="text" id="VALOR_CARACTERISTICA" [(ngModel)]="VALOR_CARACTERISTICA" name="VALOR_CARACTERISTICA"
+                   class="form-input" placeholder="Ingrese el valor de la característica" required>
+        
+          </div>
         <div class="form-group">
           <label class="form-label">
             <span class="required">*</span> Visibilidad
