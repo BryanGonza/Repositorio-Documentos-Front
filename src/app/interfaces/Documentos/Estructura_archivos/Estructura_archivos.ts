@@ -1,7 +1,8 @@
 export interface EstructuraArchivos {
     ID_ESTRUCTURA_ARCHIVOS: number;
     ID_DEPARTAMENTO: number;
-    ESPACIO_ALMACENAMIENTO: bigint;
+    DEPARTAMENTO: string; 
+    ESPACIO_ALMACENAMIENTO: BigInt;
     NOMBRE: string;
     UBICACION: string;
 }

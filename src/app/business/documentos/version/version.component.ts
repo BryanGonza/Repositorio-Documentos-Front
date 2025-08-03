@@ -126,7 +126,7 @@ export default class VersionComponent {
     const query = this.searchQuery.toLowerCase();
     this.filteredVersiones = this.Lista_Version.filter(version =>
       version.NOMBRE?.toString().toLowerCase().includes(query) ||
-      version.ID_USUARIO?.toString().includes(query) ||
+      version.USUARIO?.toString().includes(query) ||
       version.CAMBIOS?.toString().toLowerCase().includes(query)
     );
     this.currentPage = 1;
@@ -215,13 +215,13 @@ export default class VersionComponent {
     this.route.navigate(['actualizar-version'], { 
       queryParams: { 
         id: param.ID_VERSION,
-        id_usuario: param.ID_USUARIO,
+        usuario: param.USUARIO,
         nombre: param.NOMBRE,
-        cambios: param.CAMBIOS,
-        fecha_actu: param.FECHA_ACTU
+        cambios: param.CAMBIOS
       } 
     });
   }
+  
 
   registro() {
     this.route.navigate(['registrar-version']);

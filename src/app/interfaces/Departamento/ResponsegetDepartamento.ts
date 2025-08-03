@@ -14,6 +14,7 @@ export interface Responsedepartamento {
 import { departamento } from "./Departamento";
 
 export interface ResponseDepartamento{
+    message: string;
     msg: string;
     Listado_Departamentos :departamento[]
 }

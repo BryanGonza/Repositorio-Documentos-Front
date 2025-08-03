@@ -19,6 +19,7 @@ export default class ActualizarFacultadComponent {
 
   facultadId: number = 0;
   NombreFacultad: string = '';
+  Descrpcion: String = '';
   EstadoFacultad: boolean = true
 
   constructor(private activatedRoute: ActivatedRoute) {}
@@ -27,6 +28,7 @@ export default class ActualizarFacultadComponent {
     this.activatedRoute.queryParams.subscribe(params => {
       this.facultadId = params['id'],
       this.NombreFacultad = params['nombre'];
+      this.Descrpcion = params['descripcion'];
       this.EstadoFacultad = params['estado'] === 'true';
     });
   }
@@ -35,12 +37,14 @@ export default class ActualizarFacultadComponent {
     const datosActualizados: any = {
       ID_FACULTAD: this.facultadId,
       NOMBRE: this.NombreFacultad.toUpperCase(),
+      DESCRIPCION: this.Descrpcion.toLowerCase(),
       ESTADO: this.EstadoFacultad,
     };
 
     this.facultadService.actualizarfacultad(
       datosActualizados.ID_FACULTAD,
       datosActualizados.NOMBRE,
+      datosActualizados.DESCRIPCION,
       datosActualizados.ESTADO,
     ).subscribe({
       next: (res) => {

@@ -21,6 +21,7 @@ export class RegistrarFacultadComponent {
 
   public formRegistro: FormGroup = this.fromBuild.group({
     nombreFacultad: ['', Validators.required],
+    descripcion: [ '', Validators.required],
     estado: [true, Validators.required], // Valor por defecto: true (Activo)
   });
 
@@ -36,11 +37,14 @@ export class RegistrarFacultadComponent {
       return;
     }
 
-
+    // Asegura que estado sea booleano real (por si viene como string)
+    const estadoFormulario = this.formRegistro.value.estado;
+    const estadoBooleano = estadoFormulario === true || estadoFormulario === 'true';
 
     const objeto: RegistroFacultad = {
-      NOMBRE: this.formRegistro.value.nombreFacultad.toUpperCase(), 
-      ESTADO: this.formRegistro.value.estado
+      NOMBRE: this.formRegistro.value.nombreFacultad.toUpperCase(),
+      DESCRIPCION: this.formRegistro.value.descripcion.toUpperCase(),
+      ESTADO: estadoBooleano
     };
 
     this.facultadService.registrarFacultad(objeto).subscribe({

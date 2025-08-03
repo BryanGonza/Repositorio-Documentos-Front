@@ -78,7 +78,7 @@ transition-transform duration-300 xl:translate-x-0
 
       <!-- Mantenimiento -->
       <li>
-        <!-- <button (click)="toggleSubmMant()" [ngClass]="{'bg-yellow-500 text-black': activeItem === 'mantenimiento'}"
+        <button (click)="toggleSubmMant()" [ngClass]="{'bg-yellow-500 text-black': activeItem === 'mantenimiento'}"
           class="font-sans font-bold text-xs py-3 rounded-lg text-black hover:bg-white/10 active:bg-white/30 flex w-full items-center gap-4 px-4 capitalize"
           title="Mostrar Mantenimiento">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
@@ -86,7 +86,7 @@ transition-transform duration-300 xl:translate-x-0
           </svg>
           <p class="block font-medium">Mantenimiento</p>
           <span class="ml-auto">▼</span>
-        </button> -->
+        </button> 
         <ul *ngIf="mostrarSubmMant" class="ml-6 mt-2 space-y-2">
           <!-- Facultad -->
           <li>

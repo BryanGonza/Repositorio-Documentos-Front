@@ -23,6 +23,7 @@
       class="border border-yellow-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto md:relative">
       <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">ID</th>
       <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Nombre</th>
+            <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Descripcion</th>
       <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Estado</th>
       <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-center block md:table-cell">Acciones</th>
     </tr>
@@ -35,6 +36,7 @@
       class="border border-yellow-500 md:border-none block md:table-row">
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ facultad.ID_FACULTAD }}</td>
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ facultad.NOMBRE }}</td>
+      <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ facultad.DESCRIPCION }}</td>
       <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
         {{ facultad.ESTADO ? 'ACTIVO' : 'INACTIVO' }}
       </td>
