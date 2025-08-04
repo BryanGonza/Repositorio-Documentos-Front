@@ -1,0 +1,44 @@
+<div class="my-5">
+  <!-- Contenedor principal con fondo azul -->
+  <div
+    class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl shadow-md dark:shadow-white py-4 px-6 sm:px-10 bg-blue-500 border-yellow-500 rounded-md">
+
+    <!-- Botón Volver -->
+    <button (click)="volver()"
+      class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-md text-white text-sm sm:text-lg shadow-md">
+      Volver
+    </button>
+    <div class="my-3">
+      <!-- Título del formulario -->
+      <h1 class="text-center text-2xl sm:text-3xl font-bold text-white">Caracteristica de Documento</h1>
+      <form [formGroup]="formRegistro" (ngSubmit)="registrarDepartamento()">
+        <!-- Campo para TIPO_DOCUMENTO -->
+        <div class="my-2">
+          <label for="IDTipoDocum" class="text-sm font-bold text-gray-700">Tipo de docuemto</label>
+          <select id="IDTipoDocum" formControlName="IDTipoDocum"
+            class="block w-full border border-yellow-500 px-2 py-2 rounded-md bg-white text-gray-900">
+            <option value="">Seleccione un Tipo de Documento </option>
+            <option *ngFor="let facu of listaTDoc" [value]="facu.ID_TIPO_DOCUMENTO">{{ facu.TIPO_DOCUMENTO }}</option>
+          </select>
+        </div>
+
+        <!-- Campo para caracteristica -->
+        <div class="my-2">
+          <label for="IDCaracteristica" class="text-sm font-bold text-gray-700">Caracteristica </label>
+          <select id="IDCaracteristica" formControlName="IDCaracteristica"
+            class="block w-full border border-yellow-500 px-2 py-2 rounded-md bg-white text-gray-900">
+            <option value="">Seleccione una caracteristica </option>
+            <option *ngFor="let cara of listaCaracteristica" [value]="cara.ID_CARACTERISTICA">{{ cara.CARACTERISTICA }}
+            </option>
+          </select>
+        </div>
+
+
+          <!-- Botón Guardar -->
+          <button type="submit" [disabled]="formRegistro.invalid" class="px-4 py-1 bg-emerald-500 hover:bg-emerald-600 rounded-md text-black text-sm sm:text-lg shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed">
+            Guardar
+          </button>
+      </form>
+
+    </div>
+  </div>

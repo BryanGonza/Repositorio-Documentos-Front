@@ -11,6 +11,7 @@ export interface Responsedepartamento {
 
 }*/
 
+
 import { departamento } from "./Departamento";
 
 export interface ResponseDepartamento{

@@ -200,31 +200,36 @@
             </div>
           </td>
         </tr>
-        <div
-        *ngIf="mostrarModalDetalles"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      >
-        <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md">
-          <h2 class="text-2xl font-bold mb-4">Detalles del Documento</h2>
-          
-          <div class="space-y-2 text-gray-800">
-            <p><strong>Nombre del Documento:</strong> {{ documento.NOMBRE }}</p>
-            <p><strong>Formato:</strong> {{ documento.detalles[0].FORMATO }}</p>
-            <p><strong>Departamento al que pertenece:</strong> {{ documento.detalles[0].departamento.Nombre }}</p>
-            <p><strong>Categoría:</strong> {{ documento.detalles[0].categoria.Categoria }}</p>
-            <p><strong>Tipo de Archivo:</strong> {{ documento.detalles[0].tipoArchivo.Tipo_Archivo }}</p>
-          </div>
-      
-          <div class="flex justify-end mt-6">
-            <button
-              (click)="mostrarModalDetalles = false"
-              class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
+<div *ngIf="mostrarModalDetalles" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md">
+    <h2 class="text-2xl font-bold mb-4">Detalles del Documento</h2>
+    <div class="space-y-2 text-gray-800" *ngIf="caracteristicasDinamicas.length > 0">
+      <p><strong>Departamento:</strong> {{ nombreDepartamento }}</p>
+      <p><strong>Tipo de Documento:</strong> {{ tipoDocumento }}</p>
+    </div>
+
+    <!-- Características dinámicas -->
+    <div class="mt-4 border-t pt-4">
+      <h3 class="text-xl font-bold mb-2 text-blue-700">Características del Documento</h3>
+      <div *ngIf="caracteristicasDinamicas.length > 0; else noCarac">
+        <ul>
+          <li *ngFor="let car of caracteristicasDinamicas">
+            <strong>{{ car.CARACTERISTICA }}:</strong> {{ car.VALOR }}
+          </li>
+        </ul>
       </div>
+      <ng-template #noCarac>
+        <p class="text-gray-500">Este documento no tiene características dinámicas.</p>
+      </ng-template>
+    </div>
+
+    <div class="flex justify-end mt-6">
+      <button (click)="mostrarModalDetalles = false" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+
       
         <!-- Mensaje si no hay documentos -->
         <tr *ngIf="filteredUsers.length === 0">

@@ -13,6 +13,8 @@ import { ObjetoPermiso } from '../../interfaces/Objetos/Objetos';
 import { PermisosService } from '../../services/permisos.service';
 import { ObjetosService } from '../../services/objetos.service';
 import { Documento } from '../../interfaces/Documentos/detalles';
+import { CaracteristicaDocumento, TipoDocCaracteService } from '../../services/tipo-doc-caracte.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-dhashboard',
@@ -36,6 +38,7 @@ export default class DhashboardComponent {
   public usuario: Usuarios | null = null;
   private sharedService = inject(SharedService);
   private objetoser = inject(ObjetosService);
+  private TipoDocCaracteService = inject(TipoDocCaracteService);
 
   private usuarioService = inject(UsuariosService);
 
@@ -247,19 +250,33 @@ constructor() {}
     });
   }
   mostrarModalDetalles: boolean = false;
+caracteristicasDinamicas: CaracteristicaDocumento[] = [];
+nombreDepartamento = '';
+idDepartamento = 0;
+tipoDocumento = '';
+idTipoDocumento = 0;
 
-  documento!: Documento;
-  detelles(idDocumento: number) {
-    this.docService.getDocumentoDetalle(idDocumento).subscribe({
-      next: (data) => {
-        this.documento = data.doc;
-        this.mostrarModalDetalles = true; 
+detelles(idDocumento: number) {
+  this.TipoDocCaracteService.getDetalleCaracteristicasDocumento(idDocumento)
+    .subscribe({
+      next: (caracteristicas) => {
+        if (caracteristicas.length > 0) {
+          // Extraer datos generales del primer registro
+          const primer = caracteristicas[0];
+          this.nombreDepartamento = primer.NOMBRE_DEPARTAMENTO;
+          this.idDepartamento = primer.ID_DEPARTAMENTO;
+          this.tipoDocumento = primer.TIPO_DOCUMENTO;
+          this.idTipoDocumento = primer.ID_TIPO_DOCUMENTO;
+        }
+        this.caracteristicasDinamicas = caracteristicas;
+        this.mostrarModalDetalles = true;
       },
       error: (err) => {
-        console.error('Error al cargar el documento:', err);
+        console.error('Error al cargar características dinámicas:', err);
       }
     });
-  }
+}
+
   // Propiedad para controlar la visibilidad del área de carga
   showUploadArea: boolean = false;
 
