@@ -1,4 +1,5 @@
 export interface SubCategoria {
+NOMBRE_CATEGORIA: any;
     ID_SUB_CATEGORIA?: number;
     ID_CATEGORIA: number;
     SUB_CATEGORIA: number;

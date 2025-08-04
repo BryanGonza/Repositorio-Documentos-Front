@@ -52,7 +52,7 @@
 
     <!-- Campo: Sub Categoría -->
     <label class="block font-semibold text-white mb-1">Nombre de la Sub Categoría</label>
-    <input type="number" formControlName="SUB_CATEGORIA" placeholder="Ingrese el nombre completo"
+    <input type="text" formControlName="SUB_CATEGORIA" placeholder="Ingrese el nombre completo"
       class="w-full mb-4 px-3 py-2 border-2 border-yellow-400 text-black rounded focus:outline-none" />
 
     <!-- Botones -->
@@ -72,7 +72,7 @@
     <thead class="bg-blue-600 text-white">
       <tr>
         <th class="py-2 px-4 border border-yellow-500">ID</th>
-        <th class="py-2 px-4 border border-yellow-500">ID Categoría</th>
+        <th class="py-2 px-4 border border-yellow-500">Nombre Categoría</th>
         <th class="py-2 px-4 border border-yellow-500">Sub Categoría</th>
         <th class="py-2 px-4 border border-yellow-500">Estado</th>
         <th class="py-2 px-4 border border-yellow-500 text-center">Acciones</th>
@@ -82,7 +82,7 @@
       <tr *ngFor="let sub of paginatedSubCategorias"
         [ngClass]="{ 'bg-yellow-100': sub.ID_SUB_CATEGORIA! % 2 === 0, 'bg-white': sub.ID_SUB_CATEGORIA! % 2 !== 0 }">
         <td class="py-2 px-4 border border-yellow-500">{{ sub.ID_SUB_CATEGORIA }}</td>
-        <td class="py-2 px-4 border border-yellow-500">{{ sub.ID_CATEGORIA }}</td>
+        <td class="py-2 px-4 border border-yellow-500">{{ sub.NOMBRE_CATEGORIA }}</td>
         <td class="py-2 px-4 border border-yellow-500">{{ sub.SUB_CATEGORIA }}</td>
         <td class="py-2 px-4 border border-yellow-500">{{ sub.ESTADO ? 'Activo' : 'Inactivo' }}</td>
         <td class="py-2 px-4 border border-yellow-500 text-center">
@@ -129,4 +129,4 @@
       Siguiente
     </button>
   </div>
-</div>
+</div> 
