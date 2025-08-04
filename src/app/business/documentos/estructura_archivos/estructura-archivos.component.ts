@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { SharedService } from '../../../shared.service';
 import { ObjetoPermisoExtendido } from '../../../interfaces/Objetos/Objetos';
 import { ObjetosService } from '../../../services/objetos.service';
+import departamentoComponent from '../../departamento/departamento.component';
 
 @Component({
   selector: 'app-estructura-archivos',
@@ -121,6 +122,7 @@ export default class EstructuraArchivosComponent {
   filterEstructuras() {
     const query = this.searchQuery.toLowerCase();
     this.filteredEstructuras = this.Lista_Estructuras.filter(estructura =>
+      estructura.DEPARTAMENTO?.toLowerCase().includes(query)||
       estructura.NOMBRE?.toLowerCase().includes(query) ||
       estructura.UBICACION?.toLowerCase().includes(query) ||
       estructura.ID_DEPARTAMENTO?.toString().includes(query)
@@ -207,18 +209,16 @@ export default class EstructuraArchivosComponent {
     });
   }
 
-  editarEstructura(param: EstructuraArchivos) {
-    console.log("Datos enviados a queryParams:", param);
-    this.route.navigate(['/actualizar-estructura-archivos'], { 
-      queryParams: { 
-        id: param.ID_ESTRUCTURA_ARCHIVOS, 
-        id_departamento: param.ID_DEPARTAMENTO, 
-        espacio: param.ESPACIO_ALMACENAMIENTO,
-        nombre: param.NOMBRE,
-        ubicacion: param.UBICACION
-      } 
-    });
-  }
+   editarEstructura(param: EstructuraArchivos) {
+      this.route.navigate(['/actualizar-estructura-archivos'], { 
+        queryParams: { 
+          id: param.ID_ESTRUCTURA_ARCHIVOS,
+          departamento: param.DEPARTAMENTO,
+          nombre: param.NOMBRE,
+          ubicacion: param.UBICACION,
+        } 
+      });
+    }
 
   registro() {
     this.route.navigate(['registrar-estructura-archivos']);

@@ -54,8 +54,8 @@ export class DepartamentoService {
   actualizardepartamento(
     ID_DEPARTAMENTO?: number,
     ID_FACULTAD?: number,
-    NOMBRE?: string,
-    ESTADO?: boolean
+    NOMBRE?: String,
+ESTADO?: boolean
   ): Observable<ResponseDepartamento> {
     const token = localStorage.getItem('token') || '';
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);

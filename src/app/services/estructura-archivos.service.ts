@@ -54,7 +54,6 @@ export class EstructuraArchivosService {
   actualizarEstructura(
     ID_ESTRUCTURA_ARCHIVOS: number,
     ID_DEPARTAMENTO: number,
-    ESPACIO_ALMACENAMIENTO: bigint,
     NOMBRE: string,
     UBICACION: string
   ): Observable<ResponseEstructuraArchivos> {
@@ -65,7 +64,6 @@ export class EstructuraArchivosService {
       {
         ID_ESTRUCTURA_ARCHIVOS,
         ID_DEPARTAMENTO,
-        ESPACIO_ALMACENAMIENTO,
         NOMBRE,
         UBICACION,
       },

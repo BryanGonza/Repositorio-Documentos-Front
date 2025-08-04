@@ -22,7 +22,7 @@
         <tr class="border border-yellow-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto md:relative">
             <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">ID</th>
             <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Departamento</th>
-            <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Espacio</th>
+           <!-- <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Espacio</th> -->
             <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Nombre</th>
             <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">Ubicación</th>
             <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-center block md:table-cell">Acciones</th>
@@ -35,8 +35,8 @@
             [ngClass]="{ 'bg-yellow-100': i % 2 === 0, 'bg-white': i % 2 !== 0 }"
             class="border border-yellow-500 md:border-none block md:table-row">
             <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ estructura.ID_ESTRUCTURA_ARCHIVOS }}</td>
-            <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ estructura.ID_DEPARTAMENTO }}</td>
-            <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ estructura.ESPACIO_ALMACENAMIENTO }}</td>
+            <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ estructura.DEPARTAMENTO }}</td>
+            <!-- <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ estructura.ESPACIO_ALMACENAMIENTO }}</td> -->
             <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ estructura.NOMBRE }}</td>
             <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ estructura.UBICACION }}</td>
             <td class="p-2 md:border md:border-yellow-500 text-center block md:table-cell">

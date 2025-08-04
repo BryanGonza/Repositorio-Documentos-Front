@@ -1,6 +1,6 @@
 export interface Registrodepartamento {
    // ID_DEPARTAMENTO: number;
     ID_FACULTAD: number;
-    NOMBRE: string;
+    NOMBRE:String;
     ESTADO: boolean;
 }

@@ -77,7 +77,11 @@ transition-transform duration-300 xl:translate-x-0
       </li>
 
       <!-- Mantenimiento -->
+<<<<<<< HEAD
       <li   *ngIf="tienePermisosMantenimiento()">
+=======
+      <li>
+>>>>>>> 83adfa2a867460dcbae4d408415a2a670b67e865
         <button (click)="toggleSubmMant()" [ngClass]="{'bg-yellow-500 text-black': activeItem === 'mantenimiento'}"
           class="font-sans font-bold text-xs py-3 rounded-lg text-black hover:bg-white/10 active:bg-white/30 flex w-full items-center gap-4 px-4 capitalize"
           title="Mostrar Mantenimiento">
@@ -86,7 +90,9 @@ transition-transform duration-300 xl:translate-x-0
           </svg>
           <p class="block font-medium">Mantenimiento</p>
           <span class="ml-auto">▼</span>
+
         </button>
+
         <ul *ngIf="mostrarSubmMant" class="ml-6 mt-2 space-y-2">
           <!-- Facultad -->
           <li *ngIf="getPermisoPorPalabraClave('facultad')">

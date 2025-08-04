@@ -3,6 +3,7 @@ export interface departamento {
     ID_FACULTAD: number;
     NOMBRE: string;
     ESTADO: boolean;
+    FACULTAD?: string;
 }
 
 export interface Responsedepartamento {
