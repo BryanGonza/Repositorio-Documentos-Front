@@ -3,6 +3,7 @@ export interface documento {
     ID_USUARIO: number;
     ID_ESTADO: number;
     NOMBRE: string;
+    ID_TIPO_DOCUMENTO: number;
     URL: string;
     FECHA_SUBIDA: string;
     URl_DOW: string;
@@ -21,3 +22,10 @@ export interface msg{
 export interface ResponseDocumetos{
     ListDocume:documento[]
 };
+
+export interface ActualizarDocumentoRequest {
+  ID_DOCUMENTO: number;
+  NOMBRE: string;
+  DESCRIPCION: string;
+  ES_PUBLICO: number;
+}

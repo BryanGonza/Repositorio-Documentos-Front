@@ -56,7 +56,7 @@ transition-transform duration-300 xl:translate-x-0
           <span class="ml-auto">▼</span>
         </button>
         <ul *ngIf="mostrarSubmDoc" class="ml-6 mt-2 space-y-2">
-          <li *ngIf="getPermisoPorPalabraClave('documentos')" >
+          <li *ngIf="getPermisoPorPalabraClave('documentos')">
             <a routerLink="/Documentos" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left"
                 title="Ver Todos los Documentos">
@@ -77,11 +77,9 @@ transition-transform duration-300 xl:translate-x-0
       </li>
 
       <!-- Mantenimiento -->
-<<<<<<< HEAD
-      <li   *ngIf="tienePermisosMantenimiento()">
-=======
-      <li>
->>>>>>> 83adfa2a867460dcbae4d408415a2a670b67e865
+
+      <li *ngIf="tienePermisosMantenimiento()">
+
         <button (click)="toggleSubmMant()" [ngClass]="{'bg-yellow-500 text-black': activeItem === 'mantenimiento'}"
           class="font-sans font-bold text-xs py-3 rounded-lg text-black hover:bg-white/10 active:bg-white/30 flex w-full items-center gap-4 px-4 capitalize"
           title="Mostrar Mantenimiento">
@@ -102,7 +100,7 @@ transition-transform duration-300 xl:translate-x-0
               </button>
             </a>
           </li>
-                    <!-- departamento -->
+          <!-- departamento -->
           <li *ngIf="getPermisoPorPalabraClave('departamento')">
             <a routerLink="/departamento" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
@@ -112,7 +110,7 @@ transition-transform duration-300 xl:translate-x-0
           </li>
 
           <!-- Tipo Documento -->
-          <li  >
+          <li>
             <a routerLink="/tipo-documento" routerLinkActive="active-menu">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
                 Tipos Documentos
@@ -120,8 +118,8 @@ transition-transform duration-300 xl:translate-x-0
             </a>
           </li>
 
-              <!-- Tipo Documento -->
-          <li  >
+          <!-- Tipo Documento -->
+          <li>
             <a routerLink="/TipoDocumentoCaracteristica" routerLinkActive="active-menu">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
                 Tipos Documentos Característica
@@ -139,7 +137,7 @@ transition-transform duration-300 xl:translate-x-0
           </li> -->
 
           <!-- Estado -->
-          <li *ngIf="getPermisoPorPalabraClave('estado')" >
+          <li *ngIf="getPermisoPorPalabraClave('estado')">
             <a routerLink="/estado" routerLinkActive="active-menu">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
                 Estados
@@ -156,7 +154,7 @@ transition-transform duration-300 xl:translate-x-0
             </a>
           </li>
 
-            <!-- Característica -->
+          <!-- Característica -->
           <li>
             <a routerLink="/caracteristicas" routerLinkActive="active-menu">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
@@ -182,9 +180,9 @@ transition-transform duration-300 xl:translate-x-0
             </a>
           </li>
 
-          
+
           <!-- Categoría -->
-          <li >
+          <li>
             <a routerLink="/tipo_archivo" routerLinkActive="active-menu">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
                 Tipo archivo
@@ -217,7 +215,7 @@ transition-transform duration-300 xl:translate-x-0
           <span class="ml-auto">▼</span>
         </button>
         <ul *ngIf="mostrarSubmenu" class="ml-6 mt-2 space-y-2">
-          <li *ngIf="getPermisoPorPalabraClave('usuario')" >
+          <li *ngIf="getPermisoPorPalabraClave('usuario')">
             <a routerLink="/usuarios" routerLinkActive="active-menu" [routerLinkActiveOptions]="{ exact: true }">
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left"
                 title="Gestionar Usuarios">
@@ -254,6 +252,14 @@ transition-transform duration-300 xl:translate-x-0
               <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left"
                 title="Gestionar Permisos">
                 Permisos
+              </button>
+            </a>
+          </li>
+          <!-- Reporte de Documentos -->
+          <li>
+            <a routerLink="/reporte-documentos" routerLinkActive="active-menu">
+              <button class="text-xs py-2 px-4 rounded-lg text-black hover:bg-white/10 w-full text-left">
+                Reporte de Documentos
               </button>
             </a>
           </li>

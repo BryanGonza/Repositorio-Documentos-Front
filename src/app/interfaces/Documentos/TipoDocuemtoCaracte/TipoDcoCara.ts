@@ -2,14 +2,17 @@ export interface DocumentoCaracteristica {
   ID_TIPO_DOCUMENTO_CARACTERISTICA: number;
   ID_CARACTERISTICA: number;
   ID_TIPO_DOCUMENTO: number;
+
   def: {
     CARACTERISTICA: string;
+
+    NOMBRE_TIPO_CARACTERISTICA: string;
   };
+
   tipo_documento: {
     TIPO_DOCUMENTO: string;
   };
 }
-
 export interface ResponseDocumentoCaracteristica {
   msg?: string; // Opcional, porque en tu ejemplo no aparece
   Listado_DocumentoCaracteristica: DocumentoCaracteristica[];

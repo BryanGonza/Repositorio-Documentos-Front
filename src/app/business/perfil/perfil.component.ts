@@ -5,6 +5,7 @@ import { Usuarios } from '../../interfaces/Usuario/Usuarios';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { DepartamentoService } from '../../services/departamento.service';
 
 @Component({
   selector: 'app-perfil',
@@ -26,6 +27,11 @@ export default class PerfilComponent {
   public confirmarContrasena: string = '';
   public errorMensaje: string = '';
   public mostrarModal = false;
+ // para mostrar en la vista
+  public departamentoName = '';
+  public facultadName = '';
+
+  private departamentoService = inject(DepartamentoService);
 
   ngOnInit() {
     const correo = this.sharedService.getCorreo();
@@ -39,7 +45,36 @@ export default class PerfilComponent {
         }
       });
     }
+      this.sharedService.departamento$.subscribe(idDepto => {
+      console.log('Header recibe ID de depto:', idDepto);
+      if (idDepto > 0) this.loadBreadcrumb(idDepto);
+    });
+
+    // 2) Carga inicial por si ya había un valor en localStorage
+    const initId = this.sharedService.getDepartamento();
+    console.log('Header init ID depto:', initId);
+    if (initId > 0) this.loadBreadcrumb(initId);
   }
+
+    private loadBreadcrumb(idDepto: number) {
+    this.departamentoService.getDepartamentoFacultad(idDepto)
+      .subscribe({
+        next: resp => {
+          console.log('Respuesta getDepartamentoFacultad:', resp);
+          // Adáptalo a la propiedad real de tu API
+          const detail = resp.Detalle_Departamento_Facultad
+                      || (resp as any).detalle
+                      || (resp as any).data;
+          this.departamentoName = detail.nombre_departamento;
+          this.facultadName    = detail.nombre_facultad;
+        },
+        error: err => {
+          console.error('No pude cargar el breadcrumb:', err);
+          this.departamentoName = '';
+          this.facultadName    = '';
+        }
+      });
+      }
   
   dhash() {
     this.route.navigate(['dhashboard']);

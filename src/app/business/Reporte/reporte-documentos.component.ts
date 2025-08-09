@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { ReporteDocumento, ReporteDocumentosService } from '../../services/reporte-documentos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reporte-documentos',

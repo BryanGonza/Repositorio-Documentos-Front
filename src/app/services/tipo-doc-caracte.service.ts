@@ -70,7 +70,7 @@ export class TipoDocCaracteService {
     }
   
   
-  /** Devuelve directamente un arreglo (o uno vacío si no viene). */
+  /** Devuelve directamente un arreglo. */
 getByTipo(idTipoDocumento: number): Observable<DocumentoCaracteristica[]> {
   return this.http
     .get<ApiWrapper>(
@@ -79,15 +79,14 @@ getByTipo(idTipoDocumento: number): Observable<DocumentoCaracteristica[]> {
     .pipe(
       map(wrapper => {
         const d = wrapper.data;
-        // Caso A: viene un array bajo Listado_DocumentoCaracteristica
         if (Array.isArray(d.Listado_DocumentoCaracteristica)) {
           return d.Listado_DocumentoCaracteristica;
         }
-        // Caso B: `data` **ES** un array
+
         if (Array.isArray(d)) {
           return d;
         }
-        // Caso C: `data` es un único objeto: lo envolvemos en un array
+  
         return [ d as DocumentoCaracteristica ];
       })
     );
@@ -103,7 +102,7 @@ getDetalleCaracteristicasDocumento(idDocumento: number): Observable<Caracteristi
     )
     .pipe(
       map(res => {
-        // Extrae la lista de características dinámicas correctamente
+        // Extrae la lista de CaracteristicaDocumento 
         const data = res.data?.Listado_CaracteristicasDocumento;
         if (Array.isArray(data)) return data as CaracteristicaDocumento[];
         if (data) return [data] as CaracteristicaDocumento[];

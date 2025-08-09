@@ -57,23 +57,35 @@
             <small class="form-hint">Seleccione un tipo de documento</small>
           </div>
 
-          <!-- Características en dos columnas si hay más de una -->
           <ng-container *ngIf="caracteristicas.length > 0">
             <h3 class="upload-subtitle">Características</h3>
-
-            <!-- Contenedor grid de 1 columna en móvil y 2 en pantallas >= sm -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 gap-4">
               <div *ngFor="let car of caracteristicas" class="form-group">
                 <label [for]="'car-' + car.ID_CARACTERISTICA" class="form-label">
                   <span class="required">*</span> {{ car.def.CARACTERISTICA }}
                 </label>
-                <input type="text" [id]="'car-' + car.ID_CARACTERISTICA" name="car_{{car.ID_CARACTERISTICA}}"
-                  [(ngModel)]="caracteristicasForm[car.ID_CARACTERISTICA]" class="form-input" required maxlength="250"
-                  placeholder="Ingresa {{ car.def.CARACTERISTICA | lowercase }}" />
-                <small class="form-hint">Máximo 250 caracteres</small>
+
+                <!-- Datepicker si es Fecha -->
+                <ng-container *ngIf="(car.def.NOMBRE_TIPO_CARACTERISTICA | lowercase) === 'fecha'; else texto">
+                  <input type="date" class="w-full p-2 border rounded focus:outline-none focus:ring"
+                    [(ngModel)]="caracteristicasForm[car.ID_CARACTERISTICA]" name="car_{{car.ID_CARACTERISTICA}}"
+                    required />
+                  <small class="text-gray-600">Selecciona una fecha</small>
+                </ng-container>
+
+
+                <!-- Input de texto para el resto -->
+                <ng-template #texto>
+                  <input type="text" [id]="'car-' + car.ID_CARACTERISTICA" name="car_{{car.ID_CARACTERISTICA}}"
+                    [(ngModel)]="caracteristicasForm[car.ID_CARACTERISTICA]" class="form-input" required maxlength="250"
+                    placeholder="Ingresa {{ car.def.CARACTERISTICA | lowercase }}" />
+                  <small class="form-hint">Máximo 250 caracteres</small>
+                </ng-template>
               </div>
             </div>
           </ng-container>
+
+
 
           <!-- Campo CATEGORIA -->
           <div class="form-group">

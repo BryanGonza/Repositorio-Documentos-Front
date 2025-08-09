@@ -395,9 +395,17 @@ export const routes: Routes = [
           import(
             './business/documentos/tipo-docuemto-caracteristica/actualizar-tdc/actualizar-tdc.component'
           ).then((m) => m.ActualizarTDCComponent),
-      }
+      },
+      {
+      path: 'reporte-documentos',
+      loadComponent: () =>
+        import('./business/Reporte/reporte-documentos.component').then(
+          (m) => m.ReporteDocumentosComponent),
+      } 
     ],
+
   },
+  
 
   // Redirige a login si no encuentra la ruta, dejar de ultima porfi :D
   {

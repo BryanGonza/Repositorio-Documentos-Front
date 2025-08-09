@@ -20,16 +20,24 @@ import { DocumentoCaracteristica } from '../../interfaces/Documentos/TipoDocuemt
 import { TipoDocCaracteService } from '../../services/tipo-doc-caracte.service';
 import { jwtDecode } from 'jwt-decode';
 import { finalize } from 'rxjs/operators';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 @Component({
   selector: 'app-subir-documentos',
   standalone: true,
   imports: [
     CommonModule,
+    
     FormsModule,
     ReactiveFormsModule,
     FileSizePipe,
     TruncatePipe,
+      MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   templateUrl: './subir-documentos.component.html',
   styleUrls: ['./subir-documentos.component.css'],

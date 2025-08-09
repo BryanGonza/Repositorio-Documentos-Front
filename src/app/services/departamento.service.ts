@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { appsettings } from '../setting/appsetting';
-import { ResponseDepartamento } from '../interfaces/Departamento/ResponsegetDepartamento';
+import { ResponseDepartamento, ResponseDetalleDepartamentoFacultad } from '../interfaces/Departamento/ResponsegetDepartamento';
 import { departamento } from '../interfaces/Departamento/Departamento';
 import { Observable } from 'rxjs';
 import { Registrodepartamento } from '../interfaces/Departamento/RegistroDepartamento';
@@ -62,6 +62,18 @@ ESTADO?: boolean
     return this.http.put<ResponseDepartamento>(
       `${this.baseAPi}departamentos/updateDep`,
       { ID_DEPARTAMENTO, ID_FACULTAD, NOMBRE, ESTADO },
+      { headers }
+    );
+  }
+
+
+    getDepartamentoFacultad(
+    ID_DEPARTAMENTO: number
+  ): Observable<ResponseDetalleDepartamentoFacultad> {
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<ResponseDetalleDepartamentoFacultad>(
+      `${this.baseAPi}departamentosFac/${ID_DEPARTAMENTO}`,
       { headers }
     );
   }

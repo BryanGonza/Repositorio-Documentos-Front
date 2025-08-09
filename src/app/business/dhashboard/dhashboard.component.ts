@@ -15,6 +15,8 @@ import { ObjetosService } from '../../services/objetos.service';
 import { Documento } from '../../interfaces/Documentos/detalles';
 import { CaracteristicaDocumento, TipoDocCaracteService } from '../../services/tipo-doc-caracte.service';
 import { forkJoin } from 'rxjs';
+import { TipoDocumentoService } from '../../services/tipo-documento.service';
+import { CaracteristicaService } from '../../services/caracteristica.service';
 
 @Component({
   selector: 'app-dhashboard',
@@ -39,16 +41,32 @@ export default class DhashboardComponent {
   private sharedService = inject(SharedService);
   private objetoser = inject(ObjetosService);
   private TipoDocCaracteService = inject(TipoDocCaracteService);
-
+  private caracteristicaService = inject(CaracteristicaService);
+  public todasCaracts: CaracteristicaDocumento[] = [];
   private usuarioService = inject(UsuariosService);
 
   //permisos 
-
+public tiposDocumentos: { ID_TIPO_DOCUMENTO: number; TIPO_DOCUMENTO: string }[] = [];
+public selectedTipo: number | null = null;
 objetos: ObjetoPermiso[] = [];
 token: string = typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
 constructor() {}
   ngOnInit() {
 
+    this.caracteristicaService.cget().subscribe({
+    next: (res) => {
+      const list = res.Listado_Caracteristicas || res.Listado_Caracteristicas || [];
+      // normaliza ID_TIPO_CARACTERISTICA a number
+      this.todasCaracts = list.map((c: any) => ({
+        ...c,
+        ID_TIPO_CARACTERISTICA: Number(c.ID_TIPO_CARACTERISTICA)
+      }));
+    },
+    error: (e) => console.error('Error cargando características', e)
+  });
+
+
+  this.cargarTiposDocumento();
     if (typeof window !== 'undefined') {
       const shouldReload = localStorage.getItem('reloadAfterLogin');
       if (shouldReload === 'true') {
@@ -128,14 +146,21 @@ constructor() {}
     });
   }
   filterUsers() {
-    const query = this.searchQuery.toLowerCase();
-    this.filteredUsers = this.ListUs.filter((user) =>
-      user.NOMBRE.toLowerCase().includes(query) ||
-      user.DESCRIPCION.toLowerCase().includes(query) ||
-      user.FECHA_SUBIDA.toLowerCase().includes(query) 
-    );
-    this.currentPage = 1;
-    this.updatePagination();
+    const q = this.searchQuery.toLowerCase();
+  this.filteredUsers = this.ListUs.filter(u => {
+    const matchesText =
+      u.NOMBRE.toLowerCase().includes(q) ||
+      u.DESCRIPCION.toLowerCase().includes(q) ||
+      u.FECHA_SUBIDA.toLowerCase().includes(q);
+
+    const matchesTipo = this.selectedTipo == null
+      ? true
+      : u.ID_TIPO_DOCUMENTO === this.selectedTipo;
+
+    return matchesText && matchesTipo;
+  });
+  this.currentPage = 1;
+  this.updatePagination();
   }
 
   updatePagination() {
@@ -303,4 +328,81 @@ detelles(idDocumento: number) {
   subir() {
     this.route.navigate(['subir_documentos']);
   }
+
+
+
+
+  editandoId: number | null = null;
+documentoEditando = {
+  ID_DOCUMENTO: 0,
+  NOMBRE: '',
+  DESCRIPCION: '',
+  ES_PUBLICO: true
+};
+
+editarDocumento(doc: documento) {
+  this.editandoId = doc.ID_DOCUMENTO;
+  this.documentoEditando = {
+    ID_DOCUMENTO: doc.ID_DOCUMENTO,
+    NOMBRE: doc.NOMBRE,
+    DESCRIPCION: doc.DESCRIPCION,
+    ES_PUBLICO: doc.ES_PUBLICO === 1 // convertir a boolean
+  };
+}
+
+cancelarEdicion() {
+  this.editandoId = null;
+}
+
+guardarEdicion() {
+  const payload = {
+    ...this.documentoEditando,
+    ES_PUBLICO: this.documentoEditando.ES_PUBLICO ? 1 : 0 // aquí convertimos a número
+  };
+
+  this.docService.actualizarDocumentoDD(payload).subscribe({
+    next: (res) => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Actualizado',
+        text: res.msg || 'Documento actualizado correctamente.',
+        confirmButtonColor: '#3085d6',
+      });
+
+      // Actualizar la tabla local
+      const index = this.ListUs.findIndex(d => d.ID_DOCUMENTO === payload.ID_DOCUMENTO);
+      if (index > -1) {
+        this.ListUs[index].NOMBRE = payload.NOMBRE;
+        this.ListUs[index].DESCRIPCION = payload.DESCRIPCION;
+        this.ListUs[index].ES_PUBLICO = payload.ES_PUBLICO;
+      }
+
+      this.editandoId = null;
+    },
+    error: (err) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: err.error?.msg || 'Ocurrió un error al actualizar.',
+        confirmButtonColor: '#d33',
+      });
+    }
+  });
+}
+  private TipoDocumentoService = inject(TipoDocumentoService);
+    public listaTipoDocumentos: any[] = [];
+private cargarTiposDocumento(): void {
+  this.TipoDocumentoService.tipo_dget().subscribe({
+    next: data => {
+      if (data.Listado_Tipo_Documentos?.length) {
+        this.listaTipoDocumentos = data.Listado_Tipo_Documentos.map(t => ({
+          ID_TIPO_DOCUMENTO: t.ID_TIPO_DOCUMENTO,
+          TIPO_DOCUMENTO: t.TIPO_DOCUMENTO
+        }));
+      }
+    },
+    error: err => console.error('Error al cargar tipos de documento', err)
+  });
+}
+
 }

@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { appsettings } from '../setting/appsetting';
-import { ReporteDocumento, ReporteDocumentosResponse } from '../interfaces/Reporte/ReporteDocumentos';
+import { ReporteDocumento, ReporteDocumentosResponse } from '../interfaces/Reporte/ReporteDocumento';
 
 @Injectable({
   providedIn: 'root'

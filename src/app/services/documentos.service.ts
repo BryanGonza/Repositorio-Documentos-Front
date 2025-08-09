@@ -5,9 +5,11 @@ import {
   correo,
   msg,
   ResponseDocumetos,
+  ActualizarDocumentoRequest
 } from '../interfaces/Documentos/Documetos';
 import { Observable } from 'rxjs';
 import { DocumentoDetalleResponse } from '../interfaces/Documentos/detalles';
+
 
 @Injectable({
   providedIn: 'root',
@@ -112,4 +114,23 @@ subirDocumento(
       `${this.baseAPi}Documentos/getDocumentoDetalle/${id}`
     );
   }
+
+
+actualizarDocumentoDD(data: ActualizarDocumentoRequest): Observable<msg> {
+  const token = localStorage.getItem('token') || '';
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  return this.http.put<msg>(
+    `${this.baseAPi}Documentos/Actualizar`,
+    data,
+    { headers }
+  );
 }
+
+
+
+
+
+
+}
+
