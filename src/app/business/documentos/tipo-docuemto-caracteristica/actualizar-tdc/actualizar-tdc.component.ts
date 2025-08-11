@@ -97,10 +97,15 @@ export class ActualizarTDCComponent implements OnInit {
     }
 
 
-    const nueva_caracteristica = Number(this.formActualizar.get('caracteristica')?.value);
+   const id_caracteristica_actual = Number(this.activatedRoute.snapshot.queryParamMap.get('id_caracteristica'));
+const id_caracteristica_nueva = Number(this.formActualizar.get('caracteristica')?.value);
 
-    this.tipoDocCaracteService
-      .actualizartdc(this.id_tipo_documento, nueva_caracteristica)
+
+   this.tipoDocCaracteService.actualizartdc(
+  this.id_tipo_documento,
+  id_caracteristica_actual,
+  id_caracteristica_nueva
+)
       .subscribe({
         next: (res) => {
           Swal.fire({
