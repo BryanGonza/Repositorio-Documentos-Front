@@ -13,3 +13,7 @@ export interface Categoria {
     msg: string;
   }
   
+  export interface CategoriaResponse {
+    msg: string;
+    Listado_Categoria: Categoria[];
+  }
