@@ -99,7 +99,7 @@ actualizartdc(
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http
       .get<any>(
-        `http://localhost:3016/detalle-caracteristicas/${idDocumento}`,
+        `${this.baseAPi}detalle-caracteristicas/${idDocumento}`,
         { headers }
       )
       .pipe(
