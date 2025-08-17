@@ -2,45 +2,46 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Categoria, ResponseCategoria, MsgResponse } from '../interfaces/Categoria/categoria';
+import { appsettings } from '../setting/appsetting';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class CategoriaService {
-  private apiUrl = 'http://localhost:3016/api/categoria';
+ 
+  private baseUrl = appsettings.apiUrl + 'categoria';
 
   constructor(private http: HttpClient) {}
 
+  private authHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token') || '';
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
   getCategorias(): Observable<ResponseCategoria> {
-        const token = localStorage.getItem('token') || '';
-        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<ResponseCategoria>(`${this.apiUrl}/getCategoria`, { headers });
+    return this.http.get<ResponseCategoria>(`${this.baseUrl}/getCategoria`, {
+      headers: this.authHeaders(),
+    });
   }
 
   createCategoria(data: Categoria): Observable<{ msg: string; Nuevo_Registro: Categoria }> {
-    const token = localStorage.getItem('token') || '';
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.post<{ msg: string; Nuevo_Registro: Categoria }>(
-      `${this.apiUrl}/createCategoria`,
+      `${this.baseUrl}/createCategoria`,
       data,
-      { headers }
+      { headers: this.authHeaders() }
     );
   }
 
   updateCategoria(data: Categoria): Observable<MsgResponse> {
-    const token = localStorage.getItem('token') || '';
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put<MsgResponse>(`${this.apiUrl}/updateCategoria`, data, { headers });
+    return this.http.put<MsgResponse>(`${this.baseUrl}/updateCategoria`, data, {
+      headers: this.authHeaders(),
+    });
   }
 
   deleteCategoria(ID_CATEGORIA: number): Observable<MsgResponse> {
-    const token = localStorage.getItem('token') || '';
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.request<MsgResponse>('delete', `${this.apiUrl}/deleteCategoria`, {
-      headers,
-      body: { ID_CATEGORIA }
+    return this.http.request<MsgResponse>('delete', `${this.baseUrl}/deleteCategoria`, {
+      headers: this.authHeaders(),
+      body: { ID_CATEGORIA },
     });
   }
 }
-export { Categoria };
 
+export { Categoria };
