@@ -5,7 +5,7 @@
   
     <!-- 📌 Botón para mostrar/ocultar formulario -->
     <div class="text-center mb-4">
-      <button *ngIf="getPermiso('insercion')" (click)="toggleFormulario()"
+      <button  (click)="toggleFormulario()"
         class="bg-blue-600 hover:bg-yellow-500 text-white font-bold py-2 px-6 rounded shadow">
         {{ mostrarFormulario ? 'Ocultar' : 'Crear Categoría' }}
       </button>
