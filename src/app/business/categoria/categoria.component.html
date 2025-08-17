@@ -1,4 +1,4 @@
-<div *ngIf="getPermiso('consulta')">
+<div >
   <div class="p-4 max-w-4xl mx-auto bg-white shadow-md rounded">
     <!-- 📌 Título -->
     <h2 class="text-2xl font-bold text-center text-gray-900 mb-4">Gestión de Categorías</h2>
@@ -81,7 +81,7 @@
           <td class="py-2 px-4 border border-yellow-500">{{ cat.ESTADO ? 'Activo' : 'Inactivo' }}</td>
           <td class="py-2 px-4 border border-yellow-500 text-center">
             <div class="flex justify-center gap-2">
-              <button *ngIf="getPermiso('actualizacion')" (click)="editarCategoria(cat)"
+              <button  (click)="editarCategoria(cat)"
                 class="bg-blue-500 hover:bg-blue-600 w-7 h-7 flex items-center justify-center rounded">
                 <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg">
@@ -89,7 +89,7 @@
                     d="M17.414 2.586a2 2 0 010 2.828L8.207 14.621l-4.95.707.707-4.95 9.207-9.207a2 2 0 012.828 0zM6.121 13.879l1.415-1.414-1.121-.121-.121-1.121-1.414 1.415.707.707.534.534z" />
                 </svg>
               </button>
-              <button  *ngIf="getPermiso('eliminacion')" (click)="confirmarEliminarCategoria(cat.ID_CATEGORIA!)"
+              <button   (click)="confirmarEliminarCategoria(cat.ID_CATEGORIA!)"
                 class="bg-red-500 hover:bg-red-600 w-7 h-7 flex items-center justify-center rounded">
                 <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg">
