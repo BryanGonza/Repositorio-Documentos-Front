@@ -79,6 +79,21 @@ tienePermisosSeguridad(): boolean {
   const claves = ['usuario', 'parametros', 'roles', 'objetos', 'permisos'];
   return claves.some(clave => this.getPermisoPorPalabraClave(clave));
 }
+tienePermisosMantenimiento(): boolean {
+  const clavesMantenimiento = [
+    'facultad',
+    'departamento',
+    'Tipodocuemento',  // Nota: Hay un typo aquí ("docuemento"), debe coincidir exactamente con lo que usas en getPermisoPorPalabraClave()
+    'estructura archivos',
+    'estado',
+    'clase',
+    'tipo caracteristica',
+    'categoria',
+    'sub'
+  ];
+  
+  return clavesMantenimiento.some(clave => this.getPermisoPorPalabraClave(clave));
+}
 
   private definirItemActivo(url: string) {
     // reset

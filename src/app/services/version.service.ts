@@ -54,13 +54,12 @@ export class VersionService {
     ID_USUARIO: number,
     NOMBRE: string,
     CAMBIOS: boolean,
-    FECHA_ACTU: Date
   ): Observable<ResponseVersion> {
     const token = localStorage.getItem('token') || '';
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.put<ResponseVersion>(
       `${this.baseAPi}version/updateVersion`,
-      { ID_VERSION, ID_USUARIO, NOMBRE, CAMBIOS, FECHA_ACTU },
+      { ID_VERSION, ID_USUARIO, NOMBRE, CAMBIOS},
       { headers }
     );
   }

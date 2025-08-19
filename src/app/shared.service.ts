@@ -12,7 +12,7 @@ export class SharedService {private http = inject(HttpClient); private baseAPi :
   private correoKey = 'userCorreo';
   private rolKey = 'userRol';
     private permisosKey = 'userPermisos';
-
+  private departamentoKey = 'userDepartamento';
   // correo
   private correoSubject = new BehaviorSubject<string>(this.getStoredCorreo());
   public correo$ = this.correoSubject.asObservable();
@@ -22,6 +22,9 @@ export class SharedService {private http = inject(HttpClient); private baseAPi :
   // Rol
   private rolSubject = new BehaviorSubject<string>(this.getStoredRol());
   public rol$ = this.rolSubject.asObservable();
+  // Departamento
+  private departamentoSubject = new BehaviorSubject<number>(this.getStoredDepartamento());
+  public departamento$ = this.departamentoSubject.asObservable();
 
   constructor() { }
 
@@ -126,13 +129,40 @@ hasPermission(objeto: string, accion: 'CONSULTAR' | 'INSERCION' | 'ACTUALIZACION
       localStorage.removeItem(this.rolKey);
     }
   }
+      private getStoredDepartamento(): number {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const dep = localStorage.getItem(this.departamentoKey);
+      return dep ? Number(dep) : 0;
+    }
+    return 0;
+  }
+
+  setDepartamento(depto: number) {
+    this.departamentoSubject.next(depto);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem(this.departamentoKey, depto.toString());
+    }
+  }
+
+  getDepartamento(): number {
+    return this.departamentoSubject.getValue();
+  }
+
+  clearDepartamento() {
+    this.departamentoSubject.next(0);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem(this.departamentoKey);
+    }
+  }
 
   // Método para limpiar ambos en caso de logout
   clearAll() {
     this.clearCorreo();
     this.clearRol();
     this.clearPermisos();
+    this.clearDepartamento();
   }
 
-  
+
+
 }

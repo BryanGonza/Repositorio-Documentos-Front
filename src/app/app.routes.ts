@@ -287,45 +287,49 @@ export const routes: Routes = [
           ),
         // canActivate: [AuthGuard],
       },
-           
-      
 
-       //Rutas de Version
-       { 
+      //Rutas de Version
+      {
         path: 'version',
         loadComponent: () =>
-          import('./business/documentos/version/version.component')
+          import('./business/documentos/version/version.component'),
       },
       {
         path: 'registrar-version',
         loadComponent: () =>
-          import ('./business/documentos/version/registrar-version/registrar-version.component').then (
-            (m) => m.RegistrarVersionComponent
-          ),
+          import(
+            './business/documentos/version/registrar-version/registrar-version.component'
+          ).then((m) => m.RegistrarVersionComponent),
       },
       {
         path: 'actualizar-version',
         loadComponent: () =>
-          import ('./business/documentos/version/actualizar-version/actualizar-version.component')
+          import(
+            './business/documentos/version/actualizar-version/actualizar-version.component'
+          ),
       },
 
       // RUTAS DE CARACTERISTICAS
       {
-        path:'caracteristicas',
+        path: 'caracteristicas',
         loadComponent: () =>
-          import ('./business/documentos/caracteristica/caracteristica.component')
+          import(
+            './business/documentos/caracteristica/caracteristica.component'
+          ),
       },
       {
-        path:'registrar-caracteristicas',
+        path: 'registrar-caracteristicas',
         loadComponent: () =>
-          import ('./business/documentos/caracteristica/registrar-caracteristica/registrar-caracteristica.component') .then(
-            (m) => m.RegistrarCaracteristicaComponent
-          )
+          import(
+            './business/documentos/caracteristica/registrar-caracteristica/registrar-caracteristica.component'
+          ).then((m) => m.RegistrarCaracteristicaComponent),
       },
-      { 
+      {
         path: 'actualizar-caracteristicas',
         loadComponent: () =>
-          import('./business/documentos/caracteristica/actualizar-caracteristica/actualizar-caracteristica.component')
+          import(
+            './business/documentos/caracteristica/actualizar-caracteristica/actualizar-caracteristica.component'
+          ),
       },
       // RUTAS DE DEPARTAMENTO
       {
@@ -333,19 +337,21 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./business/departamento/departamento.component'),
       },
-      
+
       {
         path: 'actualizar-departamento',
         loadComponent: () =>
-          import('./business/departamento/actualizar-departamento/actualizar-departamento.component'),
+          import(
+            './business/departamento/actualizar-departamento/actualizar-departamento.component'
+          ),
       },
 
       {
         path: 'registrar-departamento',
         loadComponent: () =>
-          import('./business/departamento/registrar-departamento/registrar-departamento.component').then(
-            (m) => m.RegistrarDepartamentoComponent
-          ),
+          import(
+            './business/departamento/registrar-departamento/registrar-departamento.component'
+          ).then((m) => m.RegistrarDepartamentoComponent),
       },
       // RUTAS DE TIPO DE ARCHIVO
       {
@@ -353,22 +359,53 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./business/tipo_archivo/tipo_archivo.component'),
       },
-      
+
       {
         path: 'actualizar-tipo_archivo',
         loadComponent: () =>
-          import('./business/tipo_archivo/actualizar-tipo_archivo/actualizar-tipo_archivo.component'),
+          import(
+            './business/tipo_archivo/actualizar-tipo_archivo/actualizar-tipo_archivo.component'
+          ),
       },
 
       {
         path: 'registrar-tipo_archivo',
         loadComponent: () =>
-          import('./business/tipo_archivo/registrar-tipo_archivo/registrar-tipo_archivo.component').then(
-            (m) => m.RegistrarTipo_archivoComponent
-          ),
+          import(
+            './business/tipo_archivo/registrar-tipo_archivo/registrar-tipo_archivo.component'
+          ).then((m) => m.RegistrarTipo_archivoComponent),
       },
+      {
+        path: 'TipoDocumentoCaracteristica',
+        loadComponent: () =>
+          import(
+            './business/documentos/tipo-docuemto-caracteristica/tipo-docuemto-caracteristica.component'
+          ).then((m) => m.TipoDocuemtoCaracteristicaComponent),
+      },
+      {
+        path: 'RegistrarTipoDocumentoCaracteristica',
+        loadComponent: () =>
+          import(
+            './business/documentos/tipo-docuemto-caracteristica/agragar-tdc/agragar-tdc.component'
+          ).then((m) => m.AgragarTDCComponent),
+      },
+         {
+        path: 'ActualizarTipoDocumentoCaracteristica',
+        loadComponent: () =>
+          import(
+            './business/documentos/tipo-docuemto-caracteristica/actualizar-tdc/actualizar-tdc.component'
+          ).then((m) => m.ActualizarTDCComponent),
+      },
+      {
+      path: 'reporte-documentos',
+      loadComponent: () =>
+        import('./business/Reporte/reporte-documentos.component').then(
+          (m) => m.ReporteDocumentosComponent),
+      } 
     ],
+
   },
+  
 
   // Redirige a login si no encuentra la ruta, dejar de ultima porfi :D
   {

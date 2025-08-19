@@ -31,8 +31,6 @@
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
           Cambios</th>
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
-          Fecha Actualización</th>
-        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-center block md:table-cell">
           Acciones</th>
       </tr>
     </thead>
@@ -43,13 +41,10 @@
         [ngClass]="{ 'bg-yellow-100': i % 2 === 0, 'bg-white': i % 2 !== 0 }"
         class="border border-yellow-500 md:border-none block md:table-row">
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ version.ID_VERSION }}</td>
-        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ version.ID_USUARIO }}</td>
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ version.USUARIO }}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ version.NOMBRE || 'N/A' }}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
           {{ version.CAMBIOS ? 'SÍ' : 'NO' }}
-        </td>
-        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
-          {{ version.FECHA_ACTU | date:'dd/MM/yyyy HH:mm' || 'N/A' }}
         </td>
         <td class="p-2 md:border md:border-yellow-500 text-center block md:table-cell">
           <div class="flex justify-center items-center gap-2">

@@ -52,13 +52,14 @@ export class FacultadService {
   actualizarfacultad(
     ID_FACULTAD: number,
     NOMBRE?: string,
+    DESCRIPCION?: string,
     ESTADO?: boolean
   ): Observable<ResponseFacultad> {
     const token = localStorage.getItem('token') || '';
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.put<ResponseFacultad>(
       `${this.baseAPi}facultad/updateFacultad`,
-      { ID_FACULTAD, NOMBRE, ESTADO },
+      { ID_FACULTAD, NOMBRE, DESCRIPCION, ESTADO },
       { headers }
     );
   }

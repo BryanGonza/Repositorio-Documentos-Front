@@ -52,6 +52,7 @@ export class CaracteristicaService {
   actualizarc(
     ID_CARACTERISTICA: number,
     ID_TIPO_CARACTERISTICA: number,
+    NOMBRE_TIPO_CARACTERISTICA: String,
     CARACTERISTICA: string,
     VALORES_PREDETERMINADOS: Boolean
   ): Observable<ResponseCaracteristica> {
@@ -62,6 +63,7 @@ export class CaracteristicaService {
       {
         ID_CARACTERISTICA,
         ID_TIPO_CARACTERISTICA,
+        NOMBRE_TIPO_CARACTERISTICA,
         CARACTERISTICA,
         VALORES_PREDETERMINADOS,
       }

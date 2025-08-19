@@ -79,6 +79,7 @@ export default class LoginComponent implements OnInit {
               interface TokenPayload {
                 CORREO_ELECTRONICO: string;
                 rol: string;
+                departamento: number,
                 exp: number;
               }
               // Decodificar el token
@@ -87,6 +88,7 @@ export default class LoginComponent implements OnInit {
               
               this.sharedService.setCorreo(decoded.CORREO_ELECTRONICO);
               this.sharedService.setRol(decoded.rol);
+              this.sharedService.setDepartamento(decoded.departamento);
               console.log('Correo:', decoded.CORREO_ELECTRONICO);
               console.log('Rol:', decoded.rol);
          

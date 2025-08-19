@@ -7,7 +7,7 @@
     </button>
 
     <div class="relative w-80 mx-auto flex justify-center">
-      <input type="text" [(ngModel)]="searchQuery" (input)="filterdepartamento()" placeholder="Buscar por ID o Nombre"
+      <input type="text" [(ngModel)]="searchQuery" (input)="filterdepartamento()" placeholder="Buscar por ID o Facultad"
         class="w-full p-2 pl-10 border border-yellow-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
       <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -22,11 +22,11 @@
     <thead class="block md:table-header-group">
       <tr
         class="border border-yellow-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto md:relative">
-        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">ID
-          DEPARTAMENTO</th>
-        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">ID
-          FACULTAD</th>
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+          ID DEPARTAMENTO</th>
+        <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
+          FACULTAD</th>
+          <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
           NOMBRE</th>
         <th class="bg-blue-600 p-2 text-white font-bold md:border md:border-yellow-500 text-left block md:table-cell">
           ESTADO</th>
@@ -43,18 +43,16 @@
           {{ departamento.ID_DEPARTAMENTO }}
         </td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
-          {{ departamento.ID_FACULTAD }}
+          {{ departamento.FACULTAD }}
         </td>
-        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
+         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
           {{ departamento.NOMBRE }}
         </td>
-        <th class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
+        <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
           {{ departamento.ESTADO ? 'ACTIVO' : 'INACTIVO' }}
-        </th>
+        </td>
         <td class="p-2 md:border md:border-yellow-500 text-center block md:table-cell">
           <div class="flex justify-center items-center gap-2">
-
-
             <!-- Editar -->
             <button *ngIf="getPermiso('actualizacion')" (click)="editardepartamento(departamento)"
               class="bg-blue-500 hover:bg-blue-600 text-white p-2 border border-blue-500 rounded transition duration-300"
@@ -81,7 +79,7 @@
 
       <!-- Mensaje cuando no hay resultados -->
       <tr *ngIf="filtereddepartamento.length === 0">
-        <td colspan="4" class="p-4 text-center text-gray-600">No se encontraron departamento.</td>
+        <td colspan="4" class="p-4 text-center text-gray-600">No se encontraron departamentos.</td>
       </tr>
     </tbody>
   </table>

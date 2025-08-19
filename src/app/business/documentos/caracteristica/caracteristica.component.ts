@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Caracteristica } from '../../../interfaces/Documentos/Caracteristica/Caracteristica';
+import { TipoCaracteristica } from '../../../interfaces/Tipo_Caracteristica/tipo_caracteristica';
 import { CaracteristicaService } from '../../../services/caracteristica.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -123,7 +124,7 @@ export default class CaracteristicaComponent {
     const query = this.searchQuery.toLowerCase();
     this.filteredCaracteristicas = this.Lista_Caracteristica.filter(caracteristica =>
       caracteristica.CARACTERISTICA?.toLowerCase().includes(query) ||
-      caracteristica.ID_TIPO_CARACTERISTICA.toLowerCase().includes(query)
+      caracteristica.NOMBRE_TIPO_CARACTERISTICA?.toLowerCase().includes(query)
     );
     this.currentPage = 1;
     this.updatePagination();
@@ -212,6 +213,7 @@ export default class CaracteristicaComponent {
       queryParams: { 
         id: param.ID_CARACTERISTICA, 
         idTipo: param.ID_TIPO_CARACTERISTICA,
+        tipoCaracteristica: param.NOMBRE_TIPO_CARACTERISTICA,
         caracteristica: param.CARACTERISTICA,
         valores: param.VALORES_PREDETERMINADOS
       } 

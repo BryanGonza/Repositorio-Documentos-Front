@@ -1,10 +1,10 @@
-<div *ngIf="getPermiso('consulta')">
+<div >
   <!-- 📌 Título -->
 <h2 class="text-2xl font-bold text-center text-gray-900 mb-4">Repositorio De Documentos</h2>
 
 <!-- 📌 Botón para mostrar formulario -->
 <div class="text-center mb-4">
-  <button *ngIf="getPermiso('insercion')" (click)="mostrarForm()"
+  <button  (click)="mostrarForm()"
     class="bg-blue-600 hover:bg-yellow-500 text-white font-bold py-2 px-6 rounded shadow">
     Registrar Tipo Característica
   </button>
@@ -82,7 +82,7 @@
         </td>
         <td class="py-2 px-4 border border-yellow-500 text-center">
           <div class="flex justify-center gap-2">
-            <button *ngIf="getPermiso('actualizacion')" (click)="editar(item)"
+            <button  (click)="editar(item)"
               class="bg-blue-500 hover:bg-blue-600 w-7 h-7 flex items-center justify-center rounded">
               <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">
@@ -91,7 +91,7 @@
               </svg>
             </button>
 
-            <button *ngIf="getPermiso('eliminacion')" (click)="confirmarEliminar(item.ID_TIPO_CARACTERISTICA!)"
+            <button (click)="confirmarEliminar(item.ID_TIPO_CARACTERISTICA!)"
               class="bg-red-500 hover:bg-red-600 w-7 h-7 flex items-center justify-center rounded">
               <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">
@@ -126,6 +126,4 @@
     Siguiente
   </button>
 </div>
-
-
 </div>

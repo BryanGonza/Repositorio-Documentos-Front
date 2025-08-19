@@ -33,6 +33,7 @@ export default class FacultadComponent {
   public displayedColumns: string[] = [
     'Id',
     'Nombre',
+    'Descripcion',
     'Estado'
   ];
 
@@ -122,6 +123,7 @@ export default class FacultadComponent {
     const query = this.searchQuery.toLowerCase();
     this.filteredFacultades = this.Lista_Facultad.filter(facultad =>
       facultad.NOMBRE.toLowerCase().includes(query) ||
+      facultad.DESCRIPCION.toLowerCase().includes(query) ||
       (facultad.ESTADO ? 'activo' : 'inactivo').includes(query)
     );
     this.currentPage = 1;
@@ -212,6 +214,7 @@ export default class FacultadComponent {
       queryParams: { 
         id: param.ID_FACULTAD, 
         nombre: param.NOMBRE, 
+        descripcion:param.DESCRIPCION,
         estado: param.ESTADO,
       } 
     });

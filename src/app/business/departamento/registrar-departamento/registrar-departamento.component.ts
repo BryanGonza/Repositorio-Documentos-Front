@@ -52,11 +52,12 @@ export class RegistrarDepartamentoComponent {
       return;
     }
 
-    const objeto: Registrodepartamento = {
-      ID_FACULTAD: this.formRegistro.value.IDFacu,
-      NOMBRE: this.formRegistro.value.Nombre,
-      ESTADO: this.formRegistro.value.Estado
-    };
+   const objeto: Registrodepartamento = {
+  ID_FACULTAD: this.formRegistro.value.IDFacu,
+  NOMBRE: this.formRegistro.value.Nombre.toUpperCase(), // usa Nombre con N mayúscula
+  ESTADO: this.formRegistro.value.Estado,
+};
+
 
     this.DepartamentoService.registrardepartamento(objeto).subscribe({
       next: (data) => {

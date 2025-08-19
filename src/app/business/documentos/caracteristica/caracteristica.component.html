@@ -1,7 +1,7 @@
-<div *ngIf="getPermiso('consulta')">
+<div >
   <!-- Buscador y Botón de Registrar -->
   <div  class="mb-4 text-center">
-    <button  *ngIf="getPermiso('insercion')" (click)="registro()"
+    <button   (click)="registro()"
       class="bg-blue-500 hover:bg-yellow-500 text-white font-bold py-1 px-20 border border-blue-500 rounded block mx-auto mb-4">
       Registrar Nueva Característica
     </button>
@@ -42,7 +42,7 @@
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ caracteristica.ID_CARACTERISTICA
           }}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{
-          caracteristica.ID_TIPO_CARACTERISTICA }}</td>
+          caracteristica.NOMBRE_TIPO_CARACTERISTICA }}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">{{ caracteristica.CARACTERISTICA ||
           '-' }}</td>
         <td class="p-2 md:border md:border-yellow-500 text-left block md:table-cell">
@@ -51,7 +51,7 @@
         <td class="p-2 md:border md:border-yellow-500 text-center block md:table-cell">
           <div class="flex justify-center items-center gap-2">
             <!-- botón editar con icono y tooltip -->
-            <button *ngIf="getPermiso('actualizacion')" (click)="editarCaracteristica(caracteristica)"
+            <button (click)="editarCaracteristica(caracteristica)"
               class="bg-blue-500 hover:bg-blue-600 text-white p-2 border border-blue-500 rounded transition duration-300"
               aria-label="Editar Característica" title="Editar Característica">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -60,7 +60,7 @@
               </svg>
             </button>
             <!-- botón eliminar con icono y tooltip -->
-            <button  *ngIf="getPermiso('eliminacion')" (click)="eliminarCaracteristica(caracteristica.ID_CARACTERISTICA)"
+            <button  (click)="eliminarCaracteristica(caracteristica.ID_CARACTERISTICA)"
               class="bg-red-500 hover:bg-red-600 text-white p-2 border border-red-500 rounded transition duration-300"
               aria-label="Eliminar Característica" title="Eliminar Característica">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"

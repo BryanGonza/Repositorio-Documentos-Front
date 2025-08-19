@@ -5,9 +5,11 @@ import {
   correo,
   msg,
   ResponseDocumetos,
+  ActualizarDocumentoRequest
 } from '../interfaces/Documentos/Documetos';
 import { Observable } from 'rxjs';
 import { DocumentoDetalleResponse } from '../interfaces/Documentos/detalles';
+
 
 @Injectable({
   providedIn: 'root',
@@ -60,45 +62,75 @@ export class DocumentosService {
   }
   // , nombre: string, descripcion: string, privacidad: number
   // Método para subir un archivo
-  subirDocumento(
-    archivo: File,
-    idUsuario: number,
-    nombre: string,
-    descripcion: string,
-    es_public: number,
-    ID_DEPARTAMENTO: number,
-    ID_ESTRUCTURA_ARCHIVO: number,
-    ID_TIPO_ARCHIVO: number,
-    ID_CATEGORIA: number,
-    ID_CARACTERISTICA: number,
-    VALOR_CARACTERISTICA: string
-  ): Observable<any> {
-    // Crear un FormData para enviar el archivo y campos adicionales
-    const formData = new FormData();
-    formData.append('archivo', archivo); // Clave que espera el backend
-    formData.append('ID_USUARIO', String(idUsuario));
-    formData.append('ES_PUBLICO', String(es_public));
-    formData.append('DESCRIPCION', descripcion);
-    formData.append('NOMBRE', nombre);
-    formData.append('ID_DEPARTAMENTO', String(ID_DEPARTAMENTO));
-    formData.append('ID_ESTRUCTURA_ARCHIVOS', String(ID_ESTRUCTURA_ARCHIVO));
-    formData.append('ID_TIPO_ARCHIVO', String(ID_TIPO_ARCHIVO));
-    formData.append('ID_CATEGORIA', String(ID_CATEGORIA));
-    formData.append('ID_CARACTERISTICA', String(ID_CARACTERISTICA));
-    formData.append('VALOR_CARACTERISTICA', VALOR_CARACTERISTICA);
+subirDocumento(
+  archivo: File,
+  idUsuario: number,
+  idTipoDocumento: number,
+  nombre: string,
+  descripcion: string,
+  esPublico: number,
+  idDepartamento: number,
+  idClase: number,
+  idEstructuraArchivos: number,
+  idTipoArchivo: number,
+  idCategoria: number,
+  idSubCategoria: number,
+  caracteristicas: { ID_CARACTERISTICA: number; VALOR: string }[]
+): Observable<any> {
+  const formData = new FormData();
 
-    // Obtener el token y construir el header con Authorization
-    const token = localStorage.getItem('token') || '';
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  // Archivo
+  formData.append('archivo', archivo);
 
-    // Hacer el POST con FormData y headers
-    return this.http.post<msg>(`${this.baseAPi}Documentos/subirDc`, formData, {
-      headers,
-    });
-  }
+  // Campos simples
+  formData.append('ID_USUARIO', idUsuario.toString());
+  formData.append('ID_TIPO_DOCUMENTO', idTipoDocumento.toString());
+  formData.append('NOMBRE', nombre);
+  formData.append('DESCRIPCION', descripcion);
+  formData.append('ES_PUBLICO', String(esPublico));
+  formData.append('ID_DEPARTAMENTO', idDepartamento.toString());
+  formData.append('ID_CLASE', idClase.toString());
+  formData.append('ID_ESTRUCTURA_ARCHIVOS', idEstructuraArchivos.toString());
+  formData.append('ID_TIPO_ARCHIVO', idTipoArchivo.toString());
+  formData.append('ID_CATEGORIA', idCategoria.toString());
+  formData.append('ID_SUB_CATEGORIA', idSubCategoria.toString());
+
+  // Array de características: lo enviamos como JSON
+  formData.append('caracteristicas', JSON.stringify(caracteristicas));
+
+  // Header con token
+  const token = localStorage.getItem('token') || '';
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  return this.http.post<msg>(
+    `${this.baseAPi}Documentos/subirDc`,
+    formData,
+    { headers }
+  );
+}
+
   getDocumentoDetalle(id: number) {
     return this.http.get<DocumentoDetalleResponse>(
       `${this.baseAPi}Documentos/getDocumentoDetalle/${id}`
     );
   }
+
+
+actualizarDocumentoDD(data: ActualizarDocumentoRequest): Observable<msg> {
+  const token = localStorage.getItem('token') || '';
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  return this.http.put<msg>(
+    `${this.baseAPi}Documentos/Actualizar`,
+    data,
+    { headers }
+  );
 }
+
+
+
+
+
+
+}
+

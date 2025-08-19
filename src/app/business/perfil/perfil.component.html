@@ -9,10 +9,11 @@
   <div class="p-6">
       <h3 class="text-lg font-semibold text-gray-700 mb-4">Detalles del Usuario</h3>
       <ul class="space-y-2 text-gray-600">
-          <li><strong>ID Usuario:</strong> {{ usuario?.ID_USUARIO }}</li>
           <li><strong>Número de Identidad:</strong> {{ usuario?.NUM_IDENTIDAD }}</li>
           <li><strong>Usuario:</strong> {{ usuario?.USUARIO }}</li>
           <li><strong>Correo Electrónico:</strong> {{ usuario?.CORREO_ELECTRONICO }}</li>
+            <li><strong>Facultad:</strong> {{ facultadName }}</li>
+            <li><strong>Departamento:</strong> {{ departamentoName }}</li>
       </ul>
 
       <button (click)="dhash()" class="mt-6 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-md transition">

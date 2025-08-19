@@ -11,9 +11,17 @@ export interface Responsedepartamento {
 
 }*/
 
+
 import { departamento } from "./Departamento";
 
 export interface ResponseDepartamento{
+    message: string;
     msg: string;
     Listado_Departamentos :departamento[]
+}
+export interface ResponseDetalleDepartamentoFacultad {
+  Detalle_Departamento_Facultad: {
+    nombre_departamento: string;
+    nombre_facultad: string;
+  };
 }
