@@ -20,9 +20,25 @@ export class RegistrarFacultadComponent {
   public fromBuild = inject(FormBuilder);
 
   public formRegistro: FormGroup = this.fromBuild.group({
-    nombreFacultad: ['', Validators.required],
-    descripcion: [ '', Validators.required],
-    estado: [true, Validators.required], // Valor por defecto: true (Activo)
+    nombreFacultad: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(100),
+        Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/) // Solo letras y espacios
+      ]
+    ],
+    descripcion: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(255),
+        Validators.pattern(/^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ.,;:()\s-]+$/) // Letras, números, signos básicos
+      ]
+    ],
+    estado: [true, Validators.required] // Valor por defecto: true (Activo)
   });
 
   // Método para registrar la facultad
@@ -30,8 +46,23 @@ export class RegistrarFacultadComponent {
     if (this.formRegistro.invalid) {
       Swal.fire({
         icon: 'warning',
-        title: 'Campos incompletos',
-        text: 'Verifica que los campos estén completos.',
+        title: 'Campos incompletos o inválidos',
+        text: 'Verifica que todos los campos estén completos y correctos.',
+        confirmButtonColor: '#3085d6',
+      });
+      return;
+    }
+
+    // Limpieza de espacios adicionales
+    const nombreFacultad = this.formRegistro.value.nombreFacultad.trim();
+    const descripcion = this.formRegistro.value.descripcion.trim();
+
+    // Validación adicional para evitar cadenas vacías después de trim
+    if (!nombreFacultad || !descripcion) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Datos inválidos',
+        text: 'El nombre y la descripción no pueden estar vacíos o solo contener espacios.',
         confirmButtonColor: '#3085d6',
       });
       return;
@@ -42,8 +73,8 @@ export class RegistrarFacultadComponent {
     const estadoBooleano = estadoFormulario === true || estadoFormulario === 'true';
 
     const objeto: RegistroFacultad = {
-      NOMBRE: this.formRegistro.value.nombreFacultad.toUpperCase(),
-      DESCRIPCION: this.formRegistro.value.descripcion.toUpperCase(),
+      NOMBRE: nombreFacultad.toUpperCase(),
+      DESCRIPCION: descripcion.toUpperCase(),
       ESTADO: estadoBooleano
     };
 

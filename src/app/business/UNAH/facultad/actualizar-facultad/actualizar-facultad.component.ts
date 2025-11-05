@@ -11,7 +11,7 @@ import { ResponseFacultad } from '../../../../interfaces/UNAH/Facultad/Facultad'
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './actualizar-facultad.component.html',
-  styleUrl: './actualizar-facultad.component.css',
+  styleUrls: ['./actualizar-facultad.component.css'], // <- corregido
 })
 export default class ActualizarFacultadComponent {
   private route = inject(Router);
@@ -19,33 +19,90 @@ export default class ActualizarFacultadComponent {
 
   facultadId: number = 0;
   NombreFacultad: string = '';
-  Descrpcion: String = '';
-  EstadoFacultad: boolean = true
+  Descrpcion: string = '';
+  EstadoFacultad: boolean = true;
 
   constructor(private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.facultadId = params['id'],
-      this.NombreFacultad = params['nombre'];
-      this.Descrpcion = params['descripcion'];
+      this.facultadId = params['id'];
+      this.NombreFacultad = params['nombre'] || '';
+      this.Descrpcion = params['descripcion'] || '';
       this.EstadoFacultad = params['estado'] === 'true';
     });
   }
 
   actualizarFacultad() {
+    // Limpieza de espacios
+    const nombreTrim = this.NombreFacultad.trim();
+    const descripcionTrim = this.Descrpcion.trim();
+
+    // Validaciones manuales
+    if (!nombreTrim || !descripcionTrim) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos vacíos',
+        text: 'El nombre y la descripción son obligatorios.',
+        confirmButtonColor: '#3085d6',
+      });
+      return;
+    }
+
+    if (nombreTrim.length < 3 || nombreTrim.length > 100) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Nombre inválido',
+        text: 'El nombre de la facultad debe tener entre 3 y 100 caracteres.',
+        confirmButtonColor: '#3085d6',
+      });
+      return;
+    }
+
+    if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(nombreTrim)) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Nombre inválido',
+        text: 'El nombre solo puede contener letras y espacios.',
+        confirmButtonColor: '#3085d6',
+      });
+      return;
+    }
+
+    if (descripcionTrim.length < 5 || descripcionTrim.length > 255) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Descripción inválida',
+        text: 'La descripción debe tener entre 5 y 255 caracteres.',
+        confirmButtonColor: '#3085d6',
+      });
+      return;
+    }
+
+    if (!/^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ.,;:()\s-]+$/.test(descripcionTrim)) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Descripción inválida',
+        text: 'La descripción contiene caracteres no permitidos.',
+        confirmButtonColor: '#3085d6',
+      });
+      return;
+    }
+
+    // Crear objeto validado
     const datosActualizados: any = {
       ID_FACULTAD: this.facultadId,
-      NOMBRE: this.NombreFacultad.toUpperCase(),
-      DESCRIPCION: this.Descrpcion.toLowerCase(),
+      NOMBRE: nombreTrim.toUpperCase(),
+      DESCRIPCION: descripcionTrim.toUpperCase(),
       ESTADO: this.EstadoFacultad,
     };
 
+    // Llamada al servicio
     this.facultadService.actualizarfacultad(
       datosActualizados.ID_FACULTAD,
       datosActualizados.NOMBRE,
       datosActualizados.DESCRIPCION,
-      datosActualizados.ESTADO,
+      datosActualizados.ESTADO
     ).subscribe({
       next: (res) => {
         Swal.fire({

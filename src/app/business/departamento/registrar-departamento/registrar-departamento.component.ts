@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DepartamentoService } from '../../../services/departamento.service';
@@ -14,74 +14,90 @@ import { FacultadService } from '../../../services/facultad.service';
   templateUrl: './registrar-departamento.component.html',
   styleUrls: ['./registrar-departamento.component.css']
 })
-export class RegistrarDepartamentoComponent {
-  private DepartamentoService = inject(DepartamentoService);
-  private route = inject(Router);
-  public fromBuild = inject(FormBuilder);
+export class RegistrarDepartamentoComponent implements OnInit {
+
+  private departamentoService = inject(DepartamentoService);
+  private router = inject(Router);
+  private fb = inject(FormBuilder);
   private facultadService = inject(FacultadService);
-  public listafacu: any[] = [];
+
+  public listaFacultades: any[] = [];
+  public formRegistro!: FormGroup;
+  public cargandoFacultades = true;
+
   ngOnInit(): void {
+    // Cargar facultades disponibles
     this.facultadService.facultadget().subscribe({
       next: (data) => {
-        if (data.Lista_Facultad.length > 0) {
-          this.listafacu = data.Lista_Facultad;
-        }
+        this.listaFacultades = data?.Lista_Facultad ?? [];
+        this.cargandoFacultades = false;
       },
       error: (error) => {
-        console.error('Error al cargar objetos', error);
+        this.cargandoFacultades = false;
+        console.error('Error al cargar facultades', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al cargar facultades',
+          text: 'No se pudieron cargar las facultades. Intenta de nuevo.',
+          confirmButtonColor: '#d33',
+        });
       },
     });
 
+    // Inicializar formulario
+    this.formRegistro = this.fb.group({
+      IDFacu: ['', Validators.required],
+      Nombre: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/),
+        ],
+      ],
+      Estado: [true, Validators.required],
+    });
   }
-  public formRegistro: FormGroup = this.fromBuild.group({
-    IDFacu: ['', Validators.required],
-    Nombre: ['', Validators.required],
-    Estado: [true, Validators.required],
-    
-  });
 
-  // Método para registrar departamento
-  registrarDepartamento() {
+  registrarDepartamento(): void {
     if (this.formRegistro.invalid) {
       Swal.fire({
         icon: 'warning',
-        title: 'Campos incompletos',
-        text: 'Verifica que los campos estén completos.',
+        title: 'Campos incompletos o inválidos',
+        text: 'Por favor verifica que todos los campos estén completos y sean válidos.',
         confirmButtonColor: '#3085d6',
       });
+      this.formRegistro.markAllAsTouched();
       return;
     }
 
-   const objeto: Registrodepartamento = {
-  ID_FACULTAD: this.formRegistro.value.IDFacu,
-  NOMBRE: this.formRegistro.value.Nombre.toUpperCase(), // usa Nombre con N mayúscula
-  ESTADO: this.formRegistro.value.Estado,
-};
+    const objeto: Registrodepartamento = {
+      ID_FACULTAD: this.formRegistro.value.IDFacu,
+      NOMBRE: this.formRegistro.value.Nombre.trim().toUpperCase(),
+      ESTADO: this.formRegistro.value.Estado,
+    };
 
-
-    this.DepartamentoService.registrardepartamento(objeto).subscribe({
+    this.departamentoService.registrardepartamento(objeto).subscribe({
       next: (data) => {
         Swal.fire({
           icon: 'success',
-          title: 'departamento creada',
-          text: data.msg || 'departamento creada correctamente.',
+          title: 'Departamento creado',
+          text: data.msg || 'El departamento se registró correctamente.',
           confirmButtonColor: '#3085d6',
-        }).then(() => {
-          this.route.navigate(['departamento']);
-        });
+        }).then(() => this.router.navigate(['departamento']));
       },
       error: (error) => {
         Swal.fire({
           icon: 'error',
           title: 'Error al registrar',
-          text: error.error?.msg || 'Ocurrió un error al registrar departamento.',
+          text: error.error?.msg || 'Ocurrió un error al registrar el departamento.',
           confirmButtonColor: '#d33',
         });
-      }
+      },
     });
   }
 
-  volver() {
-    this.route.navigate(['departamento']);
+  volver(): void {
+    this.router.navigate(['departamento']);
   }
 }
