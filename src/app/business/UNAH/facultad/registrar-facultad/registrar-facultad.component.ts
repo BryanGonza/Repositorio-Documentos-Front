@@ -24,7 +24,7 @@ export class RegistrarFacultadComponent {
       '',
       [
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(5), // Cambiado de 3 a 5 caracteres
         Validators.maxLength(100),
         Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/) // Solo letras y espacios
       ]
@@ -50,6 +50,7 @@ export class RegistrarFacultadComponent {
         text: 'Verifica que todos los campos estén completos y correctos.',
         confirmButtonColor: '#3085d6',
       });
+      this.formRegistro.markAllAsTouched();
       return;
     }
 
@@ -63,6 +64,27 @@ export class RegistrarFacultadComponent {
         icon: 'warning',
         title: 'Datos inválidos',
         text: 'El nombre y la descripción no pueden estar vacíos o solo contener espacios.',
+        confirmButtonColor: '#3085d6',
+      });
+      return;
+    }
+
+    // Validación específica de longitud después del trim
+    if (nombreFacultad.length < 5) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Nombre muy corto',
+        text: 'El nombre de la facultad debe tener al menos 5 caracteres.',
+        confirmButtonColor: '#3085d6',
+      });
+      return;
+    }
+
+    if (descripcion.length < 5) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Descripción muy corta',
+        text: 'La descripción debe tener al menos 5 caracteres.',
         confirmButtonColor: '#3085d6',
       });
       return;
@@ -98,6 +120,19 @@ export class RegistrarFacultadComponent {
         });
       }
     });
+  }
+
+  // Getters para acceder fácilmente a los controles en la plantilla
+  get nombreFacultad() {
+    return this.formRegistro.get('nombreFacultad');
+  }
+
+  get descripcion() {
+    return this.formRegistro.get('descripcion');
+  }
+
+  get estado() {
+    return this.formRegistro.get('estado');
   }
 
   volver() {
