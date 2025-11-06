@@ -31,6 +31,7 @@ export default class RegistrarComponent {
   public fromBuild = inject(FormBuilder);
   public listaRoles: any[] = [];
   public listadepar: any[] = [];
+  public generandoUsuario: boolean = false;
   
   ngOnInit(): void {
     this.rolesService.rolesget().subscribe({
@@ -40,7 +41,7 @@ export default class RegistrarComponent {
         }
       },
       error: (error) => {
-        console.error('Error al cargar objetos', error);
+        console.error('Error al cargar roles', error);
       },
     });
     this.departamentoService.Departamentoget().subscribe({
@@ -50,7 +51,7 @@ export default class RegistrarComponent {
         }
       },
       error: (error) => {
-        console.error('Error al cargar objetos', error);
+        console.error('Error al cargar departamentos', error);
       },
     });
   }
@@ -62,9 +63,10 @@ export default class RegistrarComponent {
       Validators.minLength(13),
       Validators.maxLength(13)
     ]],
-    Usuario: ['', Validators.required],
+    Usuario: [{ value: '', disabled: false }, Validators.required],
     NombreUs: ['', [
       Validators.required,
+      Validators.minLength(5),
       Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)
     ]],
     Contrasena: ['', [Validators.required, Validators.minLength(6)]],
@@ -78,81 +80,103 @@ export default class RegistrarComponent {
   });
 
   // Alterna la visibilidad de la contraseña
-  togglePasswordVisibility() {
+  togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
 
   // Alterna la visibilidad de la confirmación de la contraseña
-  toggleConfirmPasswordVisibility() {
+  toggleConfirmPasswordVisibility(): void {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   get contrasenasCoinciden(): boolean {
     const contrasena = this.fromRegistro.get('Contrasena')?.value;
     const confirmarContrasena = this.fromRegistro.get('confirmarContrasena')?.value;
-    return (
-      contrasena && confirmarContrasena && contrasena === confirmarContrasena
-    );
+    return contrasena && confirmarContrasena && contrasena === confirmarContrasena;
   }
 
-  // Validar número de identidad (13 dígitos exactos)
-  validarIdentidad() {
+  // Validar número de identidad en tiempo real
+  onIdentidadChange(): void {
     const identidad = this.fromRegistro.get('numeroIdentidad')?.value;
+    
+    // Validar formato
     if (identidad && identidad.length === 13 && /^[0-9]+$/.test(identidad)) {
-      // Aquí podrías agregar una verificación al servidor para evitar duplicados
       console.log('Identidad válida:', identidad);
-      // this.verificarIdentidadUnica(identidad); // Comentado hasta que exista el servicio
+      // Aquí podrías agregar verificación de duplicados cuando exista el servicio
+    } else if (identidad && identidad.length > 0) {
+      // Mostrar error si no cumple con los 13 dígitos
+      if (identidad.length !== 13) {
+        this.fromRegistro.get('numeroIdentidad')?.setErrors({ exactLength: true });
+      }
+      if (!/^[0-9]+$/.test(identidad)) {
+        this.fromRegistro.get('numeroIdentidad')?.setErrors({ pattern: true });
+      }
+    }
+  }
+
+  // Generar usuario automáticamente cuando se escribe el nombre
+  onNombreChange(): void {
+    const nombreCompleto = this.fromRegistro.get('NombreUs')?.value;
+    
+    if (nombreCompleto && nombreCompleto.trim().length >= 5) {
+      this.generarUsuarioAutomatico();
     }
   }
 
   // Generar usuario automáticamente basado en el nombre
-  generarUsuario() {
+  private generarUsuarioAutomatico(): void {
     const nombreCompleto = this.fromRegistro.get('NombreUs')?.value;
-    if (nombreCompleto && nombreCompleto.trim().length > 0) {
-      const partesNombre = nombreCompleto.trim().split(' ');
+    
+    if (nombreCompleto && nombreCompleto.trim().length >= 5) {
+      this.generandoUsuario = true;
+      
+      // CORRECCIÓN: Definir explícitamente el tipo del parámetro
+      const partesNombre: string[] = nombreCompleto.trim().split(/\s+/).filter((part: string) => part.length > 0);
       let usuarioGenerado = '';
       
       if (partesNombre.length >= 2) {
-        // Tomar primer nombre y primer apellido
-        const primerNombre = partesNombre[0].toLowerCase();
-        const primerApellido = partesNombre[1].toLowerCase();
+        // Tomar primera letra del primer nombre + primer apellido completo
+        const primerNombre = partesNombre[0];
+        const primerApellido = partesNombre[1];
         
-        // Generar usuario: primera letra del nombre + apellido completo
-        usuarioGenerado = primerNombre.charAt(0) + primerApellido;
+        usuarioGenerado = primerNombre.charAt(0).toLowerCase() + 
+                         primerApellido.toLowerCase();
       } else if (partesNombre.length === 1) {
-        // Si solo hay un nombre, usar ese nombre completo
-        usuarioGenerado = partesNombre[0].toLowerCase();
+        // Si solo hay un nombre, usar las primeras 8 letras
+        usuarioGenerado = partesNombre[0].toLowerCase().substring(0, 8);
       }
       
-      // Limpiar caracteres especiales y asegurar unicidad
+      // Limpiar caracteres especiales
       usuarioGenerado = usuarioGenerado
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '') // Remover tildes
         .replace(/[^a-z0-9]/g, ''); // Remover caracteres no alfanuméricos
       
-      // Asignar el usuario generado directamente
+      // Asignar el usuario generado
       if (usuarioGenerado) {
         this.fromRegistro.get('Usuario')?.setValue(usuarioGenerado.toUpperCase());
+        // Aquí podrías agregar verificación de unicidad cuando exista el servicio
       }
       
-      // this.verificarUsuarioUnico(usuarioGenerado); // Comentado hasta que exista el servicio
+      this.generandoUsuario = false;
     }
   }
 
-  validarContrasenas() {
+  validarContrasenas(): void {
     if (this.contrasenasCoinciden) {
       this.fromRegistro.get('correo')?.enable();
     } else {
       this.fromRegistro.get('correo')?.disable();
+      this.fromRegistro.get('correo')?.setValue('');
     }
   }
 
-  registrarse() {
+  registrarse(): void {
     if (this.fromRegistro.invalid || !this.contrasenasCoinciden) {
       Swal.fire({
         icon: 'warning',
         title: 'Campos incompletos',
-        text: 'Verifica que los campos estén completos y que las contraseñas coincidan.',
+        text: 'Verifica que todos los campos estén completos y que las contraseñas coincidan.',
         confirmButtonColor: '#3085d6',
       });
       this.fromRegistro.markAllAsTouched();
@@ -171,9 +195,11 @@ export default class RegistrarComponent {
       return;
     }
 
-    // Validación de nombre completo
+    // Validación de nombre completo - CORRECCIÓN: Definir tipo explícitamente
     const nombreCompleto = this.fromRegistro.value.NombreUs;
-    if (nombreCompleto.trim().split(' ').length < 2) {
+    const partesNombre: string[] = nombreCompleto.trim().split(/\s+/).filter((part: string) => part.length > 0);
+    
+    if (partesNombre.length < 2) {
       Swal.fire({
         icon: 'warning',
         title: 'Nombre incompleto',
@@ -187,16 +213,14 @@ export default class RegistrarComponent {
       NUM_IDENTIDAD: this.fromRegistro.value.numeroIdentidad,
       USUARIO: this.fromRegistro.value.Usuario.toUpperCase(),
       NOMBRE_USUARIO: this.fromRegistro.value.NombreUs.toUpperCase(),
-      CONTRASEÑA: this.fromRegistro.value.Contrasena.toUpperCase(),
-      CORREO_ELECTRONICO: this.fromRegistro.value.correo.toUpperCase(),
+      CONTRASEÑA: this.fromRegistro.value.Contrasena,
+      CORREO_ELECTRONICO: this.fromRegistro.value.correo.toLowerCase(),
       ID_ROL: this.fromRegistro.value.idRol,
       ID_DEPARTAMENTO: this.fromRegistro.value.ID_DEPARTAMENTO,
     };
 
     this.usuarioService.registro(objeto).subscribe({
       next: (data) => {
-        console.log('Datos a enviar:', objeto);
-
         if (data.msg.includes('creado correctamente')) {
           Swal.fire({
             icon: 'success',
@@ -227,7 +251,7 @@ export default class RegistrarComponent {
     });
   }
 
-  volver() {
+  volver(): void {
     this.route.navigate(['usuarios']);
   }
 

@@ -18,110 +18,157 @@
 
         <!-- Campo para Número de Identidad -->
         <div class="my-2">
-          <label for="num_identidad" class="text-sm sm:text-md font-bold text-gray-700">Número de Identidad</label>
-          <input type="number" id="num_identidad" formControlName="numeroIdentidad" required
+          <label for="num_identidad" class="text-sm sm:text-md font-bold text-gray-700">Número de Identidad *</label>
+          <input type="text" id="num_identidad" formControlName="numeroIdentidad" required
+            (input)="onIdentidadChange()"
             class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
-            placeholder="Ej: 123456789">
-          <div *ngIf="fromRegistro.get('numeroIdentidad')?.invalid && fromRegistro.get('numeroIdentidad')?.touched"
-            class="text-red-600 text-xs">
-            Este campo es obligatorio.
-          </div>
-        </div>
-
-        <!-- Campo para Usuario -->
-        <div class="my-2">
-          <label for="usuario" class="text-sm sm:text-md font-bold text-gray-700">Usuario</label>
-          <input type="text" id="usuario" formControlName="Usuario" required
-            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
-            placeholder="Ej: usuario123">
-          <div *ngIf="fromRegistro.get('Usuario')?.invalid && fromRegistro.get('Usuario')?.touched"
-            class="text-red-600 text-xs">
-            Este campo es obligatorio.
+            placeholder="Ej: 0801199912345" maxlength="13"
+            [class.border-red-500]="numeroIdentidad?.invalid && numeroIdentidad?.touched">
+          
+          <!-- Mensajes de error para identidad -->
+          <div *ngIf="numeroIdentidad?.touched" class="text-red-600 text-xs">
+            <div *ngIf="numeroIdentidad?.errors?.['required']">Este campo es obligatorio.</div>
+            <div *ngIf="numeroIdentidad?.errors?.['pattern']">Solo se permiten números.</div>
+            <div *ngIf="numeroIdentidad?.errors?.['minlength'] || numeroIdentidad?.errors?.['maxlength'] || numeroIdentidad?.errors?.['exactLength']">
+              Debe tener exactamente 13 dígitos.
+            </div>
           </div>
         </div>
 
         <!-- Campo para Nombre Completo -->
         <div class="my-2">
-          <label for="nombre_usuario" class="text-sm sm:text-md font-bold text-gray-700">Nombre Completo</label>
+          <label for="nombre_usuario" class="text-sm sm:text-md font-bold text-gray-700">Nombre Completo *</label>
           <input type="text" id="nombre_usuario" formControlName="NombreUs" required
+            (input)="onNombreChange()"
             class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
-            placeholder="Ej: Juan Pérez">
-          <div *ngIf="fromRegistro.get('NombreUs')?.invalid && fromRegistro.get('NombreUs')?.touched"
-            class="text-red-600 text-xs">
+            placeholder="Ej: Juan Carlos Pérez López"
+            [class.border-red-500]="NombreUs?.invalid && NombreUs?.touched">
+          
+          <!-- Mensajes de error para nombre -->
+          <div *ngIf="NombreUs?.touched" class="text-red-600 text-xs">
+            <div *ngIf="NombreUs?.errors?.['required']">Este campo es obligatorio.</div>
+            <div *ngIf="NombreUs?.errors?.['minlength']">Debe tener al menos 5 caracteres.</div>
+            <div *ngIf="NombreUs?.errors?.['pattern']">Solo se permiten letras y espacios.</div>
+          </div>
+          <div class="text-xs text-gray-600">Ingrese nombre y apellido para generar usuario automáticamente.</div>
+        </div>
+
+        <!-- Campo para Usuario (generado automáticamente) -->
+        <div class="my-2">
+          <label for="usuario" class="text-sm sm:text-md font-bold text-gray-700">Usuario *</label>
+          <div class="relative">
+            <input type="text" id="usuario" formControlName="Usuario" required
+              class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900 pr-10"
+              placeholder="Se generará automáticamente"
+              [class.border-red-500]="Usuario?.invalid && Usuario?.touched">
+            
+            <!-- Indicador de generación automática -->
+            <div *ngIf="generandoUsuario" class="absolute right-3 top-4">
+              <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
+            </div>
+          </div>
+          
+          <div *ngIf="Usuario?.touched && Usuario?.errors?.['required']" class="text-red-600 text-xs">
             Este campo es obligatorio.
           </div>
+          <div class="text-xs text-gray-600">Usuario generado automáticamente a partir del nombre.</div>
         </div>
 
         <!-- Campo para Contraseña -->
         <div class="my-2 relative">
-          <label for="contrasena" class="text-sm sm:text-md font-bold text-gray-700">Contraseña</label>
+          <label for="contrasena" class="text-sm sm:text-md font-bold text-gray-700">Contraseña *</label>
           <input [type]="showPassword ? 'text' : 'password'" id="contrasena" formControlName="Contrasena" required
             (input)="validarContrasenas()"
             class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 pr-10 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
-            placeholder="Ingrese su contraseña" aria-describedby="passwordHelp">
+            placeholder="Ingrese su contraseña" aria-describedby="passwordHelp"
+            [class.border-red-500]="Contrasena?.invalid && Contrasena?.touched">
+          
           <!-- Botón para mostrar/ocultar contraseña -->
-          <button type="button" (click)="togglePasswordVisibility()" class="absolute right-2 top-9 text-gray-600"
+          <button type="button" (click)="togglePasswordVisibility()" 
+            class="absolute right-3 top-9 text-gray-600 hover:text-gray-800"
             aria-label="Mostrar contraseña">
-            {{ showPassword ? '👁️' : '👁️' }}
+            {{ showPassword ? '👁️' : '👁️‍🗨️' }}
           </button>
+          
           <div id="passwordHelp" class="text-xs text-gray-600">La contraseña debe tener al menos 6 caracteres.</div>
+          <div *ngIf="Contrasena?.touched" class="text-red-600 text-xs">
+            <div *ngIf="Contrasena?.errors?.['required']">Este campo es obligatorio.</div>
+            <div *ngIf="Contrasena?.errors?.['minlength']">Mínimo 6 caracteres.</div>
+          </div>
         </div>
 
         <!-- Campo para Confirmar Contraseña -->
         <div class="my-2 relative">
-          <label for="confirmar_contrasena" class="text-sm sm:text-md font-bold text-gray-700">Confirmar
-            Contraseña</label>
+          <label for="confirmar_contrasena" class="text-sm sm:text-md font-bold text-gray-700">Confirmar Contraseña *</label>
           <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmar_contrasena"
             formControlName="confirmarContrasena" required (input)="validarContrasenas()"
             class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 pr-10 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
-            placeholder="Confirme su contraseña">
+            placeholder="Confirme su contraseña"
+            [class.border-red-500]="confirmarContrasena?.invalid && confirmarContrasena?.touched">
+          
           <!-- Botón para mostrar/ocultar confirmar contraseña -->
-          <button type="button" (click)="toggleConfirmPasswordVisibility()" class="absolute right-2 top-9 text-gray-600"
+          <button type="button" (click)="toggleConfirmPasswordVisibility()" 
+            class="absolute right-3 top-9 text-gray-600 hover:text-gray-800"
             aria-label="Mostrar confirmar contraseña">
-            {{ showConfirmPassword ? '👁️' : '👁️' }}
+            {{ showConfirmPassword ? '👁️' : '👁️‍🗨️' }}
           </button>
-          <div *ngIf="!contrasenasCoinciden && fromRegistro.get('confirmarContrasena')?.touched"
-            class="text-red-600 text-xs">
-            Las contraseñas no coinciden.
+          
+          <div *ngIf="confirmarContrasena?.touched" class="text-red-600 text-xs">
+            <div *ngIf="confirmarContrasena?.errors?.['required']">Este campo es obligatorio.</div>
+            <div *ngIf="!contrasenasCoinciden && confirmarContrasena?.value">Las contraseñas no coinciden.</div>
           </div>
         </div>
 
         <!-- Campo para Correo Electrónico -->
         <div class="my-2">
-          <label for="correo_electronico" class="text-sm sm:text-md font-bold text-gray-700">Correo Electrónico</label>
+          <label for="correo_electronico" class="text-sm sm:text-md font-bold text-gray-700">Correo Electrónico *</label>
           <input type="email" id="correo_electronico" formControlName="correo" required
             class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
-            placeholder="ejemplo@dominio.com">
-          <div *ngIf="fromRegistro.get('correo')?.invalid && fromRegistro.get('correo')?.touched"
-            class="text-red-600 text-xs">
-            Ingrese un correo válido.
+            placeholder="ejemplo@dominio.com"
+            [class.border-red-500]="correo?.invalid && correo?.touched"
+            [class.bg-gray-100]="correo?.disabled">
+          
+          <div *ngIf="correo?.touched" class="text-red-600 text-xs">
+            <div *ngIf="correo?.errors?.['required']">Este campo es obligatorio.</div>
+            <div *ngIf="correo?.errors?.['email']">Ingrese un correo válido.</div>
           </div>
+          <div class="text-xs text-gray-600">Se habilitará cuando las contraseñas coincidan.</div>
         </div>
 
         <!-- Campo para Rol -->
         <div class="my-2">
-          <label for="idRol" class="text-sm font-bold text-gray-700">Rol</label>
+          <label for="idRol" class="text-sm font-bold text-gray-700">Rol *</label>
           <select id="idRol" formControlName="idRol"
-            class="block w-full border border-yellow-500 px-2 py-2 rounded-md bg-white text-gray-900">
+            class="block w-full border border-yellow-500 px-2 py-2 rounded-md bg-white text-gray-900"
+            [class.border-red-500]="idRol?.invalid && idRol?.touched">
             <option value="">Seleccione un rol</option>
             <option *ngFor="let rol of listaRoles" [value]="rol.ID_ROL">{{ rol.ROL }}</option>
           </select>
+          <div *ngIf="idRol?.touched && idRol?.errors?.['required']" class="text-red-600 text-xs">
+            Este campo es obligatorio.
+          </div>
         </div>
 
-        <!-- Campo para Departamento -->
+        <!-- Campo para Departamento (CORREGIDO el label) -->
         <div class="my-2">
-          <label for="ID_DEPARTAMENTO" class="text-sm font-bold text-gray-700">Rol</label>
+          <label for="ID_DEPARTAMENTO" class="text-sm font-bold text-gray-700">Departamento *</label>
           <select id="ID_DEPARTAMENTO" formControlName="ID_DEPARTAMENTO"
-            class="block w-full border border-yellow-500 px-2 py-2 rounded-md bg-white text-gray-900">
+            class="block w-full border border-yellow-500 px-2 py-2 rounded-md bg-white text-gray-900"
+            [class.border-red-500]="ID_DEPARTAMENTO?.invalid && ID_DEPARTAMENTO?.touched">
             <option value="">Seleccione un Departamento</option>
-            <option *ngFor="let Departamento of listadepar" [value]="Departamento.ID_DEPARTAMENTO">{{ Departamento.NOMBRE }}</option>
+            <option *ngFor="let departamento of listadepar" [value]="departamento.ID_DEPARTAMENTO">
+              {{ departamento.NOMBRE }}
+            </option>
           </select>
+          <div *ngIf="ID_DEPARTAMENTO?.touched && ID_DEPARTAMENTO?.errors?.['required']" class="text-red-600 text-xs">
+            Este campo es obligatorio.
+          </div>
         </div>
 
         <!-- Botón Guardar -->
         <button type="submit" [disabled]="fromRegistro.invalid || !contrasenasCoinciden"
-          class="w-full mt-4 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 rounded-md text-black text-sm sm:text-lg shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed">
-          Guardar
+          class="w-full mt-4 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 rounded-md text-black text-sm sm:text-lg shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors duration-200">
+          {{ generandoUsuario ? 'Generando usuario...' : 'Guardar' }}
         </button>
 
       </form>
