@@ -127,7 +127,7 @@
       </div>
       <div class="flex items-center" [class.text-green-600]="passwordStrength.hasSpecialChar" [class.text-red-600]="!passwordStrength.hasSpecialChar">
         <span class="mr-1">{{ passwordStrength.hasSpecialChar ? '✓' : '✗' }}</span>
-        <span>Un carácter especial (@$!%*?&)</span>
+        <span>Un carácter especial (&#64;$!%*?&)</span>
       </div>
     </div>
   </div>
