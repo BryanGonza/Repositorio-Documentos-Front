@@ -18,8 +18,8 @@
             <select id="IDFacu" formControlName="IDFacu"
               class="block w-full border border-yellow-500 px-2 py-2 rounded-md bg-white text-gray-900">
               <option value="">Seleccione un facultad</option>
-              <option *ngFor="let facu of listafacu" [value]="facu.ID_FACULTAD">{{ facu.NOMBRE }}</option>
-            </select>
+              <option *ngFor="let facu of listaFacultades" [value]="facu.ID_FACULTAD">{{ facu.NOMBRE }}</option>
+                </select>
           </div>
           <!-- Campo para Nombre -->
            <div class="my-2">
