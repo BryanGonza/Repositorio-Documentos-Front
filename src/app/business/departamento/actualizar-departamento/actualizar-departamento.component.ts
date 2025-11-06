@@ -17,8 +17,7 @@ export default class ActualizarDepartamentoComponent implements OnInit {
   private route = inject(Router);
   private departamentoService = inject(DepartamentoService);
   private facultadService = inject(FacultadService);
-
-  constructor(private activatedRoute: ActivatedRoute) {}
+  private activatedRoute = inject(ActivatedRoute);
 
   // Listado de facultades para el select
   lista_facultad: any[] = [];
@@ -36,39 +35,39 @@ export default class ActualizarDepartamentoComponent implements OnInit {
   }
 
   cargarDatosIniciales(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.idDepartamento = +params['iddepa'] || 0;
-      this.idFacultad = +params['idfacu'] || 0;
-      this.nombre = params['nombre'] || '';
+    this.activatedRoute.queryParams.subscribe({
+      next: (params) => {
+        this.idDepartamento = this.validarNumeroPositivo(params['iddepa']);
+        this.idFacultad = this.validarNumeroPositivo(params['idfacu']);
+        this.nombre = this.validarTexto(params['nombre'] || '');
 
-      const estadoParam = params['estado'];
-      if (estadoParam?.toUpperCase() === 'ACTIVO') {
-        this.estado = true;
-      } else if (estadoParam?.toUpperCase() === 'INACTIVO') {
-        this.estado = false;
-      } else {
-        this.estado = false;
+        const estadoParam = params['estado'];
+        this.estado = this.validarEstado(estadoParam);
+
+        this.cargarFacultades();
+      },
+      error: (error) => {
+        console.error('Error al cargar parámetros de ruta:', error);
+        this.mostrarError('Error al cargar los datos del departamento');
       }
-
-      this.cargarFacultades();
     });
   }
 
   cargarFacultades(): void {
     this.facultadService.facultadget().subscribe({
       next: (res) => {
-        this.lista_facultad = res.Lista_Facultad || [];
+        if (res && Array.isArray(res.Lista_Facultad)) {
+          this.lista_facultad = res.Lista_Facultad;
+        } else {
+          this.lista_facultad = [];
+          console.warn('Estructura de respuesta de facultades inesperada:', res);
+        }
         this.facultadesCargadas = true;
       },
       error: (err) => {
-        console.error("Error al obtener facultades", err);
+        console.error('Error al obtener facultades:', err);
         this.facultadesCargadas = true;
-        Swal.fire({
-          icon: 'warning',
-          title: 'Advertencia',
-          text: 'Se cargó la página pero no se pudieron obtener las facultades.',
-          confirmButtonColor: '#3085d6',
-        });
+        this.mostrarAdvertencia('Se cargó la página pero no se pudieron obtener las facultades.');
       }
     });
   }
@@ -86,68 +85,118 @@ export default class ActualizarDepartamentoComponent implements OnInit {
     ).subscribe({
       next: (res) => {
         this.cargando = false;
-        Swal.fire({
-          icon: 'success',
-          title: 'Actualización exitosa',
-          text: res.message || 'Departamento actualizado correctamente.',
-          confirmButtonColor: '#3085d6',
-        }).then(() => this.route.navigate(['departamento']));
+        this.mostrarExito(res.message || 'Departamento actualizado correctamente.')
+          .then(() => this.route.navigate(['departamento']));
       },
       error: (err) => {
         this.cargando = false;
-        Swal.fire({
-          icon: 'error',
-          title: 'Error al actualizar',
-          text: err.error?.message || err.message || 'Ocurrió un error al actualizar el departamento.',
-          confirmButtonColor: '#d33',
-        });
+        const mensajeError = this.obtenerMensajeError(err);
+        this.mostrarError(mensajeError);
       }
     });
   }
 
   validarFormulario(): boolean {
+    // Validación de ID de departamento
     if (!this.idDepartamento || this.idDepartamento <= 0) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se ha especificado un departamento válido a actualizar.',
-        confirmButtonColor: '#d33',
-      });
+      this.mostrarError('No se ha especificado un departamento válido a actualizar.');
       return false;
     }
 
+    // Validación de facultad seleccionada
     if (!this.idFacultad || this.idFacultad <= 0) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Debe seleccionar una facultad válida.',
-        confirmButtonColor: '#d33',
-      });
+      this.mostrarError('Debe seleccionar una facultad válida.');
       return false;
     }
 
-    if (!this.nombre || this.nombre.trim().length < 3) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'El nombre del departamento debe tener al menos 3 caracteres.',
-        confirmButtonColor: '#d33',
-      });
+    // Validación de nombre
+    const nombreLimpio = this.nombre.trim();
+    if (!nombreLimpio) {
+      this.mostrarError('El nombre del departamento es requerido.');
       return false;
     }
 
-    // Validación opcional: estado debe ser boolean
-    if (typeof this.estado !== 'boolean') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'El estado del departamento no es válido.',
-        confirmButtonColor: '#d33',
-      });
+    if (nombreLimpio.length < 3) {
+      this.mostrarError('El nombre del departamento debe tener al menos 3 caracteres.');
+      return false;
+    }
+
+    if (nombreLimpio.length > 100) {
+      this.mostrarError('El nombre del departamento no puede exceder los 100 caracteres.');
+      return false;
+    }
+
+    // Validación de caracteres no permitidos en nombres
+    if (!this.validarCaracteresNombre(nombreLimpio)) {
+      this.mostrarError('El nombre contiene caracteres no permitidos.');
       return false;
     }
 
     return true;
+  }
+
+  // Métodos de validación auxiliares
+  private validarNumeroPositivo(valor: any): number {
+    const numero = Number(valor);
+    return isNaN(numero) || numero <= 0 ? 0 : numero;
+  }
+
+  private validarTexto(texto: string): string {
+    return texto || '';
+  }
+
+  private validarEstado(estadoParam: any): boolean {
+    if (typeof estadoParam === 'string') {
+      return estadoParam.toUpperCase() === 'ACTIVO';
+    }
+    return Boolean(estadoParam);
+  }
+
+  private validarCaracteresNombre(nombre: string): boolean {
+    // Permite letras, números, espacios y algunos caracteres especiales comunes
+    const regex = /^[a-zA-ZÀ-ÿ0-9\s\-\_\.\(\)ñÑ]+$/;
+    return regex.test(nombre);
+  }
+
+  // Métodos para mostrar alertas (compatibles con Linux)
+  private mostrarExito(mensaje: string): Promise<any> {
+    return Swal.fire({
+      icon: 'success',
+      title: 'Actualización exitosa',
+      text: mensaje,
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Aceptar'
+    });
+  }
+
+  private mostrarError(mensaje: string): void {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: mensaje,
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'Aceptar'
+    });
+  }
+
+  private mostrarAdvertencia(mensaje: string): void {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Advertencia',
+      text: mensaje,
+      confirmButtonColor: '#ffbb33',
+      confirmButtonText: 'Entendido'
+    });
+  }
+
+  private obtenerMensajeError(error: any): string {
+    if (error.error?.message) {
+      return error.error.message;
+    }
+    if (error.message) {
+      return error.message;
+    }
+    return 'Ocurrió un error al actualizar el departamento.';
   }
 
   volver(): void {
