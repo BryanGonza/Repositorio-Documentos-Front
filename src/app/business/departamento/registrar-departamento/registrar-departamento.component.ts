@@ -135,7 +135,7 @@ export class RegistrarDepartamentoComponent implements OnInit {
     // Validar nombre
     const nombreLimpio = objeto.NOMBRE.trim();
     if (!nombreLimpio || nombreLimpio.length < 5) {
-      this.mostrarError('Error de validación', 'El nombre debe tener al menos 3 caracteres.');
+      this.mostrarError('Error de validación', 'El nombre debe tener al menos 5 caracteres.');
       return false;
     }
 
