@@ -33,6 +33,21 @@ export default class RegistrarComponent {
   public listadepar: any[] = [];
   public generandoUsuario: boolean = false;
   
+  // Propiedades para mostrar fortaleza de contraseña
+  public passwordStrength: {
+    hasMinLength: boolean;
+    hasUpperCase: boolean;
+    hasLowerCase: boolean;
+    hasNumber: boolean;
+    hasSpecialChar: boolean;
+  } = {
+    hasMinLength: false,
+    hasUpperCase: false,
+    hasLowerCase: false,
+    hasNumber: false,
+    hasSpecialChar: false
+  };
+
   ngOnInit(): void {
     this.rolesService.rolesget().subscribe({
       next: (data) => {
@@ -69,7 +84,11 @@ export default class RegistrarComponent {
       Validators.minLength(5),
       Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)
     ]],
-    Contrasena: ['', [Validators.required, Validators.minLength(6)]],
+    Contrasena: ['', [
+      Validators.required, 
+      Validators.minLength(8),
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)
+    ]],
     confirmarContrasena: ['', [Validators.required]],
     correo: [
       { value: '', disabled: true },
@@ -93,6 +112,50 @@ export default class RegistrarComponent {
     const contrasena = this.fromRegistro.get('Contrasena')?.value;
     const confirmarContrasena = this.fromRegistro.get('confirmarContrasena')?.value;
     return contrasena && confirmarContrasena && contrasena === confirmarContrasena;
+  }
+
+  // Validar fortaleza de la contraseña en tiempo real
+  validarFortalezaContrasena(): void {
+    const contrasena = this.fromRegistro.get('Contrasena')?.value || '';
+    
+    this.passwordStrength = {
+      hasMinLength: contrasena.length >= 8,
+      hasUpperCase: /[A-Z]/.test(contrasena),
+      hasLowerCase: /[a-z]/.test(contrasena),
+      hasNumber: /\d/.test(contrasena),
+      hasSpecialChar: /[@$!%*?&]/.test(contrasena)
+    };
+
+    // Validar contraseñas también
+    this.validarContrasenas();
+  }
+
+  // Obtener porcentaje de fortaleza para la barra de progreso
+  getPasswordStrengthPercentage(): number {
+    const requirementsMet = Object.values(this.passwordStrength).filter(value => value).length;
+    return (requirementsMet / 5) * 100;
+  }
+
+  // Obtener fortaleza de la contraseña como texto
+  getPasswordStrengthText(): string {
+    const requirements = Object.values(this.passwordStrength).filter(value => value).length;
+    
+    if (requirements === 0) return 'Muy débil';
+    if (requirements <= 2) return 'Débil';
+    if (requirements <= 3) return 'Media';
+    if (requirements === 4) return 'Fuerte';
+    return 'Muy fuerte';
+  }
+
+  // Obtener color para la fortaleza de la contraseña
+  getPasswordStrengthColor(): string {
+    const requirements = Object.values(this.passwordStrength).filter(value => value).length;
+    
+    if (requirements === 0) return 'red';
+    if (requirements <= 2) return 'orange';
+    if (requirements <= 3) return 'yellow';
+    if (requirements === 4) return 'lightgreen';
+    return 'green';
   }
 
   // Validar número de identidad en tiempo real
@@ -130,7 +193,6 @@ export default class RegistrarComponent {
     if (nombreCompleto && nombreCompleto.trim().length >= 5) {
       this.generandoUsuario = true;
       
-      // CORRECCIÓN: Definir explícitamente el tipo del parámetro
       const partesNombre: string[] = nombreCompleto.trim().split(/\s+/).filter((part: string) => part.length > 0);
       let usuarioGenerado = '';
       
@@ -155,7 +217,6 @@ export default class RegistrarComponent {
       // Asignar el usuario generado
       if (usuarioGenerado) {
         this.fromRegistro.get('Usuario')?.setValue(usuarioGenerado.toUpperCase());
-        // Aquí podrías agregar verificación de unicidad cuando exista el servicio
       }
       
       this.generandoUsuario = false;
@@ -195,7 +256,7 @@ export default class RegistrarComponent {
       return;
     }
 
-    // Validación de nombre completo - CORRECCIÓN: Definir tipo explícitamente
+    // Validación de nombre completo
     const nombreCompleto = this.fromRegistro.value.NombreUs;
     const partesNombre: string[] = nombreCompleto.trim().split(/\s+/).filter((part: string) => part.length > 0);
     
@@ -204,6 +265,18 @@ export default class RegistrarComponent {
         icon: 'warning',
         title: 'Nombre incompleto',
         text: 'Por favor ingrese al menos un nombre y un apellido para generar el usuario automáticamente.',
+        confirmButtonColor: '#3085d6',
+      });
+      return;
+    }
+
+    // Validación de fortaleza de contraseña
+    const requirementsMet = Object.values(this.passwordStrength).filter(value => value).length;
+    if (requirementsMet < 3) { // Requerir al menos 3 de 5 criterios
+      Swal.fire({
+        icon: 'warning',
+        title: 'Contraseña débil',
+        text: 'La contraseña no cumple con los requisitos mínimos de seguridad.',
         confirmButtonColor: '#3085d6',
       });
       return;
