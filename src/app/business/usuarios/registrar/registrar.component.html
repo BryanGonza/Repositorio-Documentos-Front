@@ -74,7 +74,7 @@
           <div class="text-xs text-gray-600">Usuario generado automáticamente a partir del nombre.</div>
         </div>
 
-        <!-- Campo para Contraseña -->
+<!-- Campo para Contraseña -->
 <div class="my-2 relative">
   <label for="contrasena" class="text-sm sm:text-md font-bold text-gray-700">Contraseña *</label>
   <input [type]="showPassword ? 'text' : 'password'" id="contrasena" formControlName="Contrasena" required
@@ -127,6 +127,7 @@
       </div>
       <div class="flex items-center" [class.text-green-600]="passwordStrength.hasSpecialChar" [class.text-red-600]="!passwordStrength.hasSpecialChar">
         <span class="mr-1">{{ passwordStrength.hasSpecialChar ? '✓' : '✗' }}</span>
+        <!-- CORRECCIÓN: @ escapado con entidad HTML -->
         <span>Un carácter especial (&#64;$!%*?&)</span>
       </div>
     </div>
@@ -139,6 +140,28 @@
     <div *ngIf="Contrasena?.errors?.['pattern']">No cumple con los requisitos de seguridad.</div>
   </div>
 </div>
+        <!-- Campo para Confirmar Contraseña -->
+        <div class="my-2 relative">
+          <label for="confirmar_contrasena" class="text-sm sm:text-md font-bold text-gray-700">Confirmar Contraseña *</label>
+          <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmar_contrasena"
+            formControlName="confirmarContrasena" required (input)="validarContrasenas()"
+            class="block w-full border border-yellow-500 outline-yellow-800 px-2 py-2 pr-10 text-sm sm:text-md rounded-md my-2 bg-white text-gray-900"
+            placeholder="Confirme su contraseña"
+            [class.border-red-500]="confirmarContrasena?.invalid && confirmarContrasena?.touched">
+          
+          <!-- Botón para mostrar/ocultar confirmar contraseña -->
+          <button type="button" (click)="toggleConfirmPasswordVisibility()" 
+            class="absolute right-3 top-9 text-gray-600 hover:text-gray-800"
+            aria-label="Mostrar confirmar contraseña">
+            {{ showConfirmPassword ? '👁️' : '👁️‍🗨️' }}
+          </button>
+          
+          <div *ngIf="confirmarContrasena?.touched" class="text-red-600 text-xs">
+            <div *ngIf="confirmarContrasena?.errors?.['required']">Este campo es obligatorio.</div>
+            <div *ngIf="!contrasenasCoinciden && confirmarContrasena?.value">Las contraseñas no coinciden.</div>
+          </div>
+        </div>
+
         <!-- Campo para Correo Electrónico -->
         <div class="my-2">
           <label for="correo_electronico" class="text-sm sm:text-md font-bold text-gray-700">Correo Electrónico *</label>
