@@ -31,6 +31,7 @@ export default class RegistrarComponent {
   public fromBuild = inject(FormBuilder);
   public listaRoles: any[] = [];
   public listadepar: any[] = [];
+  
   ngOnInit(): void {
     this.rolesService.rolesget().subscribe({
       next: (data) => {
@@ -55,9 +56,17 @@ export default class RegistrarComponent {
   }
 
   public fromRegistro: FormGroup = this.fromBuild.group({
-    numeroIdentidad: ['', Validators.required],
+    numeroIdentidad: ['', [
+      Validators.required, 
+      Validators.pattern(/^[0-9]+$/),
+      Validators.minLength(13),
+      Validators.maxLength(13)
+    ]],
     Usuario: ['', Validators.required],
-    NombreUs: ['', Validators.required],
+    NombreUs: ['', [
+      Validators.required,
+      Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)
+    ]],
     Contrasena: ['', [Validators.required, Validators.minLength(6)]],
     confirmarContrasena: ['', [Validators.required]],
     correo: [
@@ -67,9 +76,6 @@ export default class RegistrarComponent {
     idRol: ['', Validators.required],
     ID_DEPARTAMENTO: ['', Validators.required],
   });
-
-
-
 
   // Alterna la visibilidad de la contraseña
   togglePasswordVisibility() {
@@ -83,12 +89,54 @@ export default class RegistrarComponent {
 
   get contrasenasCoinciden(): boolean {
     const contrasena = this.fromRegistro.get('Contrasena')?.value;
-    const confirmarContrasena = this.fromRegistro.get(
-      'confirmarContrasena'
-    )?.value;
+    const confirmarContrasena = this.fromRegistro.get('confirmarContrasena')?.value;
     return (
       contrasena && confirmarContrasena && contrasena === confirmarContrasena
     );
+  }
+
+  // Validar número de identidad (13 dígitos exactos)
+  validarIdentidad() {
+    const identidad = this.fromRegistro.get('numeroIdentidad')?.value;
+    if (identidad && identidad.length === 13 && /^[0-9]+$/.test(identidad)) {
+      // Aquí podrías agregar una verificación al servidor para evitar duplicados
+      console.log('Identidad válida:', identidad);
+      // this.verificarIdentidadUnica(identidad); // Comentado hasta que exista el servicio
+    }
+  }
+
+  // Generar usuario automáticamente basado en el nombre
+  generarUsuario() {
+    const nombreCompleto = this.fromRegistro.get('NombreUs')?.value;
+    if (nombreCompleto && nombreCompleto.trim().length > 0) {
+      const partesNombre = nombreCompleto.trim().split(' ');
+      let usuarioGenerado = '';
+      
+      if (partesNombre.length >= 2) {
+        // Tomar primer nombre y primer apellido
+        const primerNombre = partesNombre[0].toLowerCase();
+        const primerApellido = partesNombre[1].toLowerCase();
+        
+        // Generar usuario: primera letra del nombre + apellido completo
+        usuarioGenerado = primerNombre.charAt(0) + primerApellido;
+      } else if (partesNombre.length === 1) {
+        // Si solo hay un nombre, usar ese nombre completo
+        usuarioGenerado = partesNombre[0].toLowerCase();
+      }
+      
+      // Limpiar caracteres especiales y asegurar unicidad
+      usuarioGenerado = usuarioGenerado
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '') // Remover tildes
+        .replace(/[^a-z0-9]/g, ''); // Remover caracteres no alfanuméricos
+      
+      // Asignar el usuario generado directamente
+      if (usuarioGenerado) {
+        this.fromRegistro.get('Usuario')?.setValue(usuarioGenerado.toUpperCase());
+      }
+      
+      // this.verificarUsuarioUnico(usuarioGenerado); // Comentado hasta que exista el servicio
+    }
   }
 
   validarContrasenas() {
@@ -107,10 +155,34 @@ export default class RegistrarComponent {
         text: 'Verifica que los campos estén completos y que las contraseñas coincidan.',
         confirmButtonColor: '#3085d6',
       });
+      this.fromRegistro.markAllAsTouched();
       return;
     }
 
-    
+    // Validación adicional de identidad
+    const identidad = this.fromRegistro.value.numeroIdentidad;
+    if (identidad.length !== 13 || !/^[0-9]+$/.test(identidad)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Identidad inválida',
+        text: 'El número de identidad debe tener exactamente 13 dígitos numéricos.',
+        confirmButtonColor: '#d33',
+      });
+      return;
+    }
+
+    // Validación de nombre completo
+    const nombreCompleto = this.fromRegistro.value.NombreUs;
+    if (nombreCompleto.trim().split(' ').length < 2) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Nombre incompleto',
+        text: 'Por favor ingrese al menos un nombre y un apellido para generar el usuario automáticamente.',
+        confirmButtonColor: '#3085d6',
+      });
+      return;
+    }
+
     const objeto: registroUsuario = {
       NUM_IDENTIDAD: this.fromRegistro.value.numeroIdentidad,
       USUARIO: this.fromRegistro.value.Usuario.toUpperCase(),
@@ -157,5 +229,38 @@ export default class RegistrarComponent {
 
   volver() {
     this.route.navigate(['usuarios']);
+  }
+
+  // Getters para facilitar el acceso en el template
+  get numeroIdentidad() {
+    return this.fromRegistro.get('numeroIdentidad');
+  }
+
+  get Usuario() {
+    return this.fromRegistro.get('Usuario');
+  }
+
+  get NombreUs() {
+    return this.fromRegistro.get('NombreUs');
+  }
+
+  get Contrasena() {
+    return this.fromRegistro.get('Contrasena');
+  }
+
+  get confirmarContrasena() {
+    return this.fromRegistro.get('confirmarContrasena');
+  }
+
+  get correo() {
+    return this.fromRegistro.get('correo');
+  }
+
+  get idRol() {
+    return this.fromRegistro.get('idRol');
+  }
+
+  get ID_DEPARTAMENTO() {
+    return this.fromRegistro.get('ID_DEPARTAMENTO');
   }
 }
