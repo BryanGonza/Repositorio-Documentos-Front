@@ -109,9 +109,12 @@
     </h4>
     </div>
     <div class="border-t border-blue-50 p-4">
-      <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-600">
-        <strong class="text-red-500">75%</strong>&nbsp;del almacenamiento utilizado
-      </p>
+      <p class="block font-sans text-base font-normal text-blue-600">
+      <strong [ngClass]="crecimientoTusDocs >= 0 ? 'text-green-500' : 'text-red-500'">
+        {{ crecimientoTusDocs >= 0 ? '+' : '' }}{{ crecimientoTusDocs | number:'1.0-1' }}%
+      </strong>
+      &nbsp;desde el mes pasado
+    </p>
     </div>
   </div>
 </div>
