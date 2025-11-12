@@ -21,7 +21,10 @@
 
     <div class="border-t border-blue-50 p-4">
       <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-600">
-        <strong class="text-green-500">+5%</strong>&nbsp;desde el mes pasado
+         <strong [ngClass]="crecimiento >= 0 ? 'text-green-500' : 'text-red-500'">
+      {{ crecimiento >= 0 ? '+' : '' }}{{ crecimiento | number:'1.0-1' }}%
+    </strong>
+    &nbsp;desde el mes pasado
       </p>
     </div>
   </div>
