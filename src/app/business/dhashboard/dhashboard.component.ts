@@ -34,6 +34,8 @@ export default class DhashboardComponent {
   private documentosService = inject(DocumentosService);
   totalDocumentos: number = 0;
   crecimiento: number = 0;
+  documentosHoy: number = 0;
+  crecimientoHoy: number = 0;
   // Paginación
   public filteredUsers: documento[] = [];
   public paginatedUsers: documento[] = [];
@@ -63,6 +65,7 @@ export default class DhashboardComponent {
   constructor() {}
   ngOnInit() {
      this.cargarDoumentos();
+      this.cargarDocumentoshoy();
     this.caracteristicaService.cget().subscribe({
       next: (res) => {
         const list =
@@ -140,6 +143,49 @@ cargarDoumentos(): void {
           this.crecimiento = ((docsMesActual - docsMesPasado) / docsMesPasado) * 100;
         } else {
           this.crecimiento = 0;
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener documentos', err);
+      }
+    });
+  }
+
+  cargarDocumentoshoy(): void {
+    this.documentosService.DocumetosGet().subscribe({
+      next: (response: ResponseDocumetos) => {
+        const lista = response.ListDocume || [];
+        this.totalDocumentos = lista.length;
+
+        const hoy = new Date();
+        const ayer = new Date();
+        ayer.setDate(hoy.getDate() - 1);
+
+        // Normalizamos fechas (quitamos hora para comparar solo día, mes y año)
+        const esMismoDia = (f1: Date, f2: Date) =>
+          f1.getDate() === f2.getDate() &&
+          f1.getMonth() === f2.getMonth() &&
+          f1.getFullYear() === f2.getFullYear();
+
+        // Documentos de hoy
+        const docsHoy = lista.filter(d => {
+          const fecha = new Date(d.FECHA_SUBIDA);
+          return esMismoDia(fecha, hoy);
+        }).length;
+
+        // Documentos de ayer
+        const docsAyer = lista.filter(d => {
+          const fecha = new Date(d.FECHA_SUBIDA);
+          return esMismoDia(fecha, ayer);
+        }).length;
+
+        this.documentosHoy = docsHoy;
+
+        // Calcular % de crecimiento
+        if (docsAyer > 0) {
+          this.crecimientoHoy = ((docsHoy - docsAyer) / docsAyer) * 100;
+        } else {
+          this.crecimientoHoy = docsHoy > 0 ? 100 : 0; // si ayer no hubo y hoy sí
         }
       },
       error: (err) => {
