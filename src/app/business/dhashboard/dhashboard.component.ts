@@ -39,6 +39,10 @@ export default class DhashboardComponent {
 
   usuariosActivos: number = 0;
   crecimientoUsuarios: number = 0;
+
+  totalTusDocumentos: number = 0;
+crecimientoTusDocs: number = 0;
+
   // Paginación
   public filteredUsers: documento[] = [];
   public paginatedUsers: documento[] = [];
@@ -278,6 +282,25 @@ cargarDoumentos(): void {
           this.ListUs = data.ListDocume;
           this.filteredUsers = data.ListDocume;
           this.updatePagination();
+           const hoy = new Date();
+        const haceUnaSemana = new Date();
+        haceUnaSemana.setDate(hoy.getDate() - 7);
+
+        const docsEstaSemana = this.ListUs.filter(d => {
+          const fecha = new Date(d.FECHA_SUBIDA);
+          return fecha >= haceUnaSemana;
+        }).length;
+
+        const docsSemanaPasada = this.ListUs.filter(d => {
+          const fecha = new Date(d.FECHA_SUBIDA);
+          return fecha < haceUnaSemana;
+        }).length;
+
+        if (docsSemanaPasada > 0) {
+          this.crecimientoTusDocs = ((docsEstaSemana - docsSemanaPasada) / docsSemanaPasada) * 100;
+        } else {
+          this.crecimientoTusDocs = docsEstaSemana > 0 ? 100 : 0;
+        }
         } else {
           console.warn('ListDocume está vacío o no es un array:', data);
           this.ListUs = [];
