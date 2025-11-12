@@ -36,6 +36,9 @@ export default class DhashboardComponent {
   crecimiento: number = 0;
   documentosHoy: number = 0;
   crecimientoHoy: number = 0;
+
+  usuariosActivos: number = 0;
+  crecimientoUsuarios: number = 0;
   // Paginación
   public filteredUsers: documento[] = [];
   public paginatedUsers: documento[] = [];
@@ -66,6 +69,7 @@ export default class DhashboardComponent {
   ngOnInit() {
      this.cargarDoumentos();
       this.cargarDocumentoshoy();
+      this.cargarUsuarios();
     this.caracteristicaService.cget().subscribe({
       next: (res) => {
         const list =
@@ -105,7 +109,7 @@ export default class DhashboardComponent {
     this.cargarDatos();
     this.getObjetosConPermisos();
   }
-
+// ------------------- DOCUMENTOS --------------------
 cargarDoumentos(): void {
     this.documentosService.DocumetosGet().subscribe({
       next: (response: ResponseDocumetos) => {
@@ -114,7 +118,7 @@ cargarDoumentos(): void {
 
         // Extraemos las fechas
         const ahora = new Date();
-        const mesActual = ahora.getMonth(); // 0-11
+        const mesActual = ahora.getMonth(); 
         const anioActual = ahora.getFullYear();
 
         // Contamos documentos de este mes
@@ -161,7 +165,7 @@ cargarDoumentos(): void {
         const ayer = new Date();
         ayer.setDate(hoy.getDate() - 1);
 
-        // Normalizamos fechas (quitamos hora para comparar solo día, mes y año)
+        // Normalizamos fechas 
         const esMismoDia = (f1: Date, f2: Date) =>
           f1.getDate() === f2.getDate() &&
           f1.getMonth() === f2.getMonth() &&
@@ -191,6 +195,45 @@ cargarDoumentos(): void {
       error: (err) => {
         console.error('Error al obtener documentos', err);
       }
+    });
+  }
+  // ------------------- USUARIOS --------------------
+  cargarUsuarios(): void {
+    this.usuarioService.usuariosget().subscribe({
+      next: (response) => {
+        const lista = response.ListUsuarios || [];
+
+        // Filtramos los usuarios activos
+        const activos = lista.filter(u =>
+          u.ESTADO_USUARIO?.toLowerCase() === 'activo'
+        );
+
+        this.usuariosActivos = activos.length;
+
+        const ahora = new Date();
+        const mesActual = ahora.getMonth();
+        const anioActual = ahora.getFullYear();
+
+        const mesPasado = mesActual === 0 ? 11 : mesActual - 1;
+        const anioPasado = mesActual === 0 ? anioActual - 1 : anioActual;
+
+        const usuariosMesActual = activos.filter(u => {
+          const f = new Date(u.FECHA_CREACION);
+          return f.getMonth() === mesActual && f.getFullYear() === anioActual;
+        }).length;
+
+        const usuariosMesPasado = activos.filter(u => {
+          const f = new Date(u.FECHA_CREACION);
+          return f.getMonth() === mesPasado && f.getFullYear() === anioPasado;
+        }).length;
+
+        if (usuariosMesPasado > 0) {
+          this.crecimientoUsuarios = ((usuariosMesActual - usuariosMesPasado) / usuariosMesPasado) * 100;
+        } else {
+          this.crecimientoUsuarios = usuariosMesActual > 0 ? 100 : 0;
+        }
+      },
+      error: (err) => console.error('Error al obtener usuarios', err),
     });
   }
   getObjetosConPermisos(): void {

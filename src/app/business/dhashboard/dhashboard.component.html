@@ -42,7 +42,7 @@
   </div>
 
   <div class="p-4 text-right">
-    <p class="block font-sans text-sm font-normal text-blue-600">Documentos Hoy</p>
+    <p class="block font-sans text-sm font-normal text-blue-600">Documentos Publicos Hoy</p>
     <h4 class="block font-sans text-2xl font-semibold text-blue-900">
       {{ documentosHoy }}
     </h4>
@@ -60,26 +60,36 @@
 
 
   <!-- Usuarios Activos -->
-  <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
-    <div
-      class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-blue-700 to-blue-500 text-white shadow-blue-700/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
-        class="w-6 h-6 text-white">
-        <path
-          d="M16 14c2.21 0 4 1.79 4 4v3h-2v-3c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v3H4v-3c0-2.21 1.79-4 4-4h8zm-4-2c1.66 0 3-1.34 3-3S13.66 6 12 6 9 7.34 9 9s1.34 3 3 3z">
-        </path>
-      </svg>
-    </div>
-    <div class="p-4 text-right">
-      <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-600">Usuarios Activos</p>
-      <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-900">845</h4>
-    </div>
-    <div class="border-t border-blue-50 p-4">
-      <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-600">
-        <strong class="text-green-500">+8%</strong>&nbsp;este mes
-      </p>
-    </div>
+<div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
+  <div
+    class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-blue-700 to-blue-500 text-white shadow-blue-700/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+      fill="currentColor" aria-hidden="true" class="w-6 h-6 text-white">
+      <path
+        d="M16 14c2.21 0 4 1.79 4 4v3h-2v-3c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v3H4v-3c0-2.21 1.79-4 4-4h8zm-4-2c1.66 0 3-1.34 3-3S13.66 6 12 6 9 7.34 9 9s1.34 3 3 3z">
+      </path>
+    </svg>
   </div>
+
+  <div class="p-4 text-right">
+    <p class="block font-sans text-sm font-normal text-blue-600">
+      Usuarios Activos
+    </p>
+    <h4 class="block font-sans text-2xl font-semibold text-blue-900">
+      {{ usuariosActivos }}
+    </h4>
+  </div>
+
+  <div class="border-t border-blue-50 p-4">
+    <p class="block font-sans text-base font-normal text-blue-600">
+      <strong [ngClass]="crecimientoUsuarios >= 0 ? 'text-green-500' : 'text-red-500'">
+        {{ crecimientoUsuarios >= 0 ? '+' : '' }}{{ crecimientoUsuarios | number:'1.0-1' }}%
+      </strong>
+      &nbsp;este mes
+    </p>
+  </div>
+</div>
+
 
   <!-- Espacio Almacenado -->
   <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
