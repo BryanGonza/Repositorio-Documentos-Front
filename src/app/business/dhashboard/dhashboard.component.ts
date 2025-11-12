@@ -275,40 +275,60 @@ cargarDoumentos(): void {
       });
     }
   }
-  cargarDocumentos(idUsuario: number) {
-    this.docService.getDocumentosUser(idUsuario).subscribe({
-      next: (data) => {
-        if (data && data.ListDocume && Array.isArray(data.ListDocume)) {
-          this.ListUs = data.ListDocume;
-          this.filteredUsers = data.ListDocume;
-          this.updatePagination();
-           const hoy = new Date();
-        const haceUnaSemana = new Date();
-        haceUnaSemana.setDate(hoy.getDate() - 7);
+cargarDocumentos(idUsuario: number) {
+  this.docService.getDocumentosUser(idUsuario).subscribe({
+    next: (data) => {
+      if (data && data.ListDocume && Array.isArray(data.ListDocume)) {
+        this.ListUs = data.ListDocume;
+        this.filteredUsers = data.ListDocume;
+        this.updatePagination();
 
-        const docsEstaSemana = this.ListUs.filter(d => {
-          const fecha = new Date(d.FECHA_SUBIDA);
-          return fecha >= haceUnaSemana;
-        }).length;
+        // ✅ Total de documentos
+        this.totalTusDocumentos = this.ListUs.length;
 
-        const docsSemanaPasada = this.ListUs.filter(d => {
-          const fecha = new Date(d.FECHA_SUBIDA);
-          return fecha < haceUnaSemana;
-        }).length;
+        // ✅ Calcular porcentaje solo si hay fechas
+        const docsConFecha = this.ListUs.filter((d: any) => d.FECHA_SUBIDA);
 
-        if (docsSemanaPasada > 0) {
-          this.crecimientoTusDocs = ((docsEstaSemana - docsSemanaPasada) / docsSemanaPasada) * 100;
+        if (docsConFecha.length > 0) {
+          const hoy = new Date();
+          const inicioMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+          const inicioMesPasado = new Date(hoy.getFullYear(), hoy.getMonth() - 1, 1);
+          const finMesPasado = new Date(hoy.getFullYear(), hoy.getMonth(), 0);
+
+          const docsMesActual = docsConFecha.filter((d: any) => {
+            const f = new Date(d.FECHA_SUBIDA);
+            return f >= inicioMes;
+          }).length;
+
+          const docsMesPasado = docsConFecha.filter((d: any) => {
+            const f = new Date(d.FECHA_SUBIDA);
+            return f >= inicioMesPasado && f <= finMesPasado;
+          }).length;
+
+          if (docsMesPasado > 0) {
+            this.crecimientoTusDocs = ((docsMesActual - docsMesPasado) / docsMesPasado) * 100;
+          } else {
+            this.crecimientoTusDocs = docsMesActual > 0 ? 100 : 0;
+          }
         } else {
-          this.crecimientoTusDocs = docsEstaSemana > 0 ? 100 : 0;
+          this.crecimientoTusDocs = 0;
         }
-        } else {
-          console.warn('ListDocume está vacío o no es un array:', data);
-          this.ListUs = [];
-          this.filteredUsers = [];
-        }
-      },
-    });
-  }
+
+      } else {
+        console.warn('ListDocume está vacío o no es un array:', data);
+        this.ListUs = [];
+        this.filteredUsers = [];
+        this.totalTusDocumentos = 0;
+        this.crecimientoTusDocs = 0;
+      }
+    },
+    error: (err) => {
+      console.error('Error cargando documentos:', err);
+      this.totalTusDocumentos = 0;
+      this.crecimientoTusDocs = 0;
+    }
+  });
+}
   filterUsers() {
     const q = this.searchQuery.toLowerCase();
     this.filteredUsers = this.ListUs.filter((u) => {

@@ -91,15 +91,18 @@
 </div>
 
 
-  <!-- tus documetos  -->
-  <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
-    <div
-      class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-yellow-600 to-yellow-400 text-white shadow-yellow-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
-        class="w-6 h-6 text-white">
-        <path d="M4 5a2 2 0 012-2h12a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm2 0v14h12V5H6zm3 6h6v2H9v-2z"></path>
-      </svg>
-    </div>
+<!-- Tarjeta de Tus Documentos -->
+<div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
+  <div
+    class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-yellow-600 to-yellow-400 text-white shadow-yellow-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+      fill="currentColor" aria-hidden="true" class="w-6 h-6 text-white">
+      <path
+        d="M4 5a2 2 0 012-2h12a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm2 0v14h12V5H6zm3 6h6v2H9v-2z">
+      </path>
+    </svg>
+  </div>
+
   <div class="p-4 text-right">
     <p class="block font-sans text-sm font-normal text-blue-600">
       Total Tus Documentos
@@ -108,8 +111,17 @@
       {{ totalTusDocumentos }}
     </h4>
   </div>
+
+  <div class="border-t border-blue-50 p-4">
+    <p class="block font-sans text-base font-normal text-blue-600">
+      <strong [ngClass]="crecimientoTusDocs >= 0 ? 'text-green-500' : 'text-red-500'">
+        {{ crecimientoTusDocs >= 0 ? '+' : '' }}{{ crecimientoTusDocs | number:'1.0-1' }}%
+      </strong>
+      &nbsp;desde el mes pasado
+    </p>
   </div>
 </div>
+
 
 <!-- Buscador -->
 <div class="container mx-auto p-4">
