@@ -33,6 +33,7 @@ export default class DhashboardComponent {
   private route = inject(Router);
   private documentosService = inject(DocumentosService);
   totalDocumentos: number = 0;
+  crecimiento: number = 0;
   // Paginación
   public filteredUsers: documento[] = [];
   public paginatedUsers: documento[] = [];
@@ -102,14 +103,47 @@ export default class DhashboardComponent {
     this.getObjetosConPermisos();
   }
 
-  cargarDoumentos(): void {
+cargarDoumentos(): void {
     this.documentosService.DocumetosGet().subscribe({
       next: (response: ResponseDocumetos) => {
-        this.totalDocumentos = response.ListDocume?.length || 0;
+        const lista = response.ListDocume || [];
+        this.totalDocumentos = lista.length;
+
+        // Extraemos las fechas
+        const ahora = new Date();
+        const mesActual = ahora.getMonth(); // 0-11
+        const anioActual = ahora.getFullYear();
+
+        // Contamos documentos de este mes
+        const docsMesActual = lista.filter(d => {
+          const fecha = new Date(d.FECHA_SUBIDA);
+          return (
+            fecha.getMonth() === mesActual &&
+            fecha.getFullYear() === anioActual
+          );
+        }).length;
+
+        // Contamos documentos del mes pasado
+        const mesPasado = mesActual === 0 ? 11 : mesActual - 1;
+        const anioMesPasado = mesActual === 0 ? anioActual - 1 : anioActual;
+
+        const docsMesPasado = lista.filter(d => {
+          const fecha = new Date(d.FECHA_SUBIDA);
+          return (
+            fecha.getMonth() === mesPasado &&
+            fecha.getFullYear() === anioMesPasado
+          );
+        }).length;
+
+        // Calcular porcentaje
+        if (docsMesPasado > 0) {
+          this.crecimiento = ((docsMesActual - docsMesPasado) / docsMesPasado) * 100;
+        } else {
+          this.crecimiento = 0;
+        }
       },
       error: (err) => {
         console.error('Error al obtener documentos', err);
-        this.totalDocumentos = 0;
       }
     });
   }

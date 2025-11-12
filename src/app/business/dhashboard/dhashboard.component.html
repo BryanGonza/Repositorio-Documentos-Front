@@ -1,31 +1,21 @@
 <div class="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
   <!-- Total de Documentos -->
-  <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
-    <div
-      class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-yellow-500 to-yellow-400 text-white shadow-yellow-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
-        class="w-6 h-6 text-white">
-        <path
-          d="M4 3.5A1.5 1.5 0 015.5 2h13a1.5 1.5 0 011.5 1.5v17a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 014 20.5v-17zM6 4v16h12V4H6z">
-        </path>
-      </svg>
-    </div>
- <div class="p-4 text-right">
-  <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-600">
-    Total de Documentos
-  </p>
-  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-900">
-    {{ totalDocumentos }}
-  </h4>
-</div>
+  <div class="p-4 text-right">
+    <p class="block text-sm font-normal text-blue-600">
+      Total de Documentos
+    </p>
 
-    <div class="border-t border-blue-50 p-4">
-      <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-600">
-        <strong class="text-green-500">+5%</strong>&nbsp;desde el mes pasado
-      </p>
-    </div>
+    <h4 class="block text-2xl font-semibold text-blue-900">
+      {{ totalDocumentos | number }}
+    </h4>
+
+    <p class="block text-base font-normal text-blue-600">
+      <strong [ngClass]="crecimiento >= 0 ? 'text-green-500' : 'text-red-500'">
+        {{ crecimiento >= 0 ? '+' : '' }}{{ crecimiento | number:'1.0-1' }}%
+      </strong>
+      &nbsp;desde el mes pasado
+    </p>
   </div>
-
   <!-- Documentos Subidos Hoy -->
   <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
     <div
@@ -120,20 +110,15 @@
       Subir
     </button>
   </div>
-<div class="mb-4 w-80 mx-auto">
-  <label class="block mb-1 font-semibold">Filtrar por Tipo de Documento</label>
-  <select
-    [(ngModel)]="selectedTipo"
-    (change)="filterUsers()"
-    class="w-full p-2 border rounded">
-    <option [ngValue]="null">Todos</option>
-    <option
-      *ngFor="let t of listaTipoDocumentos"
-      [ngValue]="t.ID_TIPO_DOCUMENTO">
-      {{ t.TIPO_DOCUMENTO }}
-    </option>
-  </select>
-</div>
+  <div class="mb-4 w-80 mx-auto">
+    <label class="block mb-1 font-semibold">Filtrar por Tipo de Documento</label>
+    <select [(ngModel)]="selectedTipo" (change)="filterUsers()" class="w-full p-2 border rounded">
+      <option [ngValue]="null">Todos</option>
+      <option *ngFor="let t of listaTipoDocumentos" [ngValue]="t.ID_TIPO_DOCUMENTO">
+        {{ t.TIPO_DOCUMENTO }}
+      </option>
+    </select>
+  </div>
   <!-- Barra de búsqueda -->
   <div class="relative w-80 mx-auto mb-2"> <!-- Cambiado de mb-4 a mb-2 -->
     <input type="text" [(ngModel)]="searchQuery" (input)="filterUsers()" placeholder="Buscar Nombre de Documento"
@@ -277,7 +262,7 @@
               </svg>
             </button>
 
-            <button  class="bg-red-500 hover:bg-yellow-500 text-white p-1 rounded"
+            <button class="bg-red-500 hover:bg-yellow-500 text-white p-1 rounded"
               (click)="eliminarDocumento(usuario.ID_DOCUMENTO)" title="Eliminar">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
