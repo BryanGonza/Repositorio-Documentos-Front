@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { DocumentosService } from '../../services/documentos.service';
 import { Router } from '@angular/router';
-import { documento } from '../../interfaces/Documentos/Documetos';
+import { documento, ResponseDocumetos } from '../../interfaces/Documentos/Documetos';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -31,7 +31,8 @@ import { CaracteristicaService } from '../../services/caracteristica.service';
 export default class DhashboardComponent {
   private docService = inject(DocumentosService);
   private route = inject(Router);
-
+  private documentosService = inject(DocumentosService);
+  totalDocumentos: number = 0;
   // Paginación
   public filteredUsers: documento[] = [];
   public paginatedUsers: documento[] = [];
@@ -48,6 +49,7 @@ export default class DhashboardComponent {
   public todasCaracts: CaracteristicaDocumento[] = [];
   private usuarioService = inject(UsuariosService);
 
+
   //permisos
   public tiposDocumentos: {
     ID_TIPO_DOCUMENTO: number;
@@ -59,6 +61,7 @@ export default class DhashboardComponent {
     typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
   constructor() {}
   ngOnInit() {
+     this.cargarDoumentos();
     this.caracteristicaService.cget().subscribe({
       next: (res) => {
         const list =
@@ -99,6 +102,17 @@ export default class DhashboardComponent {
     this.getObjetosConPermisos();
   }
 
+  cargarDoumentos(): void {
+    this.documentosService.DocumetosGet().subscribe({
+      next: (response: ResponseDocumetos) => {
+        this.totalDocumentos = response.ListDocume?.length || 0;
+      },
+      error: (err) => {
+        console.error('Error al obtener documentos', err);
+        this.totalDocumentos = 0;
+      }
+    });
+  }
   getObjetosConPermisos(): void {
     this.objetoser.getObjetosPermiss(this.token).subscribe({
       next: (data) => {
