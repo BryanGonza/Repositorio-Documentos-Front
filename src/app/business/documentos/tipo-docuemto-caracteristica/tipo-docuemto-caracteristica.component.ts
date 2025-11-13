@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TipoDocumentoService } from '../../../services/tipo-documento.service';
-import { TipoDocumento } from '../../../interfaces/Documentos/tipo_documento/tipo_documento';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
