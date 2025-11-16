@@ -79,7 +79,7 @@ transition-transform duration-300 xl:translate-x-0
       <li>
         <button (click)="toggleSubmrepo()" [ngClass]="{'bg-yellow-500 text-black': activeItem === 'reportes'}"
           class="font-sans font-bold text-xs py-3 rounded-lg text-black hover:bg-white/10 active:bg-white/30 flex w-full items-center gap-4 px-4 capitalize"
-          title="Mostrar Documentos">
+          title="Reportes">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
             <path
               d="M1.5 5.625c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v12.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 011.5 18.375V5.625z">
@@ -88,7 +88,7 @@ transition-transform duration-300 xl:translate-x-0
           <p class="block font-medium">Reportes</p>
           <span class="ml-auto">▼</span>
         </button>
-        <ul *ngIf="mostrarSubmDoc" class="ml-6 mt-2 space-y-2">
+        <ul *ngIf="mostrarrepo" class="ml-6 mt-2 space-y-2">
           <!-- Reporte de Documentos -->
           <li>
             <a routerLink="/reporte-documentos" routerLinkActive="active-menu">
