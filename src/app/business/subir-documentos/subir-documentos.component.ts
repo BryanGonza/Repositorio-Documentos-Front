@@ -336,9 +336,9 @@ export class SubirDocumentosComponent {
       this.documentos.every(
         (doc) =>
           doc.nombre &&
-          doc.nombre.length <= 100 &&
+          doc.nombre.length <= 50 &&
           doc.descripcion &&
-          doc.descripcion.length <= 250 &&
+          doc.descripcion.length <= 100 &&
           doc.es_public !== undefined
       )
     );
