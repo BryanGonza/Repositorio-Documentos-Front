@@ -319,6 +319,8 @@ export class SubirDocumentosComponent {
     event.stopPropagation();
     this.arrastrandoArchivo = false;
 
+
+    
     if (event.dataTransfer?.files.length) {
       const files = Array.from(event.dataTransfer.files);
       this.onMultiFileSelected({ target: { files } } as any);
