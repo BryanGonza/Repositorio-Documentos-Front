@@ -18,7 +18,7 @@ export class SidebarComponent {
   public mostrarSubmenu = false;
   public mostrarSubmDoc = false;
   public mostrarSubmMant = false;
-  public activeItem: 'inicio' | 'documentos' | 'seguridad' | 'mantenimiento' | '' = '';
+  public activeItem: 'inicio' | 'documentos' | 'seguridad' | 'mantenimiento' | 'reportes' | '' = '';
 
   constructor(
     private sharedService: SharedService,
@@ -124,6 +124,17 @@ tienePermisosMantenimiento(): boolean {
       this.mostrarSubmDoc = false;
     } else {
       this.activeItem = 'documentos';
+      this.mostrarSubmDoc = true;
+      this.mostrarSubmenu = false;
+      this.mostrarSubmMant = false;
+    }
+  }
+    toggleSubmrepo() {
+    if (this.activeItem === 'reportes') {
+      this.activeItem = '';
+      this.mostrarSubmDoc = false;
+    } else {
+      this.activeItem = 'reportes';
       this.mostrarSubmDoc = true;
       this.mostrarSubmenu = false;
       this.mostrarSubmMant = false;
