@@ -26,8 +26,9 @@
               <span class="required">*</span> Nombre del Documento
             </label>
             <input type="text" id="nombre" [(ngModel)]="nombre" name="nombre" class="form-input"
-              placeholder="Ej: Informe Trimestral" required>
+              placeholder="Ej: Informe Trimestral" required maxlength="50">
             <small class="form-hint">Máximo 50 caracteres</small>
+
           </div>
 
           <!-- Campo Descripción -->
@@ -36,8 +37,9 @@
               <span class="required">*</span> Descripción
             </label>
             <textarea id="descripcion" [(ngModel)]="descripcion" name="descripcion" class="form-input" rows="3"
-              placeholder="Describe el contenido del documento" required></textarea>
+              placeholder="Describe el contenido del documento" required maxlength="100"></textarea>
             <small class="form-hint">Máximo 100 caracteres</small>
+
           </div>
 
 
