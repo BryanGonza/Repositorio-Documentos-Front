@@ -130,17 +130,19 @@ tienePermisosMantenimiento(): boolean {
       this.mostrarSubmMant = false;
     }
   }
-    toggleSubmrepo() {
-    if (this.activeItem === 'reportes') {
-      this.activeItem = '';
-      this.mostrarrepo = false;
-    } else {
-      this.activeItem = 'reportes';
-      this.mostrarrepo = true;
-      this.mostrarrepo = false;
-      this.mostrarrepo = false;
-    }
+toggleSubmrepo() {
+  if (this.activeItem === 'reportes') {
+    this.activeItem = '';
+    this.mostrarrepo = false;
+  } else {
+    this.activeItem = 'reportes';
+    this.mostrarrepo = true;
+    this.mostrarSubmDoc = false;
+    this.mostrarSubmenu = false;
+    this.mostrarSubmMant = false;
   }
+}
+
 
   // Toggle submenu Seguridad
   toggleSubmenu() {
