@@ -18,6 +18,7 @@ export class SidebarComponent {
   public mostrarSubmenu = false;
   public mostrarSubmDoc = false;
   public mostrarSubmMant = false;
+  public mostrarrepo = false;
   public activeItem: 'inicio' | 'documentos' | 'seguridad' | 'mantenimiento' | 'reportes' | '' = '';
 
   constructor(
@@ -132,12 +133,12 @@ tienePermisosMantenimiento(): boolean {
     toggleSubmrepo() {
     if (this.activeItem === 'reportes') {
       this.activeItem = '';
-      this.mostrarSubmDoc = false;
+      this.mostrarrepo = false;
     } else {
       this.activeItem = 'reportes';
-      this.mostrarSubmDoc = true;
-      this.mostrarSubmenu = false;
-      this.mostrarSubmMant = false;
+      this.mostrarrepo = true;
+      this.mostrarrepo = false;
+      this.mostrarrepo = false;
     }
   }
 
