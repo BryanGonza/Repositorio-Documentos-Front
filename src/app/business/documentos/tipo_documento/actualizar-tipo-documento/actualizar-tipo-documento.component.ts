@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ResponseTipoDocumento } from '../../../../interfaces/Documentos/tipo_documento/tipo_documento';
+import { ResponseTipoDocumento } from '../../../../interfaces/Documentos/tipo_documento/Tipo_documento';
 import { TipoDocumentoService } from '../../../../services/tipo-documento.service';
 
 @Component({

@@ -157,5 +157,7 @@ export default class Tipo_archivoComponent implements OnInit {
  
   registro(): void {
     this.route.navigate(['registrar-tipo_archivo']);
+
   }
+  
 }
